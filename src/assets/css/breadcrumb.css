@@ -1,0 +1,37 @@
+.bread-crumb{
+	/* padding: 60px 0px 100px 0px; */
+	padding: 6px 0px 6px 0px;
+	background-color: #E6F5FF;
+}
+
+.bread-crumb .breadcrumb {
+    margin: 0;
+    font-size: 14px;
+    padding: 0px;
+    border-radius: 0;
+    font-weight: normal;
+    line-height: 24px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 8;
+    margin-bottom: 6px;
+    background-color: transparent;
+}
+
+.bread-crumb .breadcrumb li .mr_lr {
+    padding: 0px 3px;
+    color: #262626;
+}
+
+.bread-crumb .breadcrumb li a{
+	color: #15963d;
+    font-size: 17px;
+}
+
+.bread-crumb .title-breadcrumb{
+	color: #000;
+	font-size: 36px;
+	font-weight: bold;
+    text-transform: uppercase;
+}

@@ -1,0 +1,227 @@
+.layout-product{
+	padding: 6px 0px;
+}
+
+.details-product .product-images{
+	display: flex;
+	gap: 15px;
+}
+
+.gallery-thumbs .swiper-wrapper .swiper-slide{
+	margin-bottom: 10px;
+	cursor: pointer;
+	background-color: #fff;	
+}
+
+.gallery-thumbs .swiper-wrapper .swiper-slide .p-100{
+	padding-bottom: 97%;
+    height: 0;
+    position: relative;
+    border: 1px solid #ebebeb;
+}
+
+.gallery-thumbs .swiper-wrapper .swiper-slide .p-100 img{
+	left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+    position: absolute;
+    padding: 2px;
+}
+
+.gallery-thumbs .swiper-wrapper .swiper-slide.swiper-slide-thumb-active .p-100{
+	border-color: #15963d;
+}
+
+.product-image-block .swiper-slide{
+	padding-bottom: 80%;
+    display: block;
+}
+
+.product-image-block .swiper-slide img{
+	left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: auto !important;
+    height: auto !important;
+    position: absolute;
+}
+
+.details-pro .title-product{
+	color: #000;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 30px;
+	/* margin-bottom: 15px; */
+}
+
+.details-pro .product-summary{
+	margin-bottom: 15px;
+}
+
+.details-pro .product-summary p{
+	color: #555;
+	font-size: 20px;
+	line-height: 26px;
+	margin-bottom: 10px;
+}
+
+.details-pro .price-box{
+	/* margin-bottom: 15px; */
+}
+
+.details-pro .price-box .special-price{
+	color: #EC2C37;
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 42px;
+}
+
+.details-pro .price-box .old-price{
+	color: #000;
+    font-size: 20px;
+}
+
+.layout-product .flex-quantity {
+    font-size: 14px;
+}
+
+.layout-product .input_number_product{
+	padding: 4px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 30px;
+    gap: 20px;
+}
+
+.layout-product .input_number_product button{
+	width: 30px;
+	height: 30px;
+	color: #fff;
+	font-size: 24px;
+	font-weight: bold;
+	border-radius: 50%;
+	padding: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #15963d;
+	background-color: #15963d;
+}
+
+.layout-product .input_number_product button.qty-plus{
+	color: #15963d;
+	background-color: transparent;
+}
+
+.layout-product .input_number_product .qty-num{
+	width: 80px;
+	height: 30px;
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 30px;
+	border: none;
+	text-align: center;
+	background-color: #15963d;
+}
+
+.layout-product .input_number_product .qty-num:forcus-visible{
+	border: none;
+	box-shadow: initial;
+}
+
+.layout-product .button_actions {
+    margin-top: 15px;
+}
+
+.layout-product .button_actions .group-button {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.layout-product .button_actions .group-button .btn {
+    flex: 1 1 50%;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.layout-product .button_actions .group-button .btn_base {
+    color: #fff;
+    border: none;
+    background-color: #15963d;
+}
+
+.layout-product .button_actions .group-button .btn-gray {
+    color: #15963d;
+    border: 1px solid #15963d;
+    background-color: #fff;
+}
+
+.layout-product .button_actions .group-button .btn_base:hover {
+    background-color: #15963d;
+}
+
+.layout-product .button_actions .group-button .btn-gray:hover {
+    color: #fff;
+    background-color: #f29f05;
+}
+ 
+.layout-product .product-tab{
+	padding-top: 40px;
+	margin-top: 40px;
+	border-top: 2px solid #D3D3D3;
+}
+
+.layout-product .product-tab .nav-tabs{
+	border: none;
+	margin-bottom: 40px;
+	gap: 15px;
+}
+
+.product-tab .nav-tabs .nav-link{
+	color: #5e5e5e;
+	font-size: 20px;
+	line-height: 32px;
+	font-weight: bold;
+	border: none;
+	border-bottom: 2px solid transparent;
+}
+
+.product-tab .nav-tabs .nav-link:hover,
+.product-tab .nav-tabs .nav-link.active,
+.product-tab .nav-tabs .nav-link:focus{
+	color: #15963d;
+	border-bottom: 2px solid #15963d;
+}
+
+.product-tab .tab-content{
+	padding: 30px 40px;
+	border: 1px solid #CCCCCC;
+	border-radius: 35px;
+	background-color: #fff;
+	box-shadow: 0px 4px 8px #CCCCCC;
+}
+
+.product-tab .tab-content .rte{
+	color: #000;
+	font-size: 14px;
+	line-height: 22px;
+}
+
+.product-tab .tab-content .rte p{
+	margin-bottom: 10px;
+}

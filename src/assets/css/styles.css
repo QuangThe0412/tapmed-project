@@ -194,6 +194,7 @@ ol {
 .top-bar {
   padding: 0px 0px;
   background-color: #e8e8e8;
+  width: 100%;
 }
 
 .top-bar .hotline-top {
@@ -217,7 +218,7 @@ ol {
 }
 
 #header .logo img {
-  max-height: 75px;
+  /* max-height: 75px; */
   width: auto;
 }
 
@@ -1154,10 +1155,6 @@ ol {
 
 .btn-quick-filters:hover {
   color: #fff;
-}
-
-.top-banner {
-  height: 70px !important;
 }
 
 .tab-content {

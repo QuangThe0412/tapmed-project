@@ -8,6 +8,7 @@ const Header: React.FC = () => {
           <div className="col-lg-3 col-md-4 col-8 ul-control">
             <div className="menu-bar d-block d-lg-none">
               <img
+                style={{ minHeight: "75px" }}
                 src="https://tapmed.vn/TapMedVn/images/menu-bar.png"
                 alt="Tapmed Chuyên Phân Phối Thuốc Sỉ, Dược Sỉ"
                 className="img-fluid"

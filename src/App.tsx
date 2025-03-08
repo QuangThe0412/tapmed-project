@@ -14,22 +14,10 @@ import TopBar from "./component/topBar/topBar";
 // import "../src/assets/css/responsive.css";
 // import "../src/assets/css/styles.css";
 // import "../src/assets/css/swiper.css";
-import Header from "./component/header";
-import HeaderMenu from "./component/headerMenu";
-import SectionBanner from "./component/sectionBanner";
-import SectionHotSale from "./component/sectionHotSale";
-import SectionProductNew from "./component/sectionProductNew";
-
 function App() {
   return (
     <div className="app-container">
-      <TopBar />
-      <Header />
-      <HeaderMenu />
-      <SectionBanner />
-      <SectionHotSale />
-      <SectionProductNew />
-
+      <h1>App</h1>
       {/* <nav>
         <Link to={paths.home}>Home</Link>
         <Link to={paths.policy}>Policy</Link>

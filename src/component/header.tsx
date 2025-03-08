@@ -2,7 +2,7 @@ import React from "react";
 
 const Header: React.FC = () => {
   return (
-    <header id="header" style={{ boxShadow: "0px 3px 17px #d3d3d3" }}>
+    <header id="header">
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-3 col-md-4 col-8 ul-control">

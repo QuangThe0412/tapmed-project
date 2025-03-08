@@ -20,7 +20,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Type checking */
+    "baseUrl": "./",
+    "paths": {
+      "@splidejs/react-splide": ["src/react-splide.d.ts"],
+      "@splidejs/react-splide/css": ["src/react-splide.d.ts"]
+    }
   },
   "include": ["src"]
 }

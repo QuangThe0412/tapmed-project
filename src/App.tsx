@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./App.css";
 import { paths } from "./utils/contanst";
 import TopBar from "./component/topBar";
-import "./assets/css/bootstrap.min.css";
+import "../src/assets/css/bootstrap.min.css";
 import "../src/assets/css/blogs.css";
 import "../src/assets/css/breadcrumb.css";
 import "../src/assets/css/cart.css";
@@ -18,6 +18,7 @@ import Header from "./component/header";
 import HeaderMenu from "./component/headerMenu";
 import SectionBanner from "./component/sectionBanner";
 import SectionHotSale from "./component/sectionHotSale";
+import SectionProductNew from "./component/sectionProductNew";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
       <Header />
       <HeaderMenu />
       <SectionBanner />
-      {/* <SectionHotSale /> */}
+      <SectionHotSale />
+      <SectionProductNew />
 
       {/* <nav>
         <Link to={paths.home}>Home</Link>

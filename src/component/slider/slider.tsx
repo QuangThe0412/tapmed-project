@@ -1,7 +1,14 @@
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css";
-import "./splide.css";
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade, Navigation, Pagination } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import "./slider.css";
 
 export type DataSlider = {
   imageUrl: string;
@@ -12,26 +19,25 @@ export type DataSlider = {
 
 type SliderProps = {
   data: DataSlider[];
-  settings: {};
+  settings?: {};
   renderPagination?: (slides: number) => React.ReactNode;
 };
 
 export function Slider({ data, settings, renderPagination }: SliderProps) {
-  const splideRef = useRef<any>(null);
+  const swiperRef = useRef<any>(null);
 
   const totalSlides = data.length;
 
   return (
-    <Splide
-      ref={splideRef}
-      options={{
-        ...settings,
-      }}
-      aria-label="Custom Slider"
+    <Swiper
+      ref={swiperRef}
+      spaceBetween={30}
+      className="mySwiper"
+      {...settings}
     >
       {data &&
         data.map((item: DataSlider, index) => (
-          <SplideSlide key={index}>
+          <SwiperSlide key={index}>
             {item.title == null ? (
               <img
                 style={{ width: "100%", height: "auto", objectFit: "cover" }}
@@ -60,8 +66,8 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
                 </div>
               </div>
             )}
-          </SplideSlide>
+          </SwiperSlide>
         ))}
-    </Splide>
+    </Swiper>
   );
 }

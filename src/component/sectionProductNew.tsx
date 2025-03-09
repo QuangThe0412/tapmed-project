@@ -1,5 +1,5 @@
 import React from "react";
-import { DataSlider, Slider } from "./splide/splide";
+import { DataSlider, Slider } from "./slider/slider";
 
 const SectionProductNew: React.FC = () => {
   // Product data

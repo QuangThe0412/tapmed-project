@@ -1,0 +1,25 @@
+.section-hot-sale {
+  padding: 20px 0px;
+  background-color: #e6f5ff;
+}
+
+.section-hot-sale {
+  padding: 20px 0px;
+  background-color: #e6f5ff;
+}
+
+.block-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.block-title h3 {
+  color: #000;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.block-title h3 span {
+  color: #15963d;
+}

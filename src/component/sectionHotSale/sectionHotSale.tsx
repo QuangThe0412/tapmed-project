@@ -1,5 +1,6 @@
-import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
-import { DataSlider, Slider } from "./splide/splide";
+import { Autoplay, Pagination } from "swiper/modules";
+import { DataSlider, Slider } from "../slider/slider";
+import "./sectionHotSale.css";
 
 const SectionHotSale: React.FC = () => {
   const data: DataSlider[] = [
@@ -23,37 +24,36 @@ const SectionHotSale: React.FC = () => {
         "https://tapmed.vn/storage/image/z5726275886617_2127645f3ceacf59b0a487b2b18bcd591723530689.jpg",
       link: "https://tapmed.vn/tin-tuc/thang-8-ruc-ro-voi-thach-junior-calcium-jelly-mua-1-tang-1-qua-tang-sieu-cute-104.html",
     },
+    {
+      id: 4,
+      title: "Chương trình khuyến mại voucher cước",
+      imageUrl: "https://tapmed.vn/storage/image/1117292255751731513589.png",
+      link: "https://tapmed.vn/tin-tuc/chuong-trinh-khuyen-mai-voucher-cuoc-135.html",
+    },
   ];
 
   const sliderSettings = {
-    type: "loop",
-    drag: "free",
-    focus: "center",
-    perPage: 3,
-    gap: 20,
-    arrows: false,
-    pagination: true,
-    // autoplay: true,
-    interval: 2000,
-    extensions: { AutoScroll },
-    autoScroll: {
-      pauseOnHover: false,
-      pauseOnFocus: false,
-      rewind: false,
-      speed: 1,
+    loop: true,
+    slidesPerView: 3,
+    spaceBetween: 20,
+    navigation: false,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
     },
-    breakpoints: {
-      768: {
-        perPage: 2,
-      },
-      576: {
-        perPage: 1,
-      },
-    },
+    modules: [Autoplay, Pagination],
+    // breakpoints: {
+    //   768: {
+    //     slidesPerView: 2,
+    //   },
+    //   576: {
+    //     slidesPerView: 1,
+    //   },
+    // },
   };
 
   return (
-    <section className="section-hot-sale">
+    <section className="section-hot-sale flex justify-center">
       <div className="container">
         <div className="block-title">
           <h3>Ưu đãi mới hôm nay</h3>

@@ -24,10 +24,7 @@
 
     /* Type checking */
     "baseUrl": "./",
-    "paths": {
-      "@splidejs/react-splide": ["src/react-splide.d.ts"],
-      "@splidejs/react-splide/css": ["src/react-splide.d.ts"]
-    }
+    "paths": {}
   },
   "include": ["src"]
 }

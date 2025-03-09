@@ -1,0 +1,22 @@
+.header-menu {
+  background-color: #136d39;
+  color: #fff;
+}
+
+.header-menu a {
+  display: block;
+  text-align: center;
+  padding: 7px 26px;
+  font-size: 16px;
+  line-height: 36px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  color: #fff;
+
+  background-color: transparent;
+}
+
+.header-menu a:hover {
+  background-color: #f29f05;
+}

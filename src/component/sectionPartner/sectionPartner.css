@@ -1,0 +1,16 @@
+.section-partner {
+  padding: 20px 0px;
+  background-color: #ffffff;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-partner .col-item .image {
+  height: 50px;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  padding-bottom: 15px;
+}

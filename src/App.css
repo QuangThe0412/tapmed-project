@@ -53,6 +53,7 @@
 
 section {
   width: 100%;
+  background-color: #fff;
 }
 
 .hightlight {
@@ -73,4 +74,10 @@ section {
 
 .block-title h3 span {
   color: #15963d;
+}
+
+@media (max-width: 991px) {
+  .block-title h3 {
+    font-size: 20px;
+  }
 }

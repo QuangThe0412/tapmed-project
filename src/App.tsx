@@ -9,6 +9,12 @@ import HeaderMenuMobile from "./component/header/headerMenuMobile";
 import { SectionAbout } from "./component/sectionAbout/sectionAbout";
 import { SectionSteps } from "./component/sectionSteps/sectionSteps";
 import SectionService from "./component/sectionService/sectionService";
+import SectionBlog from "./component/sectionBlog/sectionBlog";
+import SectionTestimonials from "./component/sectionTestimonitals/sectionTestimonials";
+import SectionPartner from "./component/sectionPartner/sectionPartner";
+import Footer from "./component/footer/footer";
+import BottomNavMenu from "./component/bottomNavMenu/bottomNavMenu";
+import Contact from "./component/contact/contact";
 
 function App() {
   return (
@@ -24,6 +30,12 @@ function App() {
         <SectionAbout />
         <SectionSteps />
         <SectionService />
+        <SectionBlog />
+        <SectionTestimonials />
+        <SectionPartner />
+        <Footer />
+        <BottomNavMenu />
+        <Contact />
       </div>
     </div>
   );

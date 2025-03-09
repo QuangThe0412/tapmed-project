@@ -1,4 +1,5 @@
 import React from "react";
+import "./sectionPartner.css";
 
 const SectionPartner: React.FC = () => {
   const partners = [
@@ -41,15 +42,15 @@ const SectionPartner: React.FC = () => {
 
   return (
     <section className="section-partner">
-      <div className="container">
-        <div className="row">
+      <div className="container mx-auto">
+        <div className="flex flex-wrap">
           {partners.map((partner, index) => (
-            <div key={index} className="col-item col-md-3 col-3">
+            <div key={index} className="w-1/4 lg:w-1/5 p-2">
               <div className="image">
                 <img
                   src={`https://tapmed.vn/TapMedVn/images/partner/${partner}`}
                   alt="Dược phẩm TAPMED"
-                  className="img-fluid"
+                  className="w-full h-auto"
                 />
               </div>
             </div>

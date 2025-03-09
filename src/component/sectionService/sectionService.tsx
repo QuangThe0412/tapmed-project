@@ -1,5 +1,6 @@
 import React from "react";
 import "./sectionService.css";
+
 type itemsProps = {
   src: string;
   alt: string;
@@ -9,8 +10,7 @@ type itemsProps = {
 
 const ItemComponent = (props: itemsProps) => {
   return (
-    //2 item on line ============>>>>>>>>>>>>>
-    <div className="w-full sm:w-2/2 md:w-2/2 lg:w-1/4 px-4 mb-6">
+    <div className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-6">
       <div className="item">
         <div className="icon mb-4 flex items-center justify-center">
           <img src={props.src} alt={props.alt} />
@@ -55,17 +55,19 @@ const SectionService: React.FC = () => {
   return (
     <section className="section-service">
       <div className="container mx-auto px-4">
+        <div className="block-title mb-6">
+          <h3>Dịch vụ của chúng tôi</h3>
+        </div>
         <div className="flex flex-wrap -mx-4">
-          {data &&
-            data.map((item, index) => (
-              <ItemComponent
-                key={index}
-                src={item.src}
-                alt={item.alt}
-                title={item.title}
-                description={item.description}
-              />
-            ))}
+          {data.map((item, index) => (
+            <ItemComponent
+              key={index}
+              src={item.src}
+              alt={item.alt}
+              title={item.title}
+              description={item.description}
+            />
+          ))}
         </div>
       </div>
     </section>

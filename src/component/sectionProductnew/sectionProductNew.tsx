@@ -98,10 +98,10 @@ const SectionProductNew: React.FC = () => {
     slidesPerView: 2,
     spaceBetween: 10,
     navigation: false,
-    // autoplay: {
-    //   delay: 2000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+    },
     modules: [Autoplay, Pagination],
     breakpoints: {
       640: {

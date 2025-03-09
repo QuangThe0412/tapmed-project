@@ -1,0 +1,38 @@
+.w3-fixed-contact {
+  position: fixed;
+  z-index: 98;
+  top: 73%;
+  right: -6px;
+  -ms-transform: translate(-40%, -50%);
+  transform: translate(-40%, -50%);
+}
+
+.w3-trans {
+  transition: all 0.2slinear 0s;
+}
+
+.w3-contact {
+  border-radius: 50%;
+  padding: 8px;
+  position: relative;
+  margin: 10px 0;
+}
+
+.w3-contact img {
+  width: 40px;
+  height: 40px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color 0.15sease-in-out, background-color 0.15sease-in-out,
+    border-color 0.15sease-in-out, box-shadow 0.15sease-in-out;
+}

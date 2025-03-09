@@ -6,7 +6,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +17,12 @@
   width: 100%;
 }
 
+.item {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+
 .item .item_product_main {
   border-radius: 10px;
   background-color: #fff;
@@ -24,7 +30,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex: 1;
 }
 
 .item .item_product_main .product-thumbnail {
@@ -32,10 +37,13 @@
 
 .item .item_product_main .product-info {
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
-  justify-content: space-between;
   padding: 8px 22px;
+  /* min-height: 48px; */
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .item .item_product_main .product-info a {

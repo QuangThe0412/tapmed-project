@@ -1,5 +1,7 @@
 import React from "react";
-import { DataSlider, Slider } from "./slider/slider";
+import { DataSlider, Slider } from "../slider/slider";
+import "./sectionProductNew.css";
+import { Autoplay, Pagination } from "swiper/modules";
 
 const SectionProductNew: React.FC = () => {
   // Product data
@@ -92,28 +94,27 @@ const SectionProductNew: React.FC = () => {
   ];
 
   const sliderSettings = {
-    type: "loop",
-    focus: "center",
-    perPage: 6,
-    rewind: true,
-    pagination: false,
-    arrows: false,
-    gap: 10,
+    loop: true,
+    slidesPerView: 2,
+    spaceBetween: 10,
+    navigation: false,
+    // autoplay: {
+    //   delay: 2000,
+    //   disableOnInteraction: false,
+    // },
+    modules: [Autoplay, Pagination],
     breakpoints: {
-      1200: {
-        perPage: 5,
-      },
-      992: {
-        perPage: 4,
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 5,
       },
       768: {
-        perPage: 3,
+        slidesPerView: 4,
+        spaceBetween: 10,
       },
-      576: {
-        perPage: 2,
-      },
-      480: {
-        perPage: 1,
+      1024: {
+        slidesPerView: 6,
+        spaceBetween: 20,
       },
     },
   };

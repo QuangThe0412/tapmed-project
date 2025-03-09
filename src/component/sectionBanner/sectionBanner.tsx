@@ -25,6 +25,7 @@ const SectionBanner: React.FC = () => {
   ];
 
   const bannerSettings = {
+    autoHeight: true,
     loop: true,
     navigation: true,
     pagination: {
@@ -38,10 +39,10 @@ const SectionBanner: React.FC = () => {
   };
 
   return (
-    <section className="section-banner">
+    <section className="section-banner py-4">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap">
-          <div className="w-full lg:w-8/12 px-4">
+        <div className="flex flex-wrap w-full">
+          <div className="w-full lg:w-8/12 px-4 overflow-hidden">
             <Slider data={bannerImgs} settings={bannerSettings} />
           </div>
           <div className="w-full lg:w-4/12">

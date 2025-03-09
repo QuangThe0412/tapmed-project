@@ -34,27 +34,33 @@ const SectionHotSale: React.FC = () => {
 
   const sliderSettings = {
     loop: true,
-    slidesPerView: 3,
-    spaceBetween: 20,
+    slidesPerView: 1,
+    spaceBetween: 10,
     navigation: false,
     autoplay: {
       delay: 2000,
       disableOnInteraction: false,
     },
     modules: [Autoplay, Pagination],
-    // breakpoints: {
-    //   768: {
-    //     slidesPerView: 2,
-    //   },
-    //   576: {
-    //     slidesPerView: 1,
-    //   },
-    // },
+    breakpoints: {
+      640: {
+        slidesPerView: 1,
+        spaceBetween: 10,
+      },
+      768: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 30,
+      },
+    },
   };
 
   return (
     <section className="section-hot-sale flex justify-center">
-      <div className="container">
+      <div className="container px-3">
         <div className="block-title">
           <h3>Ưu đãi mới hôm nay</h3>
         </div>

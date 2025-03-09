@@ -20,3 +20,25 @@
 .header-menu a:hover {
   background-color: #f29f05;
 }
+
+.header-menu-mobile li {
+  display: inline-block;
+  margin-right: 10px;
+  text-align: left;
+}
+
+.header-menu-mobile li a {
+  color: #136d39;
+  display: block;
+  text-align: left;
+  font-size: 16px;
+  line-height: 36px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.header-menu-mobile li a:hover {
+  background-color: #f29f05;
+  color: #fff;
+}

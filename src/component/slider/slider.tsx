@@ -39,11 +39,7 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
         data.map((item: DataSlider, index) => (
           <SwiperSlide key={index}>
             {item.title == null ? (
-              <img
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
-                src={item.imageUrl}
-                alt={`Image ${index + 1}`}
-              />
+              <img src={item.imageUrl} alt={`Image ${index + 1}`} />
             ) : (
               <div className="item">
                 <div className="item_product_main">

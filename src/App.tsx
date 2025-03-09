@@ -4,7 +4,11 @@ import Header from "./component/header/header";
 import HeaderMenu from "./component/header/headerMenu";
 import SectionBanner from "./component/sectionBanner/sectionBanner";
 import SectionHotSale from "./component/sectionHotSale/sectionHotSale";
-import SectionProductNew from "./component/sectionProductNew";
+import SectionProductNew from "./component/sectionProductnew/sectionProductNew";
+import HeaderMenuMobile from "./component/header/headerMenuMobile";
+import { SectionAbout } from "./component/sectionAbout/sectionAbout";
+import { SectionSteps } from "./component/sectionSteps/sectionSteps";
+import SectionService from "./component/sectionService/sectionService";
 
 function App() {
   return (
@@ -13,9 +17,13 @@ function App() {
         <TopBar />
         <Header />
         <HeaderMenu />
+        <HeaderMenuMobile />
         <SectionBanner />
         <SectionHotSale />
-        {/* <SectionProductNew /> */}
+        <SectionProductNew />
+        <SectionAbout />
+        <SectionSteps />
+        <SectionService />
       </div>
     </div>
   );

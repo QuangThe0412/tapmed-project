@@ -54,3 +54,23 @@
 section {
   width: 100%;
 }
+
+.hightlight {
+  border: 1px solid blue;
+}
+
+.block-title {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.block-title h3 {
+  color: #000;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.block-title h3 span {
+  color: #15963d;
+}

@@ -3,7 +3,7 @@ import "./header.css";
 
 const HeaderMenu: React.FC = () => {
   return (
-    <nav className="flex justify-center header-menu shadow-md">
+    <nav className="flex justify-center header-menu shadow-md hidden lg:flex">
       <div className="container ">
         <ul className="flex justify-evenly">
           <li className="flex-grow text-center">

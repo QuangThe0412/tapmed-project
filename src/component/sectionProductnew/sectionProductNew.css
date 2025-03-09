@@ -1,0 +1,17 @@
+.section-product-new {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+  background: #fff;
+}
+
+.section-product-new .item .item_product_main img {
+  height: 163px;
+}
+
+.section-product-new .item .item_product_main .product-info a {
+  color: #555;
+  -webkit-line-clamp: 3;
+}

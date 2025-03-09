@@ -2,18 +2,21 @@ import React from "react";
 import ButtonCustom from "../button/buttonCustom";
 import SearchInput from "../input/search";
 import HeaderCart from "../cart/headerCart";
+import useDrawerStore from "../../store/menuMobileStore";
 
 const Header: React.FC = () => {
+  const { openDrawer } = useDrawerStore();
   const handleSearch = (searchTerm: string) => {
     console.log(searchTerm);
   };
 
   return (
-    <div className="mx-auto px-4 py-5 bg-white shadow-md flex justify-center items-center">
+    <div className="mx-auto px-4 py-0 lg:py-5 bg-white shadow-md flex justify-center items-center">
       <div className="container flex flex-wrap items-center -mx-4 space-between">
-        <div className="flex lg:w-3/12 md:w-4/12 w-8/12 px-4">
+        <div className="flex items-center lg:w-3/12 md:w-4/12 w-8/12 px-4">
           <div className="block lg:hidden">
             <img
+              onClick={openDrawer}
               style={{ minHeight: "75px" }}
               src="https://tapmed.vn/TapMedVn/images/menu-bar.png"
               alt="Tapmed Chuyên Phân Phối Thuốc Sỉ, Dược Sỉ"
@@ -49,7 +52,7 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex lg:w-1/12 md:w-2/12 w-4/12 px-4">
+        <div className="flex justify-end lg:w-1/12 md:w-2/12 w-4/12 px-4">
           <HeaderCart itemCount={5} />
         </div>
       </div>

@@ -1,0 +1,30 @@
+.layout-page {
+  padding: 20px 0px;
+  text-align: left;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pg_page .content-page {
+  color: #000;
+  font-size: 15px;
+}
+
+.content-page p {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.layout-page ul {
+  list-style: disc !important;
+  padding: 0;
+  margin-left: 40px;
+}
+
+/* 
+.content-page p span {
+  color: #006400;
+  font-size: 18px;
+} */

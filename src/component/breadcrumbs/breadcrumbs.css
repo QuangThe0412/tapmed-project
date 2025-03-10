@@ -1,0 +1,35 @@
+.bread-crumb {
+  padding: 6px 0px 6px 0px;
+  background-color: #e6f5ff;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bread-crumb .breadcrumb {
+  display: flex;
+  margin: 0;
+  font-size: 14px;
+  padding: 0px;
+  border-radius: 0;
+  font-weight: normal;
+  line-height: 24px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 8;
+  margin-bottom: 6px;
+  background-color: transparent;
+}
+
+.bread-crumb .breadcrumb li a {
+  color: #15963d;
+  font-size: 17px;
+}
+
+.breadcrumb-separator {
+  color: #15963d;
+  font-size: 17px;
+  padding: 0px 5px;
+}

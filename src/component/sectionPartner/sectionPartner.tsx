@@ -50,7 +50,7 @@ const SectionPartner: React.FC = () => {
                 <img
                   src={`https://tapmed.vn/TapMedVn/images/partner/${partner}`}
                   alt="Dược phẩm TAPMED"
-                  className="w-full h-auto"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </div>

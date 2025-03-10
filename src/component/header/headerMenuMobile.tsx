@@ -3,6 +3,7 @@ import useDrawerStore from "../../store/menuMobileStore";
 import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
+import { paths } from "../../../src/utils/contanst";
 
 const HeaderMenuMobile: React.FC = () => {
   const { isOpen, closeDrawer } = useDrawerStore();
@@ -35,45 +36,17 @@ const HeaderMenuMobile: React.FC = () => {
                 handleSearch={handleSearch}
               />
             </li>
-            <li>
-              <a href="/" className="text-gray-700 hover:text-blue-500">
-                Trang chủ
-              </a>
-            </li>
-            <li>
-              <a href="/san-pham" className="text-gray-700 hover:text-blue-500">
-                Sản phẩm
-              </a>
-            </li>
-            <li>
-              <a
-                href="/dat-hang-nhanh"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                Đặt hàng nhanh
-              </a>
-            </li>
-            <li>
-              <a
-                href="/khuyen-mai"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                Khuyến mãi
-              </a>
-            </li>
-            <li>
-              <a href="/tin-tuc" className="text-gray-700 hover:text-blue-500">
-                Tin tức
-              </a>
-            </li>
-            <li>
-              <a
-                href="/chinh-sach"
-                className="text-gray-700 hover:text-blue-500"
-              >
-                Chính sách
-              </a>
-            </li>
+            {paths &&
+              paths.map((path, index) => (
+                <li key={index}>
+                  <a
+                    href={path.path}
+                    className="text-gray-700 hover:text-blue-500"
+                  >
+                    {path.breadcrums}
+                  </a>
+                </li>
+              ))}
             <li>
               <ButtonCustom
                 label="Đăng nhập"

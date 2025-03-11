@@ -10,5 +10,11 @@
 }
 
 .section-hot-sale .item .item_product_main img {
-  height: 200px;
+  height: 250px;
+}
+
+@media (max-width: 768px) {
+  .section-hot-sale .item .item_product_main img {
+    height: 200px;
+  }
 }

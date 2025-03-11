@@ -64,3 +64,25 @@
   background-color: #fff;
   box-shadow: 0px 0px 8px #ccc;
 }
+
+.item-blog .block-thumb {
+  text-align: center;
+}
+
+.item-blog .block-content h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  line-height: initial;
+}
+
+.item-blog .block-content h3 a {
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.item-blog .block-content .article-content {
+  color: #555;
+  font-size: 16px;
+}

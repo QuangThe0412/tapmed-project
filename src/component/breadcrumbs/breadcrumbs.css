@@ -1,16 +1,15 @@
 .bread-crumb {
-  padding: 6px 0px 6px 0px;
   background-color: #e6f5ff;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   color: gray;
+  padding: 0 10px;
 }
 
 .bread-crumb .breadcrumb {
   display: flex;
-  margin: 0;
   font-size: 14px;
   padding: 0px;
   border-radius: 0;
@@ -20,7 +19,6 @@
   text-align: center;
   position: relative;
   z-index: 8;
-  margin-bottom: 6px;
   background-color: transparent;
 }
 

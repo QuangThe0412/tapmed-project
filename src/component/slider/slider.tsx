@@ -37,30 +37,26 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
       {data &&
         data.map((item: DataSlider, index) => (
           <SwiperSlide key={index}>
-            {item.title == null ? (
-              <img src={item.imageUrl} alt={`Image ${index + 1}`} />
-            ) : (
-              <div className="item">
-                <div className="item_product_main">
-                  <div className="product-thumbnail">
-                    <a
-                      className="image_thumb"
-                      href={item.link || "#"}
-                      title={item.title}
-                    >
-                      <img src={item.imageUrl} alt={item.title} />
+            <div className="item">
+              <div className="item_product_main">
+                <div className="product-thumbnail">
+                  <a
+                    className="image_thumb"
+                    href={item.link || "#"}
+                    title={item.title}
+                  >
+                    <img src={item.imageUrl} alt={item.title} />
+                  </a>
+                </div>
+                <div className="product-info">
+                  <h3 className="product-name">
+                    <a href={item.link || "#"} title={item.title}>
+                      {item.title}
                     </a>
-                  </div>
-                  <div className="product-info">
-                    <h3 className="product-name">
-                      <a href={item.link || "#"} title={item.title}>
-                        {item.title}
-                      </a>
-                    </h3>
-                  </div>
+                  </h3>
                 </div>
               </div>
-            )}
+            </div>
           </SwiperSlide>
         ))}
     </Swiper>

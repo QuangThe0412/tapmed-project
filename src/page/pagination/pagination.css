@@ -1,0 +1,62 @@
+.pagenav .pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0px;
+}
+
+.pagenav .pagination .page-item {
+  display: flex;
+  align-items: center;
+  width: 55px;
+  height: 35px;
+  justify-content: center;
+}
+
+.pagenav .pagination .page-item:hover {
+  width: 55px;
+  border: 1px solid #dfdfdf;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+.pagenav .pagination .page-item.active {
+  width: 55px;
+  border: 1px solid #dfdfdf;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+.pagenav .pagination .page-item:not(.disabled):hover {
+  width: 55px;
+  border: 1px solid #dfdfdf;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+.pagenav .pagination .page-item.disabled {
+  width: 55px;
+  justify-content: center;
+  border-radius: 30px;
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pagenav .pagination .page-item.disabled:hover {
+  border: none;
+  cursor: not-allowed;
+}
+
+.pagenav .pagination .page-link {
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #15963d;
+  width: 55px;
+  height: 35px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}

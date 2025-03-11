@@ -33,7 +33,7 @@ export function SliderWithoutContent({
       {...settings}
     >
       {data &&
-        data.map((item: DataSlider, index) => (
+        data?.map((item: DataSlider, index) => (
           <SwiperSlide key={index}>
             <img src={item.imageUrl} alt={`Image ${index + 1}`} />
           </SwiperSlide>

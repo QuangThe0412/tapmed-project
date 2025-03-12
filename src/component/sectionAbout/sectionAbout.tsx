@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./sectionAbout.css";
 
-export function SectionAbout() {
+const SectionAbout: React.FC = () => {
   const [activeTab, setActiveTab] = useState("vision");
 
   return (
@@ -77,4 +77,6 @@ export function SectionAbout() {
       </div>
     </section>
   );
-}
+};
+
+export default SectionAbout;

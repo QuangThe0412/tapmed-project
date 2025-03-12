@@ -1,6 +1,6 @@
 import "./sectionSteps.css";
 
-export function SectionSteps() {
+const SectionSteps: React.FC = () => {
   return (
     <div className="section-steps">
       <div className="container">
@@ -72,4 +72,6 @@ export function SectionSteps() {
       </div>
     </div>
   );
-}
+};
+
+export default SectionSteps;

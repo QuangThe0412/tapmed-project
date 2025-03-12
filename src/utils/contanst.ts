@@ -43,3 +43,5 @@ export const paths = [
     component: Policy,
   },
 ];
+
+export const NAME_STORAGE_ORDER = "order";

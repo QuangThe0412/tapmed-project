@@ -7,7 +7,7 @@ const TopBar: React.FC = () => {
     <div className="flew w-full h-auto">
       <Link to="https://tapmed.vn/tin-tuc/quay-la-trung-100-khach-hang-tham-gia-deu-se-rinh-duoc-giai-thuong-80.html">
         <img
-          className="h-auto object-cover block"
+          className="h-auto object-cover block w-full"
           alt="July - Best price"
           src="https://tapmed.vn//upload_editor/posts/images/hihiihih%20(1).png"
           decoding="async"

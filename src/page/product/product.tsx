@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { signal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
-import ProductData from "../../dataMockup/productData.json";
-import Pagination from "../pagination/pagination";
+import { useProductStore } from "../../store/productStore";
 import { useSearchParams } from "react-router-dom";
-import { paths } from "../../utils/contanst";
 import ProductItem from "./productItem";
+import Pagination from "../pagination/pagination";
+import { paths } from "../../utils/contanst";
 import "./product.css";
+import { toast } from "react-toastify";
 
-export type ProductItemProps = {
+export type ProductItemType = {
   id: number;
-  name: string;
-  url: string;
-  imageUrl: string;
-  unit: string;
-  price: string;
-  quantity: number;
+  name?: string;
+  url?: string;
+  imageUrl?: string;
+  unit?: string;
+  price?: number;
+  quantity?: number;
+  expiry_date?: string;
+  description?: string;
 };
 
-export const ProductionItems = signal<ProductItemProps[]>([]);
 export const currentPage = signal<number>(1);
 export const totalPages = signal<number>(1);
+export const ProductionItems = signal<ProductItemType[]>([]);
 
 function Product() {
   useSignals();
@@ -28,7 +31,8 @@ function Product() {
   const pathPromotion = paths.find((path) => path.name === "product");
   const baseUrl = pathPromotion?.path || "/";
 
-  const dataProducts = ProductionItems?.value;
+  // Lấy dữ liệu sản phẩm từ store
+  const { products, isLoading, error } = useProductStore();
 
   useEffect(() => {
     const pageParam = searchParams.get("page");
@@ -39,40 +43,31 @@ function Product() {
     }
   }, [searchParams]);
 
-  const fetchPromotionData = async (page: number) => {
-    try {
-      // await new Promise((resolve) => setTimeout(resolve, 1500));
+  // Phân trang sản phẩm
+  useEffect(() => {
+    const itemsPerPage = 12;
+    const startIndex = (currentPage.value - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
 
-      // Sử dụng dữ liệu từ file JSON
-      const itemsPerPage = 12;
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const paginatedItems = ProductData?.items.slice(startIndex, endIndex);
+    // Slice từ data của store thay vì fetch lại
+    const paginatedItems = products.slice(startIndex, endIndex);
+    ProductionItems.value = paginatedItems;
 
-      ProductionItems.value = paginatedItems.map((item) => ({
-        id: item.id,
-        name: item.name,
-        url: item.url,
-        imageUrl: item.image_url,
-        unit: item.unit,
-        price: item.price,
-        quantity: 0, // default quantity
-      }));
-
-      totalPages.value = Math.ceil(ProductData?.items.length / itemsPerPage);
-    } catch (err) {
-      console.error("Error fetching Promotion:", err);
-    }
-  };
+    totalPages.value = Math.ceil(products.length / itemsPerPage);
+  }, [currentPage.value, products]);
 
   const handlePageChange = (page: number) => {
     setSearchParams({ page: page.toString() });
-    fetchPromotionData(page);
   };
 
-  useEffect(() => {
-    fetchPromotionData(currentPage.value);
-  }, [currentPage.value]);
+  if (isLoading && products.length === 0) {
+    return <div className="text-center py-10">Đang tải dữ liệu...</div>;
+  }
+
+  if (error && products.length === 0) {
+    toast.error("Không thể tải dữ liệu sản phẩm");
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="layout-collections">
@@ -80,7 +75,7 @@ function Product() {
         <div className="category-products">
           <div className="products-view">
             <div className="flex flex-wrap">
-              {dataProducts?.map((product) => (
+              {ProductionItems.value.map((product) => (
                 <ProductItem key={product.id} item={product} />
               ))}
             </div>

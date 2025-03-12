@@ -134,6 +134,7 @@
   line-height: 1;
   text-align: center;
   position: relative;
+  user-select: none;
 }
 
 .item_product_main .product-price .quantity button.qty-minus {
@@ -163,4 +164,9 @@
 .item_product_main .product-price .quantity button:active {
   background-color: #15963d;
   color: #fff;
+}
+
+.item_product_main .product-price .quantity button:focus,
+.item_product_main .product-price .quantity button:focus-visible {
+  outline: none;
 }

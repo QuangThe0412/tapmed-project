@@ -1,29 +1,27 @@
-import { ProductItemProps } from "./product";
+import useOrderStore from "../../store/orderStore";
+import { ProductItemType } from "./product";
 
-const ProductItem: React.FC<{ item: ProductItemProps }> = ({ item }) => {
-  const { id, name, url, imageUrl, unit, price, quantity } = item;
+const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
+  const { id, name, url, imageUrl, unit, price } = item;
+  const { orders, plusQuantity, minusQuantity, updateQuantity } =
+    useOrderStore();
 
-  const onIncreaseQuantity = (id: number) => {
-    // if (item) {
-    //   item.quantity += 1;
-    //   ProductionItems.value = [...ProductionItems.value];
-    // }
+  const orderItem =
+    orders && orders.orderItems
+      ? orders.orderItems.find((item) => item.id === id)
+      : undefined;
+
+  const quantity = orderItem?.quantity || 0;
+  const onIncreaseQuantity = () => {
+    plusQuantity(id);
   };
 
-  const onDecreaseQuantity = (id: number) => {
-    // const item = ProductionItems.value.find((item) => item.id === id);
-    // if (item) {
-    //   item.quantity -= 1;
-    //   ProductionItems.value = [...ProductionItems.value];
-    // }
+  const onDecreaseQuantity = () => {
+    minusQuantity(id);
   };
 
-  const onUpdateQuantity = (id: number, quantity: number) => {
-    // const item = ProductionItems.value.find((item) => item.id === id);
-    // if (item) {
-    //   item.quantity = quantity;
-    //   ProductionItems.value = [...ProductionItems.value];
-    // }
+  const onUpdateQuantity = (newQuantity: number) => {
+    updateQuantity(id, newQuantity);
   };
 
   return (
@@ -46,7 +44,7 @@ const ProductItem: React.FC<{ item: ProductItemProps }> = ({ item }) => {
           <div className="product-price">
             <div id={`listProduct-${id}`}>
               <div className="price-box">
-                <span className="price">{price}</span>
+                <span className="price">Giá : {price}</span>
               </div>
             </div>
             <div className="quantity">
@@ -54,7 +52,7 @@ const ProductItem: React.FC<{ item: ProductItemProps }> = ({ item }) => {
                 type="button"
                 className="qty-minus items-count"
                 aria-label="-"
-                onClick={() => onDecreaseQuantity(id)}
+                onClick={onDecreaseQuantity}
               >
                 -
               </button>
@@ -69,14 +67,14 @@ const ProductItem: React.FC<{ item: ProductItemProps }> = ({ item }) => {
                 aria-label="quantity"
                 pattern="[0-9]*"
                 onChange={(e) =>
-                  onUpdateQuantity(id, parseInt(e.target.value) || 0)
+                  onUpdateQuantity(parseInt(e.target.value) || 0)
                 }
               />
               <button
                 type="button"
                 className="qty-plus items-count"
                 aria-label="+"
-                onClick={() => onIncreaseQuantity(id)}
+                onClick={onIncreaseQuantity}
               >
                 +
               </button>

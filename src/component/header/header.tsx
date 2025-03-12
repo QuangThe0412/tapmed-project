@@ -53,7 +53,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="flex justify-end lg:w-1/12 md:w-2/12 w-4/12 px-4">
-          <HeaderCart itemCount={5} />
+          <HeaderCart />
         </div>
       </div>
     </div>

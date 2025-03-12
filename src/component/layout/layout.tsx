@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import TopBar from "../topBar/topBar";
 import Header from "../header/header";
 import HeaderMenu from "../header/headerMenu";
@@ -7,23 +7,19 @@ import Footer from "../footer/footer";
 import BottomNavMenu from "../bottomNavMenu/bottomNavMenu";
 import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
-import useOrderStore from "../../store/orderStore";
-import { NAME_STORAGE_ORDER } from "../../utils/contanst";
+import { useProductStore } from "../../store/productStore";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 function Layout({ children }: LayoutProps) {
-  const { orders } = useOrderStore();
+  const fetchProducts = useProductStore((state) => state.fetchProducts);
 
-  //get order from localstorage and set into order store
-  React.useEffect(() => {
-    const orderStorage = localStorage.getItem(NAME_STORAGE_ORDER);
-    if (orderStorage) {
-      useOrderStore.setState({ orders: JSON.parse(orderStorage) });
-    }
-  }, []);
+  useEffect(() => {
+    // Fetch products when app starts
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <div className="app-container">

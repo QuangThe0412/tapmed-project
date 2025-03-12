@@ -76,6 +76,12 @@ section {
   color: #15963d;
 }
 
+button:focus,
+button:focus-visible {
+  outline: none;
+  user-select: none;
+}
+
 @media (max-width: 991px) {
   .block-title h3 {
     font-size: 20px;

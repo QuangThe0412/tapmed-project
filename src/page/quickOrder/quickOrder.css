@@ -93,18 +93,35 @@
 }
 
 .product-quantity .input-group-btn .items-count {
-  height: 25px;
+  padding: 0;
   width: 25px;
-  color: #fff;
-  font-size: 24px;
+  height: 25px;
+  color: #15963d;
+  font-size: 22px;
   font-weight: bold;
+  background-color: #fff;
+  border: 2px solid #15963d;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #15963d;
+  line-height: 1;
+  text-align: center;
+  position: relative;
+  user-select: none;
+}
+
+.product-quantity .input-group-btn button:hover,
+.product-quantity .input-group-btn button:active {
+  background-color: #15963d !important;
+  color: #fff !important;
+}
+
+.product-quantity .input-group-btn .items-count.qty-minus {
+  color: #fff;
   background-color: #15963d;
 }
+
 .product-quantity .input-group-btn .qty-num {
   width: 65px;
   height: 25px;

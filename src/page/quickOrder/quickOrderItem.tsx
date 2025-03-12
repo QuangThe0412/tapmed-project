@@ -1,17 +1,25 @@
 import React from "react";
-import useOrderStore from "../../store/orderStore";
-import { ProductItemType } from "../product/product";
+import useOrderStore from "../../stores/orderStore";
 import "./quickOrder.css";
+import { ProductItemType } from "@src/types/typeProduct";
+import { parsePrice } from "@src/utils/common";
 
 type OrderItemProps = {
-  key: number;
   product: ProductItemType;
 };
 
-const QuickOrderItem: React.FC<OrderItemProps> = ({ key, product }) => {
-  const { id, name, imageUrl, unit, price, quantity, url } = product;
+const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
+  const { id, name, image, unit, price } = product;
 
-  const { minusQuantity, plusQuantity, updateQuantity } = useOrderStore();
+  const { orders, plusQuantity, minusQuantity, updateQuantity } =
+    useOrderStore();
+
+  const orderItem =
+    orders && orders.orderItems
+      ? orders.orderItems.find((item) => item.id === id)
+      : undefined;
+
+  const quantity = orderItem?.quantity || 0;
 
   const minusProduct = (id: number) => {
     minusQuantity(id);
@@ -29,20 +37,20 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ key, product }) => {
     <div className="product-row">
       <div className="order-product">
         <div className="order-image">
-          <a href={url} className="product-image">
-            <img src={imageUrl} alt={name} />
+          <a href={"url"} className="product-image">
+            <img src={image} alt={name} />
           </a>
         </div>
         <div className="order-info">
           <div className="product-name-wrapper line-clamp-2 text-left">
-            <a href={url} className="product-name">
+            <a href={"url"} className="product-name">
               {name}
             </a>
           </div>
           <div className="grid product-prices text-left">
             <div className="price-box" id={`orderProduct-${id}`}>
               <span className="price">
-                <b>{price || "Liên hệ"}</b>
+                <b>{parsePrice(price)}</b>
                 <br /> Đơn vị: {unit || "hộp"}
               </span>
             </div>

@@ -1,10 +1,34 @@
-import { useProductStore } from "../../store/productStore";
-import SearchInput from "../../component/input/search";
 import "./quickOrder.css";
 import QuickOrderItem from "./quickOrderItem";
+import { useEffect, useState } from "react";
+import fetchCategories from "./listCategory";
+import { useProductStore } from "@src/stores/productStore";
+import SearchInput from "@src/component/input/search";
+import { CategoryType } from "@src/types/typeCategory";
+import { ProducerType } from "@src/types/typeProducer";
+import fetchProducer from "./listProducer";
 
 function QuickOrder() {
   const { products: dataProducts } = useProductStore();
+
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [producers, setProducers] = useState<ProducerType[]>([]);
+
+  useEffect(() => {
+    fetchCategories().then((data) => {
+      if (data) {
+        setCategories(data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchProducer().then((data) => {
+      if (data) {
+        setProducers(data);
+      }
+    });
+  }, []);
 
   const handleSearch = (searchTerm: string) => {
     console.log("Search term:", searchTerm);
@@ -47,7 +71,7 @@ function QuickOrder() {
               </div>
               <div className="product-list">
                 {dataProducts.map((product) => (
-                  <QuickOrderItem key={product.id} product={product} />
+                  <QuickOrderItem key={product?.id} product={product} />
                 ))}
               </div>
             </div>

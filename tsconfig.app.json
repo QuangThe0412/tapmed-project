@@ -22,9 +22,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    /* Type checking */
     "baseUrl": "./",
-    "paths": {}
+    "paths": {
+      "@src/*": ["src/*"],
+      "@stores/*": ["src/stores/*"],
+      "@pages/*": ["src/pages/*"],
+      "@dataMockup/*": ["src/dataMockup/*"],
+      "@component/*": ["src/component/*"],
+      "@utils/*": ["src/utils/*"],
+      "@types/*": ["src/types/*"]
+    }
   },
   "include": ["src"]
 }

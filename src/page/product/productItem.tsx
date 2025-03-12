@@ -1,8 +1,10 @@
-import useOrderStore from "../../store/orderStore";
-import { ProductItemType } from "./product";
+import useOrderStore from "@src/stores/orderStore";
+import { ProductItemType } from "@src/types/typeProduct";
+import { parsePrice } from "@src/utils/common";
 
 const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
-  const { id, name, url, imageUrl, unit, price } = item;
+  const { id, name, unit, price, image } = item;
+
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();
 
@@ -28,13 +30,13 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
     <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-8 px-4">
       <div className="item_product_main">
         <div className="product-thumbnail">
-          <a className="image_thumb" href={url} title={name}>
-            <img src={imageUrl} alt={name} />
+          <a className="image_thumb" href={"/"} title={name}>
+            <img src={image} alt={name} />
           </a>
         </div>
         <div className="product-info">
           <h3 className="product-name line-clamp-2">
-            <a href={url} title={name}>
+            <a href={"/"} title={name}>
               {name}
             </a>
           </h3>
@@ -44,7 +46,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
           <div className="product-price">
             <div id={`listProduct-${id}`}>
               <div className="price-box">
-                <span className="price">Giá : {price}</span>
+                <span className="price">Giá : {parsePrice(price)}</span>
               </div>
             </div>
             <div className="quantity">

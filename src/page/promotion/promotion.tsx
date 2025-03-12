@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { DataSlider } from "../../component/slider/slider";
 import { signal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
-import Pagination from "../pagination/pagination";
+import Pagination from "../../component/pagination/pagination";
 import { paths } from "../../utils/contanst";
 import { useSearchParams } from "react-router-dom";
 import PromotionData from "../../dataMockup/blogData.json";

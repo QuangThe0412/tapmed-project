@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Vinaphar",
+    "description": "Công ty Dược phẩm Việt Nam",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://vinaphar.com",
+    "productCount": 42
+  },
+  {
+    "id": 2,
+    "name": "Sanofi",
+    "description": "Công ty dược phẩm đa quốc gia Pháp",
+    "logo": "https://via.placeholder.com/150",
+    "country": "France",
+    "website": "https://www.sanofi.com",
+    "productCount": 87
+  },
+  {
+    "id": 3,
+    "name": "Pfizer",
+    "description": "Tập đoàn dược phẩm đa quốc gia Mỹ",
+    "logo": "https://via.placeholder.com/150",
+    "country": "USA",
+    "website": "https://www.pfizer.com",
+    "productCount": 124
+  },
+  {
+    "id": 4,
+    "name": "GSK",
+    "description": "Tập đoàn dược phẩm và chăm sóc sức khỏe Anh",
+    "logo": "https://via.placeholder.com/150",
+    "country": "UK",
+    "website": "https://www.gsk.com",
+    "productCount": 79
+  },
+  {
+    "id": 5,
+    "name": "Novartis",
+    "description": "Công ty dược phẩm đa quốc gia Thụy Sĩ",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Switzerland",
+    "website": "https://www.novartis.com",
+    "productCount": 56
+  },
+  {
+    "id": 6,
+    "name": "TapMed",
+    "description": "Công ty cung cấp dược phẩm và thực phẩm chức năng",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://tapmed.vn",
+    "productCount": 120
+  },
+  {
+    "id": 7,
+    "name": "Traphaco",
+    "description": "Công ty Cổ phần Traphaco",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://www.traphaco.com.vn",
+    "productCount": 45
+  },
+  {
+    "id": 8,
+    "name": "DHG Pharma",
+    "description": "Công ty Cổ phần Dược Hậu Giang",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://www.dhgpharma.com.vn",
+    "productCount": 68
+  }
+]

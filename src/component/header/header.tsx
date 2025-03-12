@@ -2,7 +2,7 @@ import React from "react";
 import ButtonCustom from "../button/buttonCustom";
 import SearchInput from "../input/search";
 import HeaderCart from "../cart/headerCart";
-import useDrawerStore from "../../store/menuMobileStore";
+import useDrawerStore from "../../stores/menuMobileStore";
 
 const Header: React.FC = () => {
   const { openDrawer } = useDrawerStore();

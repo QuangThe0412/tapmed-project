@@ -1,5 +1,5 @@
 import { ShoppingCart } from "lucide-react";
-import useOrderStore from "../../store/orderStore";
+import useOrderStore from "../../stores/orderStore";
 
 const HeaderCart = () => {
   const { orders } = useOrderStore();

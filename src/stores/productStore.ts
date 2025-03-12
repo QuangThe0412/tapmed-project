@@ -1,6 +1,6 @@
+import { ProductItemType } from "@src/types/typeProduct";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ProductItemType } from "../page/product/product";
 
 export const NAME_STORAGE_PRODUCT = "product-store";
 
@@ -28,18 +28,15 @@ export const useProductStore = create<ProductStore>()(
 
           // Nếu dùng dữ liệu JSON tĩnh:
           //delay 3 giây để mô phỏng việc fetch dữ liệu từ server
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+          // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-          const ProductData = await import("../dataMockup/productData.json");
+          const ProductData = await import("@dataMockup/productData.json");
+          const PATH_IMAGE = "https://tapmed.vn/storage/";
+
           set({
-            products: ProductData.default.items.map((item) => ({
-              id: item.id,
-              name: item.name,
-              url: item.url,
-              imageUrl: item.image_url,
-              unit: item.unit,
-              price: item.price || "Liên hệ",
-              quantity: 0,
+            products: ProductData.default.map((item) => ({
+              ...item,
+              image: PATH_IMAGE + item?.image,
             })),
             isLoading: false,
           });

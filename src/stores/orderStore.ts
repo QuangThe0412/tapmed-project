@@ -1,17 +1,8 @@
-import { ProductItemType } from "../page/product/product";
+import { OrderType } from "@src/types/typeOrder";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export const NAME_STORAGE_ORDER = "order";
-
-export type OrderItem = ProductItemType & {
-  quantity: number;
-};
-
-export type OrderType = {
-  id: number;
-  orderItems: OrderItem[];
-};
 
 export interface OrderStore {
   orders: OrderType;

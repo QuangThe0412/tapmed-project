@@ -1,25 +1,14 @@
 import React, { useEffect } from "react";
 import { signal } from "@preact/signals-react";
 import { useSignals } from "@preact/signals-react/runtime";
-import { useProductStore } from "../../store/productStore";
 import { useSearchParams } from "react-router-dom";
 import ProductItem from "./productItem";
-import Pagination from "../pagination/pagination";
-import { paths } from "../../utils/contanst";
 import "./product.css";
 import { toast } from "react-toastify";
-
-export type ProductItemType = {
-  id: number;
-  name?: string;
-  url?: string;
-  imageUrl?: string;
-  unit?: string;
-  price?: number;
-  quantity?: number;
-  expiry_date?: string;
-  description?: string;
-};
+import { ProductItemType } from "@src/types/typeProduct";
+import { paths } from "@src/utils/contanst";
+import { useProductStore } from "@src/stores/productStore";
+import Pagination from "@src/component/pagination/pagination";
 
 export const currentPage = signal<number>(1);
 export const totalPages = signal<number>(1);

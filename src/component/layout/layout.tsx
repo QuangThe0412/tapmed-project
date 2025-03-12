@@ -7,7 +7,7 @@ import Footer from "../footer/footer";
 import BottomNavMenu from "../bottomNavMenu/bottomNavMenu";
 import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
-import { useProductStore } from "../../store/productStore";
+import { useProductStore } from "../../stores/productStore";
 
 interface LayoutProps {
   children: ReactNode;

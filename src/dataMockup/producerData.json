@@ -1,51 +1,51 @@
 [
   {
-    "id": 1,
+    "id": 29,
+    "name": "An Thiên",
+    "description": "Công ty Dược phẩm An Thiên",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://anthien.com.vn",
+    "productCount": 29
+  },
+  {
+    "id": 286,
     "name": "Vinaphar",
     "description": "Công ty Dược phẩm Việt Nam",
     "logo": "https://via.placeholder.com/150",
     "country": "Vietnam",
     "website": "https://vinaphar.com",
-    "productCount": 42
+    "productCount": 1
   },
   {
-    "id": 2,
-    "name": "Sanofi",
-    "description": "Công ty dược phẩm đa quốc gia Pháp",
+    "id": 333,
+    "name": "Vinaphar Group",
+    "description": "Tập đoàn Dược phẩm Việt Nam",
     "logo": "https://via.placeholder.com/150",
-    "country": "France",
-    "website": "https://www.sanofi.com",
-    "productCount": 87
+    "country": "Vietnam",
+    "website": "https://vinaphargroup.vn",
+    "productCount": 2
   },
   {
-    "id": 3,
-    "name": "Pfizer",
-    "description": "Tập đoàn dược phẩm đa quốc gia Mỹ",
+    "id": 501,
+    "name": "Akofa",
+    "description": "Công ty dược phẩm Akofa",
     "logo": "https://via.placeholder.com/150",
-    "country": "USA",
-    "website": "https://www.pfizer.com",
-    "productCount": 124
+    "country": "Vietnam",
+    "website": "https://akofa.vn",
+    "productCount": 2
   },
   {
-    "id": 4,
-    "name": "GSK",
-    "description": "Tập đoàn dược phẩm và chăm sóc sức khỏe Anh",
+    "id": 808,
+    "name": "Linhzhi Pharma",
+    "description": "Công ty Dược phẩm Linhzhi",
     "logo": "https://via.placeholder.com/150",
-    "country": "UK",
-    "website": "https://www.gsk.com",
-    "productCount": 79
+    "country": "Vietnam",
+    "website": "https://linhzhipharma.vn",
+    "productCount": 1
   },
   {
-    "id": 5,
-    "name": "Novartis",
-    "description": "Công ty dược phẩm đa quốc gia Thụy Sĩ",
-    "logo": "https://via.placeholder.com/150",
-    "country": "Switzerland",
-    "website": "https://www.novartis.com",
-    "productCount": 56
-  },
-  {
-    "id": 6,
+    "id": 1705,
     "name": "TapMed",
     "description": "Công ty cung cấp dược phẩm và thực phẩm chức năng",
     "logo": "https://via.placeholder.com/150",
@@ -54,21 +54,12 @@
     "productCount": 120
   },
   {
-    "id": 7,
-    "name": "Traphaco",
-    "description": "Công ty Cổ phần Traphaco",
+    "id": 302,
+    "name": "Quatrefolic",
+    "description": "Công ty Dược phẩm Quatrefolic",
     "logo": "https://via.placeholder.com/150",
-    "country": "Vietnam",
-    "website": "https://www.traphaco.com.vn",
-    "productCount": 45
-  },
-  {
-    "id": 8,
-    "name": "DHG Pharma",
-    "description": "Công ty Cổ phần Dược Hậu Giang",
-    "logo": "https://via.placeholder.com/150",
-    "country": "Vietnam",
-    "website": "https://www.dhgpharma.com.vn",
-    "productCount": 68
+    "country": "USA",
+    "website": "https://quatrefolic.com",
+    "productCount": 1
   }
 ]

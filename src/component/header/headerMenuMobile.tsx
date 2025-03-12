@@ -32,7 +32,7 @@ const HeaderMenuMobile: React.FC = () => {
           <ul className="flex flex-col space-y-4 p-4">
             <li className="w-full">
               <SearchInput
-                placeholder="Tìm kiếm sản phẩm"
+                placeholder="Tìm kiếm sản phẩm..."
                 handleSearch={handleSearch}
               />
             </li>

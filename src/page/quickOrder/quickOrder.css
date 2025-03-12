@@ -134,3 +134,7 @@
   color: #15963d;
   background-color: transparent;
 }
+
+.basic-single .select__control {
+  border-radius: 30px;
+}

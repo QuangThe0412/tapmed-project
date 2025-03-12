@@ -36,7 +36,7 @@ const Header: React.FC = () => {
 
         <div className="flex justify-center items-center lg:w-4/12 w-full hidden lg:block px-4">
           <SearchInput
-            placeholder="Tìm kiếm sản phẩm"
+            placeholder="Tìm kiếm sản phẩm..."
             handleSearch={handleSearch}
           />
         </div>

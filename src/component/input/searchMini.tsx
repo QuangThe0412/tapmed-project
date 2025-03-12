@@ -1,4 +1,4 @@
-import { SearchIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import React, { useState } from "react";
 
 interface SearchInputProps {
@@ -6,7 +6,7 @@ interface SearchInputProps {
   placeholder?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
+const SearchMini: React.FC<SearchInputProps> = ({
   handleSearch,
   placeholder,
 }) => {
@@ -34,13 +34,13 @@ const SearchInput: React.FC<SearchInputProps> = ({
         onKeyDown={handleKeyDown}
       />
       <div
-        className="bg-none border-none cursor-pointer flex items-center justify-center outline-none p-2 rounded-[50%] text-gray-500 w-2/12"
+        className="bg-none border-none cursor-pointer flex items-center justify-center outline-none p-2 rounded-[50%] text-gray-500 w-1/12"
         onClick={onSearch}
       >
-        <SearchIcon size={16} />
+        <Search size={24} className="text-blue-500" />
       </div>
     </div>
   );
 };
 
-export default SearchInput;
+export default SearchMini;

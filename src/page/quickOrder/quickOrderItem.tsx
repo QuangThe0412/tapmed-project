@@ -50,8 +50,8 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
           <div className="grid product-prices text-left">
             <div className="price-box" id={`orderProduct-${id}`}>
               <span className="price">
-                <b>{parsePrice(price)}</b>
-                <br /> Đơn vị: {unit || "hộp"}
+                <b>Giá : {parsePrice(price)}</b>
+                <br /> Đơn vị : {unit || "hộp"}
               </span>
             </div>
           </div>

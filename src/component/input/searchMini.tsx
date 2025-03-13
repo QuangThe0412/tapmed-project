@@ -53,16 +53,16 @@ const SearchMini: React.FC<SearchInputProps> = ({
       <input
         type="text"
         placeholder={placeholder ? placeholder : "Tìm kiếm sản phẩm..."}
-        className="border-none outline-none flex-1 text-base leading-8 w-9/12"
+        className="border-none outline-none flex-1 text-base leading-8 w-9/12 text-gray-700"
         value={searchTerm}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
       <div
-        className="bg-none border-none cursor-pointer flex items-center justify-center outline-none p-2 rounded-[50%] text-gray-500 w-1/12"
+        className="bg-none border-none cursor-pointer flex items-center justify-center outline-none p-2 rounded-[50%] text-gray-500 w-2/12 lg:w-1/12"
         onClick={onSearch}
       >
-        <Search size={24} className="text-blue-500" />
+        <Search className="text-blue-500 w-6 h-6 lg:w-8 lg:h-8" />
       </div>
     </div>
   );

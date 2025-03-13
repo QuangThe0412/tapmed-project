@@ -1,3 +1,4 @@
+import "./select-styles.css";
 import "./quickOrder.css";
 import QuickOrderItem from "./quickOrderItem";
 import { useEffect, useState, useMemo } from "react";
@@ -153,13 +154,13 @@ function QuickOrder() {
             GIÁ TỐT TRONG TUẦN
           </a>
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full px-2">
           <div className="product-wrapper w-full">
             <div className="product-search">
               {/* Truyền hàm handleSearch vào SearchMini */}
               <SearchMini handleSearch={handleSearch} />
-              <div className="flex mt-4 w-full">
-                <div className="w-1/2 pr-2">
+              <div className="flex flex-wrap mt-4 w-full">
+                <div className="w-full lg:w-1/2 lg:pr-2">
                   <Select
                     options={producerOptions}
                     placeholder="Chọn nhà sản xuất"
@@ -169,7 +170,7 @@ function QuickOrder() {
                     classNamePrefix="select"
                   />
                 </div>
-                <div className="w-1/2 pl-2">
+                <div className="w-full mt-2 lg:mt-0 lg:w-1/2 lg:pl-2">
                   <Select
                     options={categoryOptions}
                     placeholder="Chọn nhóm thuốc"

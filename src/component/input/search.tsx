@@ -28,7 +28,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       <input
         type="text"
         placeholder={placeholder ? placeholder : "Tìm kiếm sản phẩm..."}
-        className="border-none outline-none flex-1 text-base leading-8 w-9/12"
+        className="border-none outline-none flex-1 text-base leading-8 w-9/12  text-gray-700"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}

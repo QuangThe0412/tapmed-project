@@ -41,7 +41,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
             </a>
           </h3>
           <div className="product-sum">
-            <p>Đơn vị tính: {unit}</p>
+            <p>Đơn vị tính : {unit}</p>
           </div>
           <div className="product-price">
             <div id={`listProduct-${id}`}>

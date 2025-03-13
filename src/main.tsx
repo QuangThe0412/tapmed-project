@@ -8,9 +8,7 @@ import Layout from "./component/layout/layout.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <Layout>
-        <AppRoutes />
-      </Layout>
+      <AppRoutes />
     </BrowserRouter>
   </StrictMode>
 );

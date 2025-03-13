@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { paths } from "./utils/contanst";
+import NotFound from "./page/notFound/notFound";
+import MainLayout from "./component/layout/layout";
 
 function AppRoutes() {
   return (
@@ -9,9 +11,15 @@ function AppRoutes() {
           <Route
             key={path.name}
             path={path.path}
-            element={<path.component />}
+            element={
+              <MainLayout>
+                <path.component />
+              </MainLayout>
+            }
           />
         ))}
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

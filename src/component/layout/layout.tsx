@@ -10,11 +10,11 @@ import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import { useProductStore } from "../../stores/productStore";
 import { useProvinceStore } from "@src/stores/provinceStore";
 
-interface LayoutProps {
+interface MainLayoutProps {
   children: ReactNode;
 }
 
-function Layout({ children }: LayoutProps) {
+function MainLayout({ children }: MainLayoutProps) {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
 
@@ -40,4 +40,4 @@ function Layout({ children }: LayoutProps) {
   );
 }
 
-export default Layout;
+export default MainLayout;

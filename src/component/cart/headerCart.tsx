@@ -1,6 +1,6 @@
 import { ShoppingCart } from "lucide-react";
 import useOrderStore from "../../stores/orderStore";
-import CartModal from "./cartModal";
+import CartModal from "../modal/modalCart";
 import { useState } from "react";
 
 const HeaderCart = () => {

@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import ButtonCustom from "../button/buttonCustom";
 import SearchInput from "../input/search";
 import HeaderCart from "../cart/headerCart";
 import useDrawerStore from "../../stores/menuMobileStore";
+import FormRegister from "../modal/formRegister";
+import CustomModal from "../modal/customModal";
 
 const Header: React.FC = () => {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const { openDrawer } = useDrawerStore();
   const handleSearch = (searchTerm: string) => {
     console.log(searchTerm);
   };
+
+  const openRegisterModal = () => setIsRegisterModalOpen(true);
+  const closeRegisterModal = () => setIsRegisterModalOpen(false);
 
   return (
     <div className="mx-auto px-4 py-0 lg:py-5 bg-white shadow-md flex justify-center items-center">
@@ -48,7 +54,13 @@ const Header: React.FC = () => {
               className="active"
               onClick={() => {}}
             />
-            <ButtonCustom label="Đăng ký" className="" onClick={() => {}} />
+            <ButtonCustom
+              label="Đăng ký"
+              className=""
+              onClick={() => {
+                openRegisterModal();
+              }}
+            />
           </div>
         </div>
 
@@ -56,6 +68,12 @@ const Header: React.FC = () => {
           <HeaderCart />
         </div>
       </div>
+      <CustomModal
+        children={<FormRegister />}
+        title="Đăng ký"
+        isOpen={isRegisterModalOpen}
+        onRequestClose={closeRegisterModal}
+      />
     </div>
   );
 };

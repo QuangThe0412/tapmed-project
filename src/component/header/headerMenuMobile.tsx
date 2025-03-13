@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import useDrawerStore from "../../stores/menuMobileStore";
 import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
+import FormRegister from "../modal/formRegister";
+import CustomModal from "../modal/customModal";
 
 const HeaderMenuMobile: React.FC = () => {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const openRegisterModal = () => setIsRegisterModalOpen(true);
+  const closeRegisterModal = () => setIsRegisterModalOpen(false);
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const openLoginModal = () => setIsLoginModalOpen(true);
+  const closeLoginModal = () => setIsLoginModalOpen(false);
+
   const { isOpen, closeDrawer } = useDrawerStore();
 
   const handleSearch = (value: string) => {
@@ -51,15 +61,28 @@ const HeaderMenuMobile: React.FC = () => {
               <ButtonCustom
                 label="Đăng nhập"
                 className="active"
-                onClick={() => {}}
+                onClick={() => openLoginModal()}
               />
             </li>
             <li>
-              <ButtonCustom label="Đăng ký" className="" onClick={() => {}} />
+              <ButtonCustom
+                label="Đăng ký"
+                className=""
+                onClick={() => {
+                  closeDrawer();
+                  openRegisterModal();
+                }}
+              />
             </li>
           </ul>
         </nav>
       </div>
+      <CustomModal
+        children={<FormRegister />}
+        title="Đăng ký"
+        isOpen={isRegisterModalOpen}
+        onRequestClose={closeRegisterModal}
+      />
     </>
   );
 };

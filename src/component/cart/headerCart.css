@@ -72,7 +72,7 @@
 
 /* Cart items container */
 .cart-items-container {
-  max-height: 60vh;
+  max-height: 55vh;
   overflow-y: auto;
   margin-bottom: 16px;
   padding-right: 4px;
@@ -322,6 +322,7 @@
 @media (max-width: 768px) {
   .ReactModal__Content {
     width: 100% !important;
+    max-height: 100vh !important;
   }
 
   .quantity-btn {

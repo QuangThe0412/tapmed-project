@@ -5,6 +5,7 @@ import HeaderCart from "../cart/headerCart";
 import useDrawerStore from "../../stores/menuMobileStore";
 import FormRegister from "../modal/formRegister";
 import CustomModal from "../modal/customModal";
+import FormLogin from "../modal/formLogin";
 
 const Header: React.FC = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -15,6 +16,10 @@ const Header: React.FC = () => {
 
   const openRegisterModal = () => setIsRegisterModalOpen(true);
   const closeRegisterModal = () => setIsRegisterModalOpen(false);
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const openLoginModal = () => setIsLoginModalOpen(true);
+  const closeLoginModal = () => setIsLoginModalOpen(false);
 
   return (
     <div className="mx-auto px-4 py-0 lg:py-5 bg-white shadow-md flex justify-center items-center">
@@ -52,7 +57,9 @@ const Header: React.FC = () => {
             <ButtonCustom
               label="Đăng nhập"
               className="active"
-              onClick={() => {}}
+              onClick={() => {
+                openLoginModal();
+              }}
             />
             <ButtonCustom
               label="Đăng ký"
@@ -73,6 +80,40 @@ const Header: React.FC = () => {
         title="Đăng ký"
         isOpen={isRegisterModalOpen}
         onRequestClose={closeRegisterModal}
+        footer={
+          <p>
+            Nếu bạn đã có tài khoản vui lòng,{" "}
+            <button
+              onClick={() => {
+                closeRegisterModal();
+                openLoginModal();
+              }}
+              className="text-blue-500 cursor-pointer"
+            >
+              Đăng nhập
+            </button>
+          </p>
+        }
+      />
+      <CustomModal
+        children={<FormLogin />}
+        title="Đăng nhập"
+        isOpen={isLoginModalOpen}
+        onRequestClose={closeLoginModal}
+        footer={
+          <p>
+            Nếu bạn chưa có tài khoản vui lòng,{" "}
+            <button
+              onClick={() => {
+                closeLoginModal();
+                openRegisterModal();
+              }}
+              className="text-blue-500 cursor-pointer"
+            >
+              Đăng ký
+            </button>
+          </p>
+        }
       />
     </div>
   );

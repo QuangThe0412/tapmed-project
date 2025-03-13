@@ -6,6 +6,7 @@ import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
 import FormRegister from "../modal/formRegister";
 import CustomModal from "../modal/customModal";
+import FormLogin from "../modal/formLogin";
 
 const HeaderMenuMobile: React.FC = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -82,6 +83,40 @@ const HeaderMenuMobile: React.FC = () => {
         title="Đăng ký"
         isOpen={isRegisterModalOpen}
         onRequestClose={closeRegisterModal}
+        footer={
+          <p>
+            Nếu bạn đã có tài khoản vui lòng,{" "}
+            <button
+              onClick={() => {
+                closeRegisterModal();
+                openLoginModal();
+              }}
+              className="text-blue-500 cursor-pointer"
+            >
+              Đăng nhập
+            </button>
+          </p>
+        }
+      />
+      <CustomModal
+        children={<FormLogin />}
+        title="Đăng nhập"
+        isOpen={isLoginModalOpen}
+        onRequestClose={closeLoginModal}
+        footer={
+          <p>
+            Nếu bạn chưa có tài khoản vui lòng,{" "}
+            <button
+              onClick={() => {
+                closeLoginModal();
+                openRegisterModal();
+              }}
+              className="text-blue-500 cursor-pointer"
+            >
+              Đăng ký
+            </button>
+          </p>
+        }
       />
     </>
   );

@@ -8,6 +8,7 @@ import BottomNavMenu from "../bottomNavMenu/bottomNavMenu";
 import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import { useProductStore } from "../../stores/productStore";
+import { useProvinceStore } from "@src/stores/provinceStore";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,11 +16,12 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
+  const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
 
   useEffect(() => {
-    // Fetch products when app starts
     fetchProducts();
-  }, [fetchProducts]);
+    fetchProvinces();
+  }, []);
 
   return (
     <div className="app-container">

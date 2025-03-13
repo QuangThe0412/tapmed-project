@@ -8,6 +8,7 @@ interface CustomModalProps {
   onRequestClose: () => void;
   title: string;
   children: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -15,15 +16,15 @@ const CustomModal: React.FC<CustomModalProps> = ({
   onRequestClose,
   title,
   children,
+  footer,
 }) => {
-  if (!isOpen) return null;
-
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       className="custom-modal"
       contentLabel={title}
+      ariaHideApp={false}
     >
       <div className="modal-content">
         <div className="modal-header">
@@ -33,6 +34,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
           </button>
         </div>
         <div className="modal-body">{children}</div>
+        <div className="modal-footer">{footer}</div>
       </div>
     </Modal>
   );

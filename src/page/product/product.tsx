@@ -1,52 +1,57 @@
-import React, { useEffect } from "react";
-import { signal } from "@preact/signals-react";
-import { useSignals } from "@preact/signals-react/runtime";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductItem from "./productItem";
 import "./product.css";
 import { toast } from "react-toastify";
 import { ProductItemType } from "@src/types/typeProduct";
-import { paths } from "@src/utils/contanst";
 import { useProductStore } from "@src/stores/productStore";
-import Pagination from "@src/component/pagination/pagination";
-
-export const currentPage = signal<number>(1);
-export const totalPages = signal<number>(1);
-export const ProductionItems = signal<ProductItemType[]>([]);
+import Pagination2 from "@src/component/pagination/pagination2";
 
 function Product() {
-  useSignals();
   const [searchParams, setSearchParams] = useSearchParams();
-  const pathPromotion = paths.find((path) => path.name === "product");
-  const baseUrl = pathPromotion?.path || "/";
 
   // Lấy dữ liệu sản phẩm từ store
   const { products, isLoading, error } = useProductStore();
 
+  // State cho phân trang
+  const [currentPage, setCurrentPage] = useState(0); // Pagination2 sử dụng index từ 0
+  const [productItems, setProductItems] = useState<ProductItemType[]>([]);
+  const itemsPerPage = 12;
+
+  // Lấy trang từ query params khi component mount hoặc URL thay đổi
   useEffect(() => {
     const pageParam = searchParams.get("page");
     if (pageParam) {
-      currentPage.value = parseInt(pageParam);
+      // Chuyển đổi từ trang hiển thị (1-based) sang index (0-based)
+      setCurrentPage(parseInt(pageParam) - 1);
     } else {
-      currentPage.value = 1;
+      setCurrentPage(0);
     }
   }, [searchParams]);
 
   // Phân trang sản phẩm
   useEffect(() => {
-    const itemsPerPage = 12;
-    const startIndex = (currentPage.value - 1) * itemsPerPage;
+    const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
 
-    // Slice từ data của store thay vì fetch lại
+    // Slice từ data của store
     const paginatedItems = products.slice(startIndex, endIndex);
-    ProductionItems.value = paginatedItems;
+    setProductItems(paginatedItems);
+  }, [currentPage, products]);
 
-    totalPages.value = Math.ceil(products.length / itemsPerPage);
-  }, [currentPage.value, products]);
+  // Tổng số trang
+  const pageCount = Math.ceil(products.length / itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setSearchParams({ page: page.toString() });
+  // Xử lý khi thay đổi trang
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    // Cập nhật URL với trang mới (chuyển về 1-based để URL thân thiện hơn)
+    setSearchParams({ page: (selected + 1).toString() });
+
+    // Scroll về đầu trang
+    window.scrollTo({
+      top: document.querySelector(".layout-collections")?.offsetTop || 0,
+      behavior: "smooth",
+    });
   };
 
   if (isLoading && products.length === 0) {
@@ -64,19 +69,20 @@ function Product() {
         <div className="category-products">
           <div className="products-view">
             <div className="flex flex-wrap">
-              {ProductionItems.value.map((product) => (
+              {productItems.map((product) => (
                 <ProductItem key={product.id} item={product} />
               ))}
             </div>
+
+            {/* Thêm phân trang */}
+            <div className="pagination-wrapper mt-8">
+              <Pagination2
+                pageCount={pageCount}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+            </div>
           </div>
-          {totalPages.value > 1 && (
-            <Pagination
-              currentPage={currentPage.value}
-              totalPages={totalPages.value}
-              baseUrl={baseUrl}
-              onPageChange={handlePageChange}
-            />
-          )}
         </div>
       </div>
     </div>

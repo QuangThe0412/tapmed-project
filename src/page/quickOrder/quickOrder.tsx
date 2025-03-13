@@ -1,6 +1,6 @@
 import "./quickOrder.css";
 import QuickOrderItem from "./quickOrderItem";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import fetchCategories from "./listCategory";
 import { useProductStore } from "@src/stores/productStore";
 import { CategoryType } from "@src/types/typeCategory";
@@ -9,17 +9,24 @@ import fetchProducer from "./listProducer";
 import Select from "react-select";
 import { ProductItemType } from "@src/types/typeProduct";
 import SearchMini from "@src/component/input/searchMini";
-import Pagination from "@src/component/pagination/pagination";
+import Pagination2 from "@src/component/pagination/pagination2";
 
 function QuickOrder() {
   const { products: dataProducts } = useProductStore();
   const [filterProducts, setFilterProducts] =
     useState<ProductItemType[]>(dataProducts);
 
+  // State cho phân trang
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 12; // Số sản phẩm mỗi trang, điều chỉnh theo thiết kế
+
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [producers, setProducers] = useState<ProducerType[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedProducer, setSelectedProducer] = useState<number | null>(null);
+
+  // Thêm state cho từ khóa tìm kiếm
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     fetchCategories().then((data) => {
@@ -37,19 +44,35 @@ function QuickOrder() {
     });
   }, []);
 
-  const handleSearch = (searchTerm: string) => {
-    console.log("Search term:", searchTerm);
+  // Cập nhật hàm handleSearch để lưu từ khóa và kích hoạt lọc
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(0); // Reset về trang đầu tiên khi tìm kiếm
   };
 
+  // Cập nhật hàm applyFilters để lọc cả theo từ khóa tìm kiếm
   const applyFilters = () => {
     let filteredResults = [...dataProducts];
 
+    // Lọc theo tên sản phẩm
+    if (searchTerm.trim() !== "") {
+      const searchTermLower = searchTerm.toLowerCase();
+      filteredResults = filteredResults.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchTermLower) ||
+          (product.common_name &&
+            product.common_name.toLowerCase().includes(searchTermLower))
+      );
+    }
+
+    // Lọc theo danh mục
     if (selectedCategory !== null) {
       filteredResults = filteredResults.filter(
         (product) => product.category_id === selectedCategory
       );
     }
 
+    // Lọc theo nhà sản xuất
     if (selectedProducer !== null) {
       filteredResults = filteredResults.filter(
         (product) => product.producer_id === selectedProducer
@@ -59,9 +82,29 @@ function QuickOrder() {
     setFilterProducts(filteredResults);
   };
 
+  // Chạy applyFilters khi thay đổi bất kỳ điều kiện lọc nào
   useEffect(() => {
     applyFilters();
-  }, [selectedCategory, selectedProducer, dataProducts]);
+  }, [selectedCategory, selectedProducer, searchTerm, dataProducts]);
+
+  // Tính toán sản phẩm hiển thị trên trang hiện tại
+  const currentProducts = useMemo(() => {
+    const offset = currentPage * itemsPerPage;
+    return filterProducts.slice(offset, offset + itemsPerPage);
+  }, [filterProducts, currentPage, itemsPerPage]);
+
+  // Tính tổng số trang
+  const pageCount = Math.ceil(filterProducts.length / itemsPerPage);
+
+  // Xử lý khi thay đổi trang
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+    // Cuộn lên đầu danh sách sản phẩm
+    window.scrollTo({
+      top: document.querySelector(".product-search")?.offsetTop || 0,
+      behavior: "smooth",
+    });
+  };
 
   const handleCategoryChange = (option: any) => {
     const value = option?.value || null;
@@ -87,7 +130,7 @@ function QuickOrder() {
     <div className="section-order w-screen">
       <div className="container">
         <div
-          className="quick-filters"
+          className="quick-filters text-left"
           style={{ paddingBottom: "12px", paddingLeft: "6px" }}
         >
           <a
@@ -113,6 +156,7 @@ function QuickOrder() {
         <div className="flex w-full">
           <div className="product-wrapper w-full">
             <div className="product-search">
+              {/* Truyền hàm handleSearch vào SearchMini */}
               <SearchMini handleSearch={handleSearch} />
               <div className="flex mt-4 w-full">
                 <div className="w-1/2 pr-2">
@@ -136,19 +180,33 @@ function QuickOrder() {
                   />
                 </div>
               </div>
-              <div className="product-list">
-                {filterProducts.map((product) => (
-                  <QuickOrderItem key={product?.id} product={product} />
-                ))}
+
+              {/* Hiển thị kết quả lọc */}
+              <div className="product-results mt-4">
+                <p className="text-gray-600 mb-2">
+                  Tìm thấy {filterProducts.length} sản phẩm
+                </p>
               </div>
-              {/* {totalPages.value > 1 && (
-                <Pagination
-                  currentPage={currentPage.value}
-                  totalPages={totalPages.value}
-                  baseUrl={baseUrl}
-                  onPageChange={handlePageChange}
-                />
-              )} */}
+
+              {/* Hiển thị danh sách sản phẩm */}
+              <div className="product-list min-h-[50vh]">
+                {currentProducts.map((product) => (
+                  <QuickOrderItem key={product.id} product={product} />
+                ))}
+
+                {currentProducts.length === 0 && (
+                  <div className="col-span-3 text-center py-8 text-gray-500">
+                    Không tìm thấy sản phẩm phù hợp với tiêu chí tìm kiếm
+                  </div>
+                )}
+              </div>
+
+              {/* Sử dụng component Pagination2 */}
+              <Pagination2
+                pageCount={pageCount}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ export interface OrderStore {
   minusQuantity: (itemId: number) => void;
   plusQuantity: (itemId: number) => void;
   updateQuantity: (itemId: number, quantity: number) => void;
+  removeItem: (itemId: number) => void;
 }
 
 // Lấy dữ liệu ban đầu từ localStorage (nếu có)
@@ -84,6 +85,17 @@ const useOrderStore = create<OrderStore>()(
               ...state.orders,
               orderItems: state.orders.orderItems.map((item) =>
                 item.id === itemId ? { ...item, quantity: quantity } : item
+              ),
+            },
+          };
+        }),
+      removeItem: (itemId: number) =>
+        set((state) => {
+          return {
+            orders: {
+              ...state.orders,
+              orderItems: state.orders.orderItems.filter(
+                (item) => item.id !== itemId
               ),
             },
           };

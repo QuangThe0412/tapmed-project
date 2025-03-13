@@ -138,3 +138,6 @@
 .basic-single .select__control {
   border-radius: 30px;
 }
+
+@media (max-width: 768px) {
+}

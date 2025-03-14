@@ -65,4 +65,11 @@ export const paths: PathType[] = [
     component: ProductDetail,
     isShowMenu: false,
   },
+  {
+    name: "blogDetail",
+    path: "/news/:slug.html",
+    breadcrums: "Chi tiết bài viết",
+    component: ProductDetail,
+    isShowMenu: false,
+  },
 ];

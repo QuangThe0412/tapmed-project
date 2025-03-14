@@ -6,6 +6,7 @@ import useBlogStore from "@src/stores/blogStore";
 
 const SectionBlog: React.FC = () => {
   const { blogPosts } = useBlogStore();
+  const _data = blogPosts as DataSlider[];
 
   const sliderSettings = {
     loop: true,
@@ -40,7 +41,7 @@ const SectionBlog: React.FC = () => {
           <h3>Tin tức mới nhất</h3>
         </div>
         <div className="block-content">
-          <Slider data={blogPosts as DataSlider[]} settings={sliderSettings} />
+          <Slider data={_data} settings={sliderSettings} />
         </div>
       </div>
     </section>

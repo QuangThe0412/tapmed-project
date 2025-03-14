@@ -7,16 +7,10 @@ import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "react-router-dom";
-
-export type CustomerProps = {
-  name: string;
-  address: string;
-  avatar: string;
-  content: string;
-};
+import { CustomerCommentType } from "@src/types/typeCustomerComment";
 
 type SliderProps = {
-  data: CustomerProps[];
+  data: CustomerCommentType[];
   settings?: {};
   renderPagination?: (slides: number) => React.ReactNode;
 };
@@ -30,7 +24,7 @@ export function SliderCustomer({
 
   const totalSlides = data?.length;
 
-  const Customer: React.FC<CustomerProps> = ({
+  const Customer: React.FC<CustomerCommentType> = ({
     name,
     address,
     avatar,
@@ -73,7 +67,7 @@ export function SliderCustomer({
       {...settings}
     >
       {data &&
-        data.map((item: CustomerProps, index) => (
+        data.map((item: CustomerCommentType, index) => (
           <SwiperSlide key={index}>
             <Customer {...item} />
           </SwiperSlide>

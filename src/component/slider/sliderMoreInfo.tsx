@@ -53,7 +53,7 @@ export function SliderMoreInfo({
                       <img
                         src={image}
                         alt={title}
-                        className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+                        className="w-full h-auto object-cover transition-transform duration-300 hover:scale-95 transform-gpu"
                       />
                     </Link>
                   </div>
@@ -67,7 +67,10 @@ export function SliderMoreInfo({
                         {title}
                       </Link>
                     </h3>
-                    <div className="text-gray-600 text-sm">{content}</div>
+                    <div
+                      className="text-gray-600 text-sm line-clamp-4"
+                      dangerouslySetInnerHTML={{ __html: content || "" }}
+                    />
                   </div>
                 </div>
               </div>

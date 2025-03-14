@@ -30,7 +30,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
       <div className="item_product_main">
         <div className="product-thumbnail">
           <a className="image_thumb" href={productUrl} title={name}>
-            <img src={image} alt={name} />
+            <img className="hover:scale-105" src={image} alt={name} />
           </a>
         </div>
         <div className="product-info">

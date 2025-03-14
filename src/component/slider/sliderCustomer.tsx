@@ -35,7 +35,7 @@ export function SliderCustomer({
         <div className="info flex">
           <div className="avartar w-1/3">
             <img
-              className="w-16 rounded-lg"
+              className="w-16 rounded-lg hover:scale-95"
               src={avatar}
               alt={`${name} - ${address}`}
             />

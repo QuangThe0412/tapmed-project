@@ -10,8 +10,7 @@ import "swiper/css/pagination";
 import "./slider.css";
 
 export type DataSlider = {
-  imageUrl: string;
-  link?: string;
+  image: string;
   title?: string;
   id?: number;
 };
@@ -25,8 +24,9 @@ type SliderProps = {
 export function Slider({ data, settings, renderPagination }: SliderProps) {
   const swiperRef = useRef<any>(null);
 
-  const totalSlides = data.length;
+  const totalSlides = data?.length;
 
+  //khúc này chưa làm href
   return (
     <Swiper
       ref={swiperRef}
@@ -40,17 +40,13 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
             <div className="item">
               <div className="item_product_main">
                 <div className="product-thumbnail">
-                  <a
-                    className="image_thumb"
-                    href={item.link || "#"}
-                    title={item.title}
-                  >
-                    <img src={item.imageUrl} alt={item.title} />
+                  <a className="image_thumb" href={"#"} title={item.title}>
+                    <img src={item.image} alt={item.title} />
                   </a>
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">
-                    <a href={item.link || "#"} title={item.title}>
+                    <a href={"#"} title={item.title}>
                       {item.title}
                     </a>
                   </h3>

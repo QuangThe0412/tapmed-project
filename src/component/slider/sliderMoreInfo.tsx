@@ -8,10 +8,11 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./slider.css";
-import { NewsDataType } from "../../page/news/news";
+import { BlogType } from "@src/types/typeBlog";
+import { generateSlug } from "@src/utils/common";
 
 type SliderProps = {
-  data: NewsDataType[];
+  data: BlogType[];
   settings?: {};
   renderPagination?: (slides: number) => React.ReactNode;
 };
@@ -23,8 +24,7 @@ export function SliderMoreInfo({
 }: SliderProps) {
   const swiperRef = useRef<any>(null);
 
-  const totalSlides = data.length;
-
+  const totalSlides = data?.length;
   return (
     <Swiper
       ref={swiperRef}
@@ -33,39 +33,46 @@ export function SliderMoreInfo({
       {...settings}
     >
       {data &&
-        data.map((item: NewsDataType, index) => (
-          <SwiperSlide key={index}>
-            <div className="item-blog mb-6">
-              <div className="flex flex-col md:flex-row">
-                <div className="w-full lg:w-5/12 md:w-1/2 mb-4 md:mb-0 text-left block-thumb">
-                  <a
-                    className="block overflow-hidden rounded"
-                    href={item.link}
-                    title={item.title}
-                  >
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                  </a>
-                </div>
-                <div className="w-full lg:w-7/12 md:w-1/2 pl-0 md:pl-4 text-left block-content">
-                  <h3 className="text-lg font-semibold mb-2">
+        data.map((item: BlogType, index) => {
+          const { id, title, image, content } = item;
+
+          const slug = generateSlug(title);
+          const blogtUrl = `/news/${slug}-${id}.html`;
+
+          return (
+            <SwiperSlide key={index}>
+              <div className="item-blog mb-6">
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-full lg:w-5/12 md:w-1/2 mb-4 md:mb-0 text-left block-thumb">
                     <a
-                      href={item.link}
-                      title={item.title}
-                      className="text-gray-800 hover:text-blue-600 transition-colors"
+                      className="block overflow-hidden rounded"
+                      href={blogtUrl}
+                      title={title}
                     >
-                      {item.title}
+                      <img
+                        src={image}
+                        alt={title}
+                        className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+                      />
                     </a>
-                  </h3>
-                  <div className="text-gray-600 text-sm">{item.content}</div>
+                  </div>
+                  <div className="w-full lg:w-7/12 md:w-1/2 pl-0 md:pl-4 text-left block-content">
+                    <h3 className="text-lg font-semibold mb-2">
+                      <a
+                        href={blogtUrl}
+                        title={title}
+                        className="text-gray-800 hover:text-blue-600 transition-colors"
+                      >
+                        {title}
+                      </a>
+                    </h3>
+                    <div className="text-gray-600 text-sm">{content}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
     </Swiper>
   );
 }

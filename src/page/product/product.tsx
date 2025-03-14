@@ -49,7 +49,9 @@ function Product() {
 
     // Scroll về đầu trang
     window.scrollTo({
-      top: document.querySelector(".layout-collections")?.offsetTop || 0,
+      top:
+        (document.querySelector(".layout-collections") as HTMLElement)
+          ?.offsetTop || 0,
       behavior: "smooth",
     });
   };

@@ -9,15 +9,15 @@ const HeaderMenu: React.FC = () => {
   return (
     <nav className="flex justify-center header-menu shadow-md hidden lg:flex">
       <div className="container">
-        <ul className="flex justify-evenly">
+        <ul className="flex w-full">
           {paths &&
             paths.map(
               (path, index) =>
                 path.isShowMenu && (
-                  <li key={index}>
+                  <li key={index} className="flex-1 text-center">
                     <Link
                       to={path.path}
-                      className={`header-menu-item ${
+                      className={`header-menu-item whitespace-nowrap ${
                         location.pathname === path.path ? "active" : ""
                       }`}
                     >

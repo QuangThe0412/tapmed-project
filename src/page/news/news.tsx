@@ -5,6 +5,7 @@ import FeaturedComponent from "./featured";
 import ListComponent from "./list";
 import { BlogType } from "@src/types/typeBlog";
 import Pagination2 from "@src/component/pagination/pagination2";
+import "./news.css";
 
 function News() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,7 +27,8 @@ function News() {
 
   useEffect(() => {
     fetchNewsData().then((data) => {
-      setNewsItems(data as BlogType[]);
+      const _new = data?.filter((item: BlogType) => item.category === "news");
+      setNewsItems(_new as BlogType[]);
     });
   }, []);
 
@@ -50,7 +52,9 @@ function News() {
   const handlePageChange = ({ selected }: { selected: number }) => {
     setSearchParams({ page: (selected + 1).toString() });
     window.scrollTo({
-      top: document.querySelector(".layout-collections")?.offsetTop || 0,
+      top:
+        (document.querySelector(".layout-collections") as HTMLElement)
+          ?.offsetTop || 0,
       behavior: "smooth",
     });
   };

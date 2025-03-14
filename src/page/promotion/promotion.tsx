@@ -1,74 +1,68 @@
-import { useEffect } from "react";
-import { DataSlider } from "../../component/slider/slider";
-import { signal } from "@preact/signals-react";
-import { useSignals } from "@preact/signals-react/runtime";
-import Pagination from "../../component/pagination/pagination";
-import { paths } from "../../utils/contanst";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import PromotionData from "../../dataMockup/blogData.json";
-import ListComponent from "../news/list";
-import FeaturedComponent from "../news/featured";
+import { BlogType } from "@src/types/typeBlog";
+import Pagination2 from "@src/component/pagination/pagination2";
 import BlogComponent from "../news/blog";
-
-export type PromotionDataType = DataSlider & {
-  content: string;
-};
-
-export const PromotionItems = signal<PromotionDataType[]>([]);
-export const currentPage = signal<number>(1);
-export const totalPages = signal<number>(1);
+import FeaturedComponent from "../news/featured";
+import ListComponent from "../news/list";
 
 function Promotion() {
-  useSignals();
   const [searchParams, setSearchParams] = useSearchParams();
-  const pathPromotion = paths.find((path) => path.name === "promotion");
-  const baseUrl = pathPromotion?.path || "/";
 
-  const dataPromotionBlog = PromotionItems?.value.slice(0, 3);
-  const dataPromotionFeatured = PromotionItems?.value;
-  const dataPromotionList = PromotionItems?.value;
+  // State cho phân trang
+  const [currentPage, setCurrentPage] = useState(0); // Pagination2 sử dụng index từ 0
+  const [PromotionItems, setPromotionItems] = useState<BlogType[]>([]);
+  const [paginatedItems, setPaginatedItems] = useState<BlogType[]>([]);
+  const itemsPerPage = 6;
 
-  useEffect(() => {
-    const pageParam = searchParams.get("page");
-    if (pageParam) {
-      currentPage.value = parseInt(pageParam);
-    } else {
-      currentPage.value = 1;
-    }
-  }, [searchParams]);
-
-  const fetchPromotionData = async (page: number) => {
+  const fetchPromotionData = async () => {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Sử dụng dữ liệu từ file JSON
-      const itemsPerPage = 6;
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const paginatedItems = PromotionData?.items.slice(startIndex, endIndex);
-
-      //khúc này filter Promotion từ paginatedItems ===>>>>
-      const mockupData = paginatedItems.filter(
-        (item) => item.category === "promotion"
-      );
-
-      PromotionItems.value = mockupData;
-
-      totalPages.value = Math.ceil(PromotionData?.items.length / itemsPerPage);
+      const data = await import("@dataMockup/blogData.json");
+      return data.default;
     } catch (err) {
       console.error("Error fetching Promotion:", err);
     }
   };
 
-  const handlePageChange = (page: number) => {
-    setSearchParams({ page: page.toString() });
-    fetchPromotionData(page);
+  useEffect(() => {
+    fetchPromotionData().then((data) => {
+      const _new = data?.filter(
+        (item: BlogType) => item.category === "promotion"
+      );
+      setPromotionItems(_new as BlogType[]);
+    });
+  }, []);
+
+  useEffect(() => {
+    const pageParam = searchParams.get("page");
+    if (pageParam) {
+      setCurrentPage(parseInt(pageParam) - 1);
+    } else {
+      setCurrentPage(0);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setPaginatedItems(PromotionItems.slice(startIndex, endIndex));
+  }, [currentPage, PromotionItems]);
+
+  const pageCount = Math.ceil(PromotionItems.length / itemsPerPage);
+
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    setSearchParams({ page: (selected + 1).toString() });
+    window.scrollTo({
+      top:
+        (document.querySelector(".layout-collections") as HTMLElement)
+          ?.offsetTop || 0,
+      behavior: "smooth",
+    });
   };
 
-  // Gọi lần đầu để lấy dữ liệu
-  useEffect(() => {
-    fetchPromotionData(currentPage.value);
-  }, [currentPage.value]);
+  const dataPromotionBlog = paginatedItems.slice(0, 3);
+  const dataPromotionFeatured = paginatedItems.slice(0, 4);
+  const dataPromotionList = paginatedItems;
 
   return (
     <div className="blog_wrapper layout-blog">
@@ -76,14 +70,11 @@ function Promotion() {
         <BlogComponent data={dataPromotionBlog} />
         <FeaturedComponent data={dataPromotionFeatured} />
         <ListComponent data={dataPromotionList} />
-        {totalPages.value > 1 && (
-          <Pagination
-            currentPage={currentPage.value}
-            totalPages={totalPages.value}
-            baseUrl={baseUrl}
-            onPageChange={handlePageChange}
-          />
-        )}
+        <Pagination2
+          pageCount={pageCount}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

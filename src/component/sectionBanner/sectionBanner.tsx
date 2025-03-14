@@ -8,19 +8,19 @@ import { SliderWithoutContent } from "../slider/sliderWithoutContent";
 const SectionBanner: React.FC = () => {
   const bannerImgs: DataSlider[] = [
     {
-      imageUrl:
+      image:
         "https://tapmed.vn/upload_editor/posts/images/Artboard%201%402x-8.png",
     },
     {
-      imageUrl:
+      image:
         "https://tapmed.vn/upload_editor/posts/images/z5684638969760_f99dd5bc5361df1570bf4bb016160442.jpg",
     },
     {
-      imageUrl:
+      image:
         "https://tapmed.vn/upload_editor/posts/images/z5656506777743_4ae5e7479b3c112072fee737530a3167.jpg",
     },
     {
-      imageUrl:
+      image:
         "https://tapmed.vn/upload_editor/posts/images/z5660296545770_29416ba6fd447ee30c73d372526caf2b.jpg",
     },
   ];
@@ -32,10 +32,10 @@ const SectionBanner: React.FC = () => {
     pagination: {
       clickable: true,
     },
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false,
-    },
+    // autoplay: {
+    //   delay: 2000,
+    //   disableOnInteraction: false,
+    // },
     modules: [Autoplay, EffectFade, Navigation, Pagination],
   };
 

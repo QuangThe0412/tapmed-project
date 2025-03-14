@@ -1,4 +1,3 @@
-import { path } from "path";
 import App from "../App";
 import Policy from "../page/policy/policy";
 import Product from "../page/product/product";
@@ -6,6 +5,7 @@ import Promotion from "../page/promotion/promotion";
 import QuickOrder from "../page/quickOrder/quickOrder";
 import News from "../page/news/news";
 import ProductDetail from "@src/page/product/productDetail";
+import BlogDetails from "@src/page/news/blogDetail";
 
 type PathType = {
   name: string;
@@ -69,7 +69,7 @@ export const paths: PathType[] = [
     name: "blogDetail",
     path: "/news/:slug.html",
     breadcrums: "Chi tiết bài viết",
-    component: ProductDetail,
+    component: BlogDetails,
     isShowMenu: false,
   },
 ];

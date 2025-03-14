@@ -7,40 +7,34 @@ const SectionBlog: React.FC = () => {
   const data: DataSlider[] = [
     {
       id: 1,
-      imageUrl: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
-      link: "#",
+      image: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
       title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
     },
     {
       id: 2,
-      imageUrl: "https://tapmed.vn/storage/image/1117292255751731513589.png",
-      link: "#",
+      image: "https://tapmed.vn/storage/image/1117292255751731513589.png",
       title: `😍Chúc mừng ngày "DƯỢC SĨ THẾ GIỚI" 25/9`,
     },
     {
       id: 3,
-      imageUrl:
+      image:
         "https://tapmed.vn/storage/image/z5865881226036_4d1ae1bdbbb63ecc88122cb76cd8b58f1727250773.jpg",
-      link: "#",
       title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
     },
     {
       id: 4,
-      imageUrl: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
-      link: "#",
+      image: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
       title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
     },
     {
       id: 5,
-      imageUrl:
+      image:
         "https://tapmed.vn/storage/image/z5865881226036_4d1ae1bdbbb63ecc88122cb76cd8b58f1727250773.jpg",
-      link: "#",
       title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
     },
     {
       id: 6,
-      imageUrl: "https://tapmed.vn/storage/image/1117292255751731513589.png",
-      link: "#",
+      image: "https://tapmed.vn/storage/image/1117292255751731513589.png",
       title: `😍Chúc mừng ngày "DƯỢC SĨ THẾ GIỚI" 25/9`,
     },
   ];

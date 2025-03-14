@@ -23,8 +23,7 @@ export function SliderWithoutContent({
 }: SliderProps) {
   const swiperRef = useRef<any>(null);
 
-  const totalSlides = data.length;
-
+  const totalSlides = data?.length;
   return (
     <Swiper
       ref={swiperRef}
@@ -35,7 +34,7 @@ export function SliderWithoutContent({
       {data &&
         data?.map((item: DataSlider, index) => (
           <SwiperSlide key={index}>
-            <img src={item.imageUrl} alt={`Image ${index + 1}`} />
+            <img src={item.image} alt={`Image ${index + 1}`} />
           </SwiperSlide>
         ))}
     </Swiper>

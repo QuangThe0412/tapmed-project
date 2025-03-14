@@ -22,10 +22,10 @@ const Breadcrumbs: React.FC = () => {
     if (match.pathname.includes("/products/") && product) {
       return product.name;
     }
-    //for blogs ======>>>>>>>>>>>>>
-    // if (match.pathname.includes("/blogs/")) {
-    //   return "Blogs";
-    // }
+
+    if (match.pathname.includes("/news/")) {
+      return "Blogs";
+    }
 
     const path = paths.find((p) => p.path === match.pathname);
     return path ? path.breadcrums : match.breadcrumb;

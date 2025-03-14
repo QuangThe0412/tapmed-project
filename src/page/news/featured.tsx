@@ -1,7 +1,7 @@
 import { Autoplay, Pagination } from "swiper/modules";
 import { SliderMoreInfo } from "../../component/slider/sliderMoreInfo";
-import { NewsDataType } from "./news";
 import "./news.css";
+import { BlogType } from "@src/types/typeBlog";
 
 const sliderSettings = {
   loop: true,
@@ -23,7 +23,7 @@ const sliderSettings = {
   },
 };
 
-const FeaturedComponent: React.FC<{ data: NewsDataType[] }> = ({ data }) => {
+const FeaturedComponent: React.FC<{ data: BlogType[] }> = ({ data }) => {
   return (
     <div className="blogs-featured">
       <div className="container">

@@ -102,7 +102,9 @@ function QuickOrder() {
     setCurrentPage(selected);
     // Cuộn lên đầu danh sách sản phẩm
     window.scrollTo({
-      top: document.querySelector(".product-search")?.offsetTop || 0,
+      top:
+        (document.querySelector(".product-search") as HTMLElement)?.offsetTop ||
+        0,
       behavior: "smooth",
     });
   };
@@ -127,6 +129,10 @@ function QuickOrder() {
     label: prod.name,
   }));
 
+  const handleTest = () => {
+    alert("Sẽ bổ sung chức năng này sau");
+  };
+
   return (
     <div className="section-order w-screen">
       <div className="container">
@@ -134,25 +140,15 @@ function QuickOrder() {
           className="quick-filters text-left"
           style={{ paddingBottom: "12px", paddingLeft: "6px" }}
         >
-          <a
-            className=" btn-quick-filters "
-            href="https://tapmed.vn/trang-san-pham.html?producer_id=1705"
-          >
+          <div onClick={handleTest} className=" btn-quick-filters ">
             Sản Phẩm TAPMED
-          </a>
-
-          <a
-            className=" btn-quick-filters "
-            href="https://tapmed.vn/trang-san-pham.html?policy_id=4"
-          >
+          </div>
+          <div onClick={handleTest} className=" btn-quick-filters ">
             ƯU ĐÃI ĐẶC BIỆT ĐỐI VỚI HÀNG DATE 2025
-          </a>
-          <a
-            className=" btn-quick-filters "
-            href="https://tapmed.vn/trang-san-pham.html?policy_id=27"
-          >
+          </div>
+          <div onClick={handleTest} className=" btn-quick-filters ">
             GIÁ TỐT TRONG TUẦN
-          </a>
+          </div>
         </div>
         <div className="flex w-full px-2">
           <div className="product-wrapper w-full">

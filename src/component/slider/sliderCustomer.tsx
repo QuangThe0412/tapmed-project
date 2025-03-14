@@ -27,7 +27,7 @@ export function SliderCustomer({
 }: SliderProps) {
   const swiperRef = useRef<any>(null);
 
-  const totalSlides = data.length;
+  const totalSlides = data?.length;
 
   const Customer: React.FC<CustomerProps> = ({
     name,

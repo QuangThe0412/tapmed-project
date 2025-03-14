@@ -3,7 +3,7 @@ import "./bottomNavMenu.css";
 import { paths } from "@src/utils/contanst";
 import { Link, useLocation } from "react-router-dom";
 import { CircleUser } from "lucide-react";
-import useAuthModalStore from "@src/stores/useAuthModal";
+import useAuthModalStore from "@src/stores/authModalStore";
 
 const BottomNavMenu: React.FC = () => {
   const { openLoginModal } = useAuthModalStore();

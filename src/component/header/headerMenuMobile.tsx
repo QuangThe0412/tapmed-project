@@ -4,7 +4,7 @@ import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
 import { Link, useLocation } from "react-router-dom";
-import useAuthModalStore from "@src/stores/useAuthModal";
+import useAuthModalStore from "@src/stores/authModalStore";
 import { useEffect } from "react";
 
 const HeaderMenuMobile: React.FC = () => {

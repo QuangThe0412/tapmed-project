@@ -9,7 +9,7 @@ import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
 import { useProductStore } from "../../stores/productStore";
 import { useProvinceStore } from "@src/stores/provinceStore";
-import useAuthModalStore from "@src/stores/useAuthModal";
+import useAuthModalStore from "@src/stores/authModalStore";
 import CustomModal from "../modal/customModal";
 import FormRegister from "../modal/formRegister";
 import FormLogin from "../modal/formLogin";

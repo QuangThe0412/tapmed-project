@@ -1,26 +1,40 @@
-import ButtonCustom from "../button/buttonCustom";
+import React from "react";
+import "./header.css";
 import SearchInput from "../input/search";
+import ButtonCustom from "../button/buttonCustom";
 import HeaderCart from "../cart/headerCart";
 import useDrawerStore from "../../stores/menuMobileStore";
+import { List } from "lucide-react";
+import useAuthStore from "@src/stores/authStore";
 import useAuthModalStore from "@src/stores/authModalStore";
+import UserMenu from "../user/userMenu";
 
 const Header: React.FC = () => {
   const { openDrawer } = useDrawerStore();
-  const handleSearch = (searchTerm: string) => {
-    console.log(searchTerm);
+  const { openLoginModal, openRegisterModal } = useAuthModalStore();
+  const { isAuthenticated } = useAuthStore();
+
+  const handleSearch = (value: string) => {
+    console.log(value);
   };
 
-  const { openRegisterModal, openLoginModal } = useAuthModalStore();
-
   return (
-    <div className="mx-auto px-4 py-0 lg:py-5 bg-white shadow-md flex justify-center items-center">
-      <div className="container flex flex-wrap items-center -mx-4 space-between">
-        <div className="flex items-center lg:w-3/12 md:w-4/12 w-8/12 px-4">
-          <div className="block lg:hidden">
+    <div className="header bg-white">
+      <div className="container mx-auto flex flex-wrap justify-between items-center px-4">
+        <div className="lg:hidden block my-3 ml-2">
+          <button
+            className="hamburger-menu"
+            type="button"
+            onClick={() => openDrawer()}
+          >
+            <List size={32} />
+          </button>
+        </div>
+
+        <div className="lg:w-3/12 md:w-4/12 w-11/12 flex justify-between lg:justify-start px-4 header-wrap-logo">
+          <div className="logo-mobile block lg:hidden">
             <img
-              onClick={openDrawer}
-              style={{ minHeight: "75px" }}
-              src="https://tapmed.vn/TapMedVn/images/menu-bar.png"
+              src="https://tapmed.vn/TapMedVn/images/logo-mobile.svg"
               alt="Tapmed Chuyên Phân Phối Thuốc Sỉ, Dược Sỉ"
               className="flex justify-center items-center object-contain"
             />
@@ -45,20 +59,26 @@ const Header: React.FC = () => {
 
         <div className="lg:w-4/12 md:w-6/12 w-full hidden md:block px-4">
           <div className="flex justify-center items-center space-x-4">
-            <ButtonCustom
-              label="Đăng nhập"
-              className="active"
-              onClick={() => {
-                openLoginModal();
-              }}
-            />
-            <ButtonCustom
-              label="Đăng ký"
-              className=""
-              onClick={() => {
-                openRegisterModal();
-              }}
-            />
+            {isAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <>
+                <ButtonCustom
+                  label="Đăng nhập"
+                  className="active"
+                  onClick={() => {
+                    openLoginModal();
+                  }}
+                />
+                <ButtonCustom
+                  label="Đăng ký"
+                  className=""
+                  onClick={() => {
+                    openRegisterModal();
+                  }}
+                />
+              </>
+            )}
           </div>
         </div>
 

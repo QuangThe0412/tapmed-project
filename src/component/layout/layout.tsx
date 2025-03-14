@@ -14,6 +14,8 @@ import CustomModal from "../modal/customModal";
 import FormRegister from "../modal/formRegister";
 import FormLogin from "../modal/formLogin";
 import useBlogStore from "@src/stores/blogStore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -49,6 +51,7 @@ function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div className="app-container">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="flew flex-col">
         <TopBar />
         <Header />

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import useAuthStore from "@src/stores/authStore";
+import useAuthModalStore from "@src/stores/authModalStore";
+import { toast } from "react-toastify";
 
 type FormLoginType = {
   name: string;
@@ -12,16 +15,27 @@ const initFormLogin: FormLoginType = {
 
 const FormLogin: React.FC = () => {
   const [formLogin, setFormLogin] = useState<FormLoginType>(initFormLogin);
+  const { login, isLoading, error } = useAuthStore();
+  const { closeLoginModal } = useAuthModalStore();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormLogin({ ...formLogin, [name]: value });
   };
 
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(formLogin);
     //call API login here
+    try {
+      login(formLogin.name, formLogin.password).then((user) => {
+        console.log(user);
+        toast.success("Đăng nhập thành công!");
+        closeLoginModal();
+      });
+    } catch (err) {
+      // Error is handled by the store
+    }
   };
 
   return (
@@ -35,6 +49,7 @@ const FormLogin: React.FC = () => {
           value={formLogin.name}
           onChange={handleChange}
           required
+          disabled={isLoading}
         />
       </div>
       <div className="form-group">
@@ -46,9 +61,17 @@ const FormLogin: React.FC = () => {
           value={formLogin.password}
           onChange={handleChange}
           required
+          disabled={isLoading}
         />
       </div>
-      <button type="submit">Đăng nhập</button>
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={isLoading ? "opacity-70 cursor-not-allowed" : ""}
+      >
+        {isLoading ? "Đang xử lý..." : "Đăng nhập"}
+      </button>
     </form>
   );
 };

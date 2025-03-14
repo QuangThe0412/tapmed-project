@@ -59,9 +59,10 @@ const BlogDetails: React.FC = () => {
               />
             </div>
           </div>
-          <div className="text-base text-gray-800 leading-relaxed">
-            {content}
-          </div>
+          <div
+            className="text-base text-gray-800 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         </div>
       </div>
 

@@ -14,6 +14,7 @@ const HeaderMenuMobile: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    closeDrawer();
   }, [location.pathname]);
 
   const handleSearch = (value: string) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import useOrderStore from "@src/stores/orderStore";
@@ -18,6 +18,14 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   const { orders, minusQuantity, plusQuantity, removeItem, updateQuantity } =
     useOrderStore();
   const { products: dataProducts } = useProductStore();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [isOpen]);
 
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
   const cartItems = orders.orderItems

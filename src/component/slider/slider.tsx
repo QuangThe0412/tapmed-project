@@ -8,11 +8,14 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./slider.css";
+import { link } from "fs";
+import { Link } from "react-router-dom";
 
 export type DataSlider = {
   image: string;
   title?: string;
   id?: number;
+  link?: string;
 };
 
 type SliderProps = {
@@ -26,7 +29,6 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
 
   const totalSlides = data?.length;
 
-  //khúc này chưa làm href
   return (
     <Swiper
       ref={swiperRef}
@@ -35,26 +37,29 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
       {...settings}
     >
       {data &&
-        data.map((item: DataSlider, index) => (
-          <SwiperSlide key={index}>
-            <div className="item">
-              <div className="item_product_main">
-                <div className="product-thumbnail">
-                  <a className="image_thumb" href={"#"} title={item.title}>
-                    <img src={item.image} alt={item.title} />
-                  </a>
-                </div>
-                <div className="product-info">
-                  <h3 className="product-name">
-                    <a href={"#"} title={item.title}>
-                      {item.title}
-                    </a>
-                  </h3>
+        data.map((item: DataSlider, index) => {
+          const { link = "#", title, image } = item;
+          return (
+            <SwiperSlide key={index}>
+              <div className="item">
+                <div className="item_product_main">
+                  <div className="product-thumbnail">
+                    <Link className="image_thumb" to={link} title={title}>
+                      <img src={image} alt={title} />
+                    </Link>
+                  </div>
+                  <div className="product-info">
+                    <h3 className="product-name">
+                      <Link to={link} title={title}>
+                        {title}
+                      </Link>
+                    </h3>
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
     </Swiper>
   );
 }

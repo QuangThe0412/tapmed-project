@@ -1,4 +1,6 @@
+import { DataSlider } from "@src/component/slider/slider";
 import { BlogType } from "@src/types/typeBlog";
+import { generateSlug } from "@src/utils/common";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -24,7 +26,17 @@ const useBlogStore = create<BlogStore>()(
         try {
           const response = await import("@dataMockup/blogData.json");
           const data = response.default;
-          set({ blogPosts: data, isLoading: false });
+
+          const _data = data as DataSlider[];
+          if (_data.length > 0) {
+            _data.forEach((item) => {
+              item.link = `/news/${generateSlug(item.title || "")}-${
+                item.id
+              }.html`;
+            });
+          }
+
+          set({ blogPosts: _data as BlogType[], isLoading: false });
         } catch (error) {
           console.error("Error fetching blog posts:", error);
           set({ error: "Không thể tải dữ liệu bài viết", isLoading: false });

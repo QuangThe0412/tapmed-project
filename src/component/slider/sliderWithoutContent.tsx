@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 
 import "./slider.css";
 import { DataSlider } from "./slider";
+import { Link } from "react-router-dom";
 
 type SliderProps = {
   data: DataSlider[];
@@ -32,11 +33,16 @@ export function SliderWithoutContent({
       {...settings}
     >
       {data &&
-        data?.map((item: DataSlider, index) => (
-          <SwiperSlide key={index}>
-            <img src={item.image} alt={`Image ${index + 1}`} />
-          </SwiperSlide>
-        ))}
+        data?.map((item: DataSlider, index) => {
+          const { link, title, image } = item;
+          return (
+            <SwiperSlide key={index}>
+              <Link to={link || "#"}>
+                <img src={image} alt={title} />
+              </Link>
+            </SwiperSlide>
+          );
+        })}
     </Swiper>
   );
 }

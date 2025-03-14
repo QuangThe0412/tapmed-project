@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 
 export type CustomerProps = {
   name: string;
@@ -51,12 +52,12 @@ export function SliderCustomer({
         </div>
         <div className="content flex">
           <div className="link w-1/3">
-            <a href="#">
+            <Link to="" title={name}>
               <img
                 src="https://tapmed.vn/TapMedVn/images/link.png"
-                alt="Dược phẩm TAPMED"
+                alt={name}
               />
-            </a>
+            </Link>
           </div>
           <div className="desc w-2/3 text-justify line-clamp-4">{content}</div>
         </div>

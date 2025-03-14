@@ -1,6 +1,7 @@
 import { ProductItemType } from "@src/types/typeProduct";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { generateSlug } from "@src/utils/common";
 
 export const NAME_STORAGE_PRODUCT = "product-store";
 
@@ -37,6 +38,9 @@ export const useProductStore = create<ProductStore>()(
             products: ProductData.default.map((item) => ({
               ...item,
               images: item?.images.map((image) => PATH_IMAGE + image),
+              link: `/products/${generateSlug(item.name || "")}-${
+                item.id
+              }.html`,
             })),
             isLoading: false,
           });

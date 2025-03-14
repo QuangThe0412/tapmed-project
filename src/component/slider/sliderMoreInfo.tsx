@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "./slider.css";
 import { BlogType } from "@src/types/typeBlog";
 import { generateSlug } from "@src/utils/common";
+import { Link } from "react-router-dom";
 
 type SliderProps = {
   data: BlogType[];
@@ -44,27 +45,27 @@ export function SliderMoreInfo({
               <div className="item-blog mb-6">
                 <div className="flex flex-col md:flex-row">
                   <div className="w-full lg:w-5/12 md:w-1/2 mb-4 md:mb-0 text-left block-thumb">
-                    <a
-                      className="block overflow-hidden rounded"
-                      href={blogtUrl}
+                    <Link
+                      to={blogtUrl}
                       title={title}
+                      className="block overflow-hidden rounded"
                     >
                       <img
                         src={image}
                         alt={title}
                         className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
                       />
-                    </a>
+                    </Link>
                   </div>
                   <div className="w-full lg:w-7/12 md:w-1/2 pl-0 md:pl-4 text-left block-content">
                     <h3 className="text-lg font-semibold mb-2">
-                      <a
-                        href={blogtUrl}
+                      <Link
+                        to={blogtUrl}
                         title={title}
                         className="text-gray-800 hover:text-blue-600 transition-colors"
                       >
                         {title}
-                      </a>
+                      </Link>
                     </h3>
                     <div className="text-gray-600 text-sm">{content}</div>
                   </div>

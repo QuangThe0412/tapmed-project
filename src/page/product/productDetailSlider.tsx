@@ -9,7 +9,7 @@ type ProductDetailSliderProps = {
 const ProductDetailSlider: React.FC<ProductDetailSliderProps> = ({
   images,
 }) => {
-  const imagesData = images.map((imageUrl) => ({ imageUrl }));
+  const imagesData = images.map((image) => ({ image }));
 
   const settings = {
     autoHeight: true,

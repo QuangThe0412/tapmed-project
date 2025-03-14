@@ -11,6 +11,7 @@ const SectionProductNew: React.FC = () => {
     _products.push({
       id: item.id,
       title: item.name,
+      link: item?.link || "#",
       image: item.images ? item.images[0] : "",
     });
   });

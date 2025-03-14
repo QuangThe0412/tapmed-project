@@ -2,7 +2,7 @@ export interface ProductItemType {
   id: number;
   name: string | "";
   common_name: string | null;
-  image: string | "";
+  images: string[] | [];
   price: number | null;
   order_up: number | null;
   price_2: number | null;

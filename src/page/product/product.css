@@ -87,6 +87,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 15px;
+  height: 30px;
 }
 .item_product_main .product-price .price-box {
   color: #828282;
@@ -142,16 +143,6 @@
   background-color: #15963d;
 }
 
-/* Remove the arrows for Chrome, Safari, Edge, and Opera */
-.item_product_main .product-price .quantity .qty-num::-webkit-outer-spin-button,
-.item_product_main
-  .product-price
-  .quantity
-  .qty-num::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 /* Ensure text is vertically centered in the input */
 .item_product_main .product-price .quantity .qty-num {
   display: flex;
@@ -169,4 +160,16 @@
 .item_product_main .product-price .quantity button:focus,
 .item_product_main .product-price .quantity button:focus-visible {
   outline: none;
+}
+
+.wrapper-btn-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-btn-add .btn {
+  min-width: unset;
+  padding: 5px;
+  font-size: 12px;
 }

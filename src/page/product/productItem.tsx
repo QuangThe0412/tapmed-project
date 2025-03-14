@@ -1,9 +1,12 @@
+import ButtonCustom from "@src/component/button/buttonCustom";
 import useOrderStore from "@src/stores/orderStore";
 import { ProductItemType } from "@src/types/typeProduct";
 import { generateSlug, parsePrice } from "@src/utils/common";
+import { Minus, Plus } from "lucide-react";
 
 const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
-  const { id, name, unit, price, image } = item;
+  const { id, name, unit, price, images } = item;
+  const image = images ? images[0] : "";
 
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();
@@ -14,13 +17,6 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
       : undefined;
 
   const quantity = orderItem?.quantity || 0;
-  const onIncreaseQuantity = () => {
-    plusQuantity(id);
-  };
-
-  const onDecreaseQuantity = () => {
-    minusQuantity(id);
-  };
 
   const onUpdateQuantity = (newQuantity: number) => {
     updateQuantity(id, newQuantity);
@@ -52,38 +48,48 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
                 <span className="price">Giá : {parsePrice(price)}</span>
               </div>
             </div>
-            <div className="quantity">
-              <button
-                type="button"
-                className="qty-minus items-count"
-                aria-label="-"
-                onClick={onDecreaseQuantity}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                id={`quantity-${id}`}
-                name="updates[]"
-                className="qty-num number-sidebar"
-                maxLength={4}
-                value={quantity || 0}
-                min={0}
-                aria-label="quantity"
-                pattern="[0-9]*"
-                onChange={(e) =>
-                  onUpdateQuantity(parseInt(e.target.value) || 0)
-                }
-              />
-              <button
-                type="button"
-                className="qty-plus items-count"
-                aria-label="+"
-                onClick={onIncreaseQuantity}
-              >
-                +
-              </button>
-            </div>
+            {quantity <= 0 ? (
+              <div className="wrapper-btn-add">
+                <ButtonCustom
+                  label="Thêm vào giỏ hàng"
+                  onClick={() => plusQuantity(id)}
+                  className="btn-add-to-cart"
+                />
+              </div>
+            ) : (
+              <div className="quantity">
+                <button
+                  type="button"
+                  className="qty-minus items-count"
+                  aria-label="-"
+                  onClick={() => minusQuantity(id)}
+                >
+                  <Minus size={24} />
+                </button>
+                <input
+                  type="number"
+                  id={`quantity-${id}`}
+                  name="updates[]"
+                  className="qty-num number-sidebar"
+                  maxLength={4}
+                  value={quantity || 0}
+                  min={0}
+                  aria-label="quantity"
+                  pattern="[0-9]*"
+                  onChange={(e) =>
+                    onUpdateQuantity(parseInt(e.target.value) || 0)
+                  }
+                />
+                <button
+                  type="button"
+                  className="qty-plus items-count"
+                  aria-label="+"
+                  onClick={() => plusQuantity(id)}
+                >
+                  <Plus size={24} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

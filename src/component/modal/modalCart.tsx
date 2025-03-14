@@ -145,7 +145,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                     <div key={item.id} className="cart-item">
                       {/* Hình ảnh sản phẩm */}
                       <img
-                        src={item.image || "https://via.placeholder.com/60"}
+                        src={item.images && item.images[0]}
                         alt={item.name}
                         className="cart-item-image"
                       />

@@ -69,3 +69,12 @@ export const generateSlug = (text: string): string => {
 
   return slug;
 };
+
+export const getIdFromSlug = (slug?: string): number => {
+  if (!slug) {
+    slug = window.location.pathname;
+  }
+  const parts = slug.split(".html")[0].split("-");
+  const id = parts.pop();
+  return id && !isNaN(Number(id)) ? parseInt(id) : 0;
+};

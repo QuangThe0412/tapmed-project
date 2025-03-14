@@ -60,7 +60,7 @@ const FormBooking: React.FC = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <label className="block mb-2">Họ và tên</label>
           <input
             type="text"
@@ -72,7 +72,7 @@ const FormBooking: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <label className="block mb-2">Số điện thoại</label>
           <input
             type="number"
@@ -85,7 +85,7 @@ const FormBooking: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <label className="block mb-2">Tên cơ sở kinh doanh</label>
           <input
             type="text"
@@ -97,7 +97,7 @@ const FormBooking: React.FC = () => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <label className="block mb-2">Địa chỉ</label>
           <input
             type="text"

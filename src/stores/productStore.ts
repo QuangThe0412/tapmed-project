@@ -36,7 +36,7 @@ export const useProductStore = create<ProductStore>()(
           set({
             products: ProductData.default.map((item) => ({
               ...item,
-              image: PATH_IMAGE + item?.image,
+              images: item?.images.map((image) => PATH_IMAGE + image),
             })),
             isLoading: false,
           });

@@ -306,13 +306,6 @@
   padding: 0;
 }
 
-/* Ẩn mũi tên tăng/giảm của input number */
-.quantity-value-input::-webkit-outer-spin-button,
-.quantity-value-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 /* Focus style */
 .quantity-value-input:focus {
   outline: none;

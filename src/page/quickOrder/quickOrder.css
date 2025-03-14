@@ -68,7 +68,7 @@
   width: 20%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 .product-prices .price-box {
   color: #15963d;
@@ -78,12 +78,6 @@
 }
 .product-prices .price-box span {
   display: block;
-}
-.product-row .order-info .grid {
-  width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .product-quantity .input-group-btn {
   display: flex;
@@ -173,9 +167,11 @@
   }
   .product-row .order-info .grid {
     width: 100%;
-    display: block;
+    display: flex;
+    align-items: center;
     margin-top: 15px;
   }
+
   .product-name-wrapper .product-name {
     color: #000;
     font-size: 12px;
@@ -187,4 +183,17 @@
   .product-prices .price-box .price {
     font-size: 13px;
   }
+  .product-row .order-info .grid.warpper-quantity {
+    justify-content: center;
+  }
+}
+
+.product-quantity {
+  width: 100%;
+}
+
+.product-quantity .btn {
+  min-width: unset;
+  font-size: 14px;
+  padding: 5px 10px;
 }

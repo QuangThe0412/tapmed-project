@@ -3,13 +3,16 @@ import useOrderStore from "../../stores/orderStore";
 import "./quickOrder.css";
 import { ProductItemType } from "@src/types/typeProduct";
 import { parsePrice } from "@src/utils/common";
+import { Minus, Plus } from "lucide-react";
+import ButtonCustom from "@src/component/button/buttonCustom";
 
 type OrderItemProps = {
   product: ProductItemType;
 };
 
 const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
-  const { id, name, image, unit, price } = product;
+  const { id, name, images, unit, price } = product;
+  const image = images.length > 0 ? images[0] : "";
 
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();
@@ -55,39 +58,46 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
               </span>
             </div>
           </div>
-          <div className="grid product-quantity">
-            <div className="input-group-btn">
-              <button
-                type="button"
-                className="qty-minus items-count"
-                aria-label="-"
-                onClick={() => minusProduct(id)}
-              >
-                -
-              </button>
-              <input
-                type="text"
-                name="updates[]"
-                className="qty-num number-sidebar"
-                maxLength={4}
-                value={quantity || 0}
-                min="0"
-                aria-label="quantity"
-                pattern="[0-9]*"
-                id={`quantity-${id}`}
-                onChange={(e) =>
-                  updateQuantityProduct(id, parseInt(e.target.value) || 0)
-                }
-              />
-              <button
-                type="button"
-                className="qty-plus items-count"
-                aria-label="+"
+          <div className="grid product-quantity warpper-quantity">
+            {quantity <= 0 ? (
+              <ButtonCustom
+                label="Thêm vào giỏ hàng"
                 onClick={() => plusProduct(id)}
-              >
-                +
-              </button>
-            </div>
+              />
+            ) : (
+              <div className="input-group-btn">
+                <button
+                  type="button"
+                  className="qty-minus items-count"
+                  aria-label="-"
+                  onClick={() => minusProduct(id)}
+                >
+                  <Minus size={20} />
+                </button>
+                <input
+                  type="text"
+                  name="updates[]"
+                  className="qty-num number-sidebar"
+                  maxLength={4}
+                  value={quantity || 0}
+                  min="0"
+                  aria-label="quantity"
+                  pattern="[0-9]*"
+                  id={`quantity-${id}`}
+                  onChange={(e) =>
+                    updateQuantityProduct(id, parseInt(e.target.value) || 0)
+                  }
+                />
+                <button
+                  type="button"
+                  className="qty-plus items-count"
+                  aria-label="+"
+                  onClick={() => plusProduct(id)}
+                >
+                  <Plus size={20} />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

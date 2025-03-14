@@ -17,7 +17,8 @@
   background-color: transparent;
 }
 
-.header-menu a:hover {
+.header-menu a:hover,
+.header-menu .active {
   background-color: #f29f05;
 }
 

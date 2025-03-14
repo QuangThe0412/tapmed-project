@@ -52,7 +52,25 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
+}
+
+/* Remove dấu mũi tên lên xuống của input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input {
+  -moz-appearance: textfield; /* Firefox */
+  text-align: center; /* Canh giữa text */
+}
+
+input:focus,
+input:focus-visible {
+  outline: none;
+  user-select: none;
 }
 
 @media (prefers-color-scheme: light) {

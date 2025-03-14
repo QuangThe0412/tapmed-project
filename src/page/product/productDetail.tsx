@@ -1,25 +1,28 @@
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
 import "./productDetail.css";
 import useOrderStore from "@src/stores/orderStore";
 import { useProductStore } from "@src/stores/productStore";
-import { useParams } from "react-router-dom";
 import { ProductItemType } from "@src/types/typeProduct";
+import { getIdFromSlug } from "@src/utils/common";
+import ProductDetailSlider from "./productDetailSlider";
+import { Minus, Plus } from "lucide-react";
+import ButtonCustom from "@src/component/button/buttonCustom";
+import TabsComponent from "@src/component/tabs/tabs";
+import useCartStore from "@src/stores/cartModalStore";
 
 const ProductDetail = () => {
-  console.log("ProductDetail111111111");
-  const { id } = useParams<{ id: string }>();
+  const productId = getIdFromSlug();
 
   const { orders, minusQuantity, removeItem, plusQuantity, updateQuantity } =
     useOrderStore();
 
+  const { openCart } = useCartStore();
+
   const { products, isLoading, error } = useProductStore();
 
-  const productId = parseInt(id?.replace(".html", "") || "0");
   const product = products.find((p) => p.id === productId);
-  const { name, price, unit, image } = product as ProductItemType;
+  const description = product ? product.name : "";
+
+  const { name, price, unit, images } = product || ({} as ProductItemType);
 
   const orderItem = orders.orderItems.find((item) => item.id === productId);
   const quantity = orderItem?.quantity || 0;
@@ -37,59 +40,28 @@ const ProductDetail = () => {
   };
 
   const buyNow = () => {
-    if (quantity === 0) return;
-    console.log(`Mua ngay ${quantity} sản phẩm ${id}`);
-    // Implement buy now logic here
+    if (quantity <= 0) {
+      handlePlusQuantity(productId);
+    }
+    openCart();
   };
 
   return (
     <section className="product layout-product">
       <div className="container">
         <div className="details-product">
-          <div className="row">
-            <div className="product-images col-12 col-md-12 col-lg-6 col-xl-6 col-left">
-              {/* {images.length > 1 && (
+          <div className="flex flex-wrap">
+            <div className="product-images w-full md:w-full lg:w-1/2 xl:w-1/2 flex justify-center">
+              {images.length >= 1 && (
                 <div className="gallery-thumbs">
-                  <Swiper
-                    onSwiper={setThumbsSwiper}
-                    spaceBetween={10}
-                    slidesPerView={4}
-                    freeMode={true}
-                    watchSlidesProgress={true}
-                    modules={[FreeMode, Navigation, Thumbs]}
-                    className="mySwiper"
-                  >
-                    {images.map((image, index) => (
-                      <SwiperSlide key={index}>
-                        <div className="p-100">
-                          <img src={image} alt={`${name} - hình ${index + 1}`} />
-                        </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                  <ProductDetailSlider images={images} />
                 </div>
-              )} */}
-
-              <div className="product-image-block relative">
-                {/* <Swiper
-                  spaceBetween={10}
-                  navigation={true}
-                  thumbs={{ swiper: thumbsSwiper }}
-                  modules={[FreeMode, Navigation, Thumbs]}
-                  className="mySwiper2"
-                >
-                  {images.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <img src={image} alt={`${name} - hình ${index + 1}`} />
-                    </SwiperSlide>
-                  ))}
-                </Swiper> */}
-              </div>
+              )}
             </div>
 
-            <div className="col-12 col-md-12 col-lg-6 col-xl-6 col-right">
-              <div className="details-pro">
-                <h1 className="title-product">{name}</h1>
+            <div className="w-full md:w-full lg:w-1/2 xl:w-1/2">
+              <div className="details-pro text-left w-full p-4 flex gap-4 flex-col">
+                <h1 className="title-product text-2xl font-bold">{name}</h1>
 
                 <div className="price-box">
                   <span className="special-price">
@@ -103,72 +75,61 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="price-box">
-                  <span
-                    className="special-price1"
-                    style={{
-                      fontSize: "17px",
-                      fontWeight: "bold",
-                      lineHeight: "42px",
-                    }}
-                  >
+                  <span className="special-price1 text-lg font-bold leading-10">
                     <span className="price product-price">Đơn vị: {unit}</span>
                   </span>
                 </div>
 
-                <div className="flex-quantity">
+                <div className="w-full flex items-center justify-center lg:justify-start">
                   <div className="input_number_product">
                     <button
                       type="button"
-                      className="qty-minus items-count"
+                      className="qty-minus items-count px-2 py-1 border"
                       onClick={() => {
-                        handleMinusQuantity;
+                        handleMinusQuantity(productId);
                       }}
                       aria-label="-"
                     >
-                      -
+                      <Minus size={24} />
                     </button>
                     <input
                       type="number"
-                      className="qty-num number-sidebar"
+                      className="qty-num number-sidebar mx-2 p-1 border"
                       value={quantity}
                       min="0"
                       onChange={() => {
-                        handleQuantityChange;
+                        handleQuantityChange(productId, quantity);
                       }}
                       aria-label="quantity"
                       pattern="[0-9]*"
                     />
                     <button
                       type="button"
-                      className="qty-plus items-count"
+                      className="qty-plus items-count px-2 py-1 border"
                       onClick={() => {
-                        handlePlusQuantity;
+                        handlePlusQuantity(productId);
                       }}
                       aria-label="+"
                     >
-                      +
+                      <Plus size={24} />
                     </button>
                   </div>
+                </div>
 
-                  <div className="btn-mua button_actions clearfix">
-                    <div className="group-button">
-                      <button
-                        type="button"
-                        // onClick={addToCart}
-                        className="btn btn_base normal_button btn_add_cart add_to_cart btn-cart"
-                        // disabled={quantity === 0}
-                      >
-                        Thêm vào giỏ
-                      </button>
-                      <button
-                        type="button"
-                        onClick={buyNow}
-                        className="btn btn_base btn-lg btn-gray btn_buy btn-buyNow"
-                        // disabled={quantity === 0}
-                      >
-                        Mua ngay
-                      </button>
-                    </div>
+                <div className="btn-mua button_actions clearfix">
+                  <div className="group-button flex">
+                    {quantity <= 0 && (
+                      <ButtonCustom
+                        onClick={() => handlePlusQuantity(productId)}
+                        label="Thêm vào giỏ"
+                        className="btn btn_base normal_button btn_add_cart add_to_cart btn-cart bg-blue-500 text-white px-4 py-2 rounded"
+                      />
+                    )}
+                    <ButtonCustom
+                      onClick={buyNow}
+                      label="Mua ngay"
+                      className="btn btn_base btn-lg btn-gray btn_buy btn-buyNow bg-gray-500 text-white px-4 py-2 rounded ml-2"
+                    />
                   </div>
                 </div>
               </div>
@@ -176,20 +137,10 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        <div className="product-tab">
-          <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <a className="nav-link active" data-toggle="tab" href="#tabs1">
-                Thông tin sản phẩm
-              </a>
-            </li>
-          </ul>
-
-          <div className="tab-content">
-            <div className="tab-pane active" id="tabs1">
-              {/* {description && <div dangerouslySetInnerHTML={{ __html: description }} />} */}
-            </div>
-          </div>
+        <div className="product-tab mt-8">
+          <TabsComponent
+            data={[{ title: "Thông tin sản phẩm", content: description }]}
+          />
         </div>
       </div>
     </section>

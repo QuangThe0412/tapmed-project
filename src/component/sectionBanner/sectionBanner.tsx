@@ -1,29 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionBanner.css";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import FormBooking from "./formBooking";
 import { SliderWithoutContent } from "../slider/sliderWithoutContent";
+import useBlogStore from "@src/stores/blogStore";
 
 const SectionBanner: React.FC = () => {
-  const bannerImgs: DataSlider[] = [
-    {
-      image:
-        "https://tapmed.vn/upload_editor/posts/images/Artboard%201%402x-8.png",
-    },
-    {
-      image:
-        "https://tapmed.vn/upload_editor/posts/images/z5684638969760_f99dd5bc5361df1570bf4bb016160442.jpg",
-    },
-    {
-      image:
-        "https://tapmed.vn/upload_editor/posts/images/z5656506777743_4ae5e7479b3c112072fee737530a3167.jpg",
-    },
-    {
-      image:
-        "https://tapmed.vn/upload_editor/posts/images/z5660296545770_29416ba6fd447ee30c73d372526caf2b.jpg",
-    },
-  ];
+  const { blogPosts } = useBlogStore();
+  const _data = blogPosts.slice(0, 3) as DataSlider[];
 
   const bannerSettings = {
     autoHeight: true,
@@ -32,10 +17,10 @@ const SectionBanner: React.FC = () => {
     pagination: {
       clickable: true,
     },
-    // autoplay: {
-    //   delay: 2000,
-    //   disableOnInteraction: false,
-    // },
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+    },
     modules: [Autoplay, EffectFade, Navigation, Pagination],
   };
 
@@ -44,7 +29,7 @@ const SectionBanner: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap w-full">
           <div className="w-full lg:w-8/12 px-4 overflow-hidden">
-            <SliderWithoutContent data={bannerImgs} settings={bannerSettings} />
+            <SliderWithoutContent data={_data} settings={bannerSettings} />
           </div>
           <div className="w-full lg:w-4/12">
             <FormBooking />

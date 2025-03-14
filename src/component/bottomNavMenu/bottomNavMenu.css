@@ -20,13 +20,22 @@
   position: relative;
 }
 
-.header-fixed .fixed-menu li a {
+.header-fixed .fixed-menu li .text-style {
   color: #15963d;
   font-size: 10px;
   font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .header-fixed .fixed-menu li img {
   height: 22px;
   margin-bottom: 5px;
+}
+
+.bottom-nav-item.active > .text-style {
+  color: #f29f05 !important;
 }

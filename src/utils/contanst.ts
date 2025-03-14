@@ -6,6 +6,14 @@ import QuickOrder from "../page/quickOrder/quickOrder";
 import News from "../page/news/news";
 import ProductDetail from "@src/page/product/productDetail";
 import BlogDetails from "@src/page/news/blogDetail";
+import {
+  Flame,
+  LucideHouse,
+  Newspaper,
+  Notebook,
+  Search,
+  Zap,
+} from "lucide-react";
 
 type PathType = {
   name: string;
@@ -13,6 +21,8 @@ type PathType = {
   breadcrums: string;
   component: React.FC<any>;
   isShowMenu?: boolean;
+  icon?: React.FC<any>;
+  textMobile?: string;
 };
 
 export const paths: PathType[] = [
@@ -22,6 +32,7 @@ export const paths: PathType[] = [
     breadcrums: "Trang chủ",
     component: App,
     isShowMenu: true,
+    icon: LucideHouse,
   },
   {
     name: "products",
@@ -29,6 +40,8 @@ export const paths: PathType[] = [
     breadcrums: "Danh Sách Sản Phẩm",
     component: Product,
     isShowMenu: true,
+    icon: Search,
+    textMobile: "Sản phẩm",
   },
   {
     name: "quickOrder",
@@ -36,6 +49,7 @@ export const paths: PathType[] = [
     breadcrums: "Đặt hàng nhanh",
     component: QuickOrder,
     isShowMenu: true,
+    icon: Zap,
   },
   {
     name: "promotion",
@@ -43,6 +57,7 @@ export const paths: PathType[] = [
     breadcrums: "Khuyến mãi",
     component: Promotion,
     isShowMenu: true,
+    icon: Flame,
   },
   {
     name: "news",
@@ -50,6 +65,7 @@ export const paths: PathType[] = [
     breadcrums: "Tin tức",
     component: News,
     isShowMenu: true,
+    icon: Newspaper,
   },
   {
     name: "policy",
@@ -57,6 +73,7 @@ export const paths: PathType[] = [
     breadcrums: "Chính sách",
     component: Policy,
     isShowMenu: true,
+    icon: Notebook,
   },
   {
     name: "productDetail",

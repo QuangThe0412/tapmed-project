@@ -72,6 +72,10 @@ input:focus-visible {
   user-select: none;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -1,21 +1,13 @@
-import React, { useState } from "react";
 import useDrawerStore from "../../stores/menuMobileStore";
 import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
-import FormRegister from "../modal/formRegister";
-import CustomModal from "../modal/customModal";
-import FormLogin from "../modal/formLogin";
+import { Link } from "react-router-dom";
+import useAuthModalStore from "@src/stores/useAuthModal";
 
 const HeaderMenuMobile: React.FC = () => {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const openRegisterModal = () => setIsRegisterModalOpen(true);
-  const closeRegisterModal = () => setIsRegisterModalOpen(false);
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const openLoginModal = () => setIsLoginModalOpen(true);
-  const closeLoginModal = () => setIsLoginModalOpen(false);
+  const { openRegisterModal, openLoginModal } = useAuthModalStore();
 
   const { isOpen, closeDrawer } = useDrawerStore();
 
@@ -48,21 +40,27 @@ const HeaderMenuMobile: React.FC = () => {
               />
             </li>
             {paths &&
-              paths.map((path, index) => (
-                <li key={index}>
-                  <a
-                    href={path.path}
-                    className="text-gray-700 hover:text-blue-500"
-                  >
-                    {path.breadcrums}
-                  </a>
-                </li>
-              ))}
+              paths.map(
+                (path, index) =>
+                  path.isShowMenu && (
+                    <li key={index}>
+                      <Link
+                        to={path.path}
+                        className="text-gray-700 hover:text-blue-500"
+                      >
+                        {path.breadcrums}
+                      </Link>
+                    </li>
+                  )
+              )}
             <li>
               <ButtonCustom
                 label="Đăng nhập"
                 className="active"
-                onClick={() => openLoginModal()}
+                onClick={() => {
+                  closeDrawer();
+                  openLoginModal();
+                }}
               />
             </li>
             <li>
@@ -78,46 +76,6 @@ const HeaderMenuMobile: React.FC = () => {
           </ul>
         </nav>
       </div>
-      <CustomModal
-        children={<FormRegister />}
-        title="Đăng ký"
-        isOpen={isRegisterModalOpen}
-        onRequestClose={closeRegisterModal}
-        footer={
-          <p>
-            Nếu bạn đã có tài khoản vui lòng,{" "}
-            <button
-              onClick={() => {
-                closeRegisterModal();
-                openLoginModal();
-              }}
-              className="text-blue-500 cursor-pointer"
-            >
-              Đăng nhập
-            </button>
-          </p>
-        }
-      />
-      <CustomModal
-        children={<FormLogin />}
-        title="Đăng nhập"
-        isOpen={isLoginModalOpen}
-        onRequestClose={closeLoginModal}
-        footer={
-          <p>
-            Nếu bạn chưa có tài khoản vui lòng,{" "}
-            <button
-              onClick={() => {
-                closeLoginModal();
-                openRegisterModal();
-              }}
-              className="text-blue-500 cursor-pointer"
-            >
-              Đăng ký
-            </button>
-          </p>
-        }
-      />
     </>
   );
 };

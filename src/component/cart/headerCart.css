@@ -291,6 +291,10 @@
   animation: fadeIn 0.2s ease-out;
 }
 
+.ReactModal__Content:focus-visible {
+  outline: unset;
+}
+
 /* Styling cho input số lượng */
 .quantity-value-input {
   width: 40px;

@@ -62,7 +62,7 @@
 }
 
 .modal-body {
-  padding: 1rem 0;
+  /* padding: 1rem 0; */
 }
 
 /* Container của form */
@@ -118,4 +118,10 @@ button[type="submit"] {
 /* Button hover */
 button[type="submit"]:hover {
   background-color: #04521c;
+}
+
+@media (max-width: 768px) {
+  .custom-modal {
+    overflow-y: scroll;
+  }
 }

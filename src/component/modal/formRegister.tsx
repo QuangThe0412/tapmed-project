@@ -126,7 +126,7 @@ const FormRegister: React.FC = () => {
       </div>
       <div className="form-group">
         <label htmlFor="phoneRegister">
-          Số điện thoại(sẽ được dùng làm tên đăng nhập)
+          Số điện thoại (sẽ được dùng làm tên đăng nhập)
         </label>
         <input
           type="tel"

@@ -2,42 +2,11 @@ import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionBlog.css";
+import useBlogStore from "@src/stores/blogStore";
 
 const SectionBlog: React.FC = () => {
-  const data: DataSlider[] = [
-    {
-      id: 1,
-      image: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
-      title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
-    },
-    {
-      id: 2,
-      image: "https://tapmed.vn/storage/image/1117292255751731513589.png",
-      title: `😍Chúc mừng ngày "DƯỢC SĨ THẾ GIỚI" 25/9`,
-    },
-    {
-      id: 3,
-      image:
-        "https://tapmed.vn/storage/image/z5865881226036_4d1ae1bdbbb63ecc88122cb76cd8b58f1727250773.jpg",
-      title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
-    },
-    {
-      id: 4,
-      image: "https://tapmed.vn/storage/image/tapmed1734411099.jpg",
-      title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
-    },
-    {
-      id: 5,
-      image:
-        "https://tapmed.vn/storage/image/z5865881226036_4d1ae1bdbbb63ecc88122cb76cd8b58f1727250773.jpg",
-      title: "TB CT TẶNG CHUYẾN DU LỊCH DU THUYỀN HẠ LONG 5 SAO NHÂN 8/3",
-    },
-    {
-      id: 6,
-      image: "https://tapmed.vn/storage/image/1117292255751731513589.png",
-      title: `😍Chúc mừng ngày "DƯỢC SĨ THẾ GIỚI" 25/9`,
-    },
-  ];
+  const { blogPosts } = useBlogStore();
+  const _data = blogPosts.slice(0, 6) as DataSlider[];
 
   const sliderSettings = {
     loop: true,
@@ -72,7 +41,7 @@ const SectionBlog: React.FC = () => {
           <h3>Tin tức mới nhất</h3>
         </div>
         <div className="block-content">
-          <Slider data={data} settings={sliderSettings} />
+          <Slider data={_data} settings={sliderSettings} />
         </div>
       </div>
     </section>

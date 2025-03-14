@@ -1,99 +1,52 @@
 import React from "react";
 import "./bottomNavMenu.css";
+import { paths } from "@src/utils/contanst";
+import { Link, useLocation } from "react-router-dom";
+import { CircleUser } from "lucide-react";
+import useAuthModalStore from "@src/stores/useAuthModal";
 
 const BottomNavMenu: React.FC = () => {
+  const { openLoginModal } = useAuthModalStore();
+  const location = useLocation();
+
+  const LoginElement = () => {
+    return (
+      <li className="flex-1 text-center" onClick={openLoginModal}>
+        <div className="text-style">
+          <CircleUser size={24} />
+          <span className="line-clamp-1">Đăng nhập</span>
+        </div>
+      </li>
+    );
+  };
+
   return (
     <div className="header-fixed block lg:hidden">
       <div className="container mx-auto">
-        <ul className="fixed-menu flex justify-evenly">
-          <li>
-            <a
-              href="https://tapmed.vn"
-              aria-label="Trang chủ"
-              title="Trang chủ"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-home.svg"
-                alt="Trang chủ"
-                className="w-full h-auto"
-              />
-              <span>Trang chủ</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://tapmed.vn/dat-hang.html"
-              aria-label="Sản phẩm"
-              title="Sản phẩm"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-search.svg"
-                alt="Sản phẩm"
-                className="w-full h-auto"
-              />
-              <span>Sản phẩm</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://tapmed.vn/chinh-sach.html"
-              aria-label="Chính sách"
-              title="Chính sách"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-policy.svg"
-                alt="Chính sách"
-                className="w-full h-auto"
-              />
-              <span>Chính sách</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://tapmed.vn/chuong-trinh-khuyen-mai.html"
-              aria-label="Khuyến mãi"
-              title="Khuyến mãi"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-km.svg"
-                alt="Khuyến mãi"
-                className="w-full h-auto"
-              />
-              <span>Khuyến mãi</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-label="Đăng nhập"
-              title="Đăng nhập"
-              data-toggle="modal"
-              data-target="#modalLogin"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-account.svg"
-                alt="Đăng nhập"
-                className="w-full h-auto"
-              />
-              <span>Đăng nhập</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-label="Đăng ký"
-              title="Đăng ký"
-              data-toggle="modal"
-              data-target="#modalRegister"
-            >
-              <img
-                src="https://tapmed.vn/TapMedVn/images/ic-account.svg"
-                alt="Đăng ký"
-                className="w-full h-auto"
-              />
-              <span>Đăng ký</span>
-            </a>
-          </li>
+        <ul className="fixed-menu flex justify-between gap-2">
+          {paths.map((path, index) => {
+            const text = path.textMobile || path.breadcrums;
+            const isActive = location.pathname === path.path;
+            return path.isShowMenu ? (
+              <li
+                key={index}
+                className={`bottom-nav-item flex-1 text-center ${
+                  isActive ? "active" : ""
+                }`}
+              >
+                <Link
+                  className="text-style"
+                  to={path.path}
+                  aria-label={path.breadcrums}
+                  title={path.breadcrums}
+                >
+                  {path.icon && <path.icon />}
+                  <span className="line-clamp-1">{text}</span>
+                </Link>
+              </li>
+            ) : null;
+          })}
+          <LoginElement />
         </ul>
       </div>
     </div>

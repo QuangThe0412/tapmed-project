@@ -3,13 +3,18 @@ import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAuthModalStore from "@src/stores/useAuthModal";
+import { useEffect } from "react";
 
 const HeaderMenuMobile: React.FC = () => {
   const { openRegisterModal, openLoginModal } = useAuthModalStore();
-
+  const location = useLocation();
   const { isOpen, closeDrawer } = useDrawerStore();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const handleSearch = (value: string) => {
     console.log(value);

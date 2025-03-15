@@ -2,9 +2,10 @@ import React from "react";
 import useOrderStore from "../../stores/orderStore";
 import "./quickOrder.css";
 import { ProductItemType } from "@src/types/typeProduct";
-import { parsePrice } from "@src/utils/common";
+import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";
 import ButtonCustom from "@src/component/button/buttonCustom";
+import { Link } from "react-router-dom";
 
 type OrderItemProps = {
   product: ProductItemType;
@@ -36,19 +37,22 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
     updateQuantity(id, newQuantity);
   };
 
+  const slug = generateSlug(name);
+  const productUrl = `/products/${slug}-${id}.html`;
+
   return (
     <div className="product-row">
       <div className="order-product">
         <div className="order-image">
-          <a href={"url"} className="product-image">
+          <Link to={productUrl} className="product-image">
             <img src={image} alt={name} />
-          </a>
+          </Link>
         </div>
         <div className="order-info">
           <div className="product-name-wrapper line-clamp-2 text-left">
-            <a href={"url"} className="product-name">
+            <Link to={productUrl} className="product-name">
               {name}
-            </a>
+            </Link>
           </div>
           <div className="grid product-prices text-left">
             <div className="price-box" id={`orderProduct-${id}`}>

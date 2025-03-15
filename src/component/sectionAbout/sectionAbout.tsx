@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./sectionAbout.css";
+import { Link } from "react-router-dom";
 
 const SectionAbout: React.FC = () => {
   const [activeTab, setActiveTab] = useState("vision");
@@ -22,24 +23,24 @@ const SectionAbout: React.FC = () => {
               />
             </div>
             <li>
-              <a
+              <Link
                 data-toggle="tab"
-                href="#home"
+                to="#home"
                 className={activeTab === "vision" ? "active" : ""}
                 onClick={() => setActiveTab("vision")}
               >
                 Tầm nhìn
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 data-toggle="tab"
                 href="#menu1"
                 className={activeTab === "mission" ? "active" : ""}
                 onClick={() => setActiveTab("mission")}
               >
                 Sứ mệnh
-              </a>
+              </Link>
             </li>
           </ul>
 

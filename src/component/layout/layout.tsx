@@ -14,8 +14,7 @@ import CustomModal from "../modal/customModal";
 import FormRegister from "../modal/formRegister";
 import FormLogin from "../modal/formLogin";
 import useBlogStore from "@src/stores/blogStore";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -50,64 +49,66 @@ function MainLayout({ children }: MainLayoutProps) {
   }, [isRegisterModalOpen, isLoginModalOpen]);
 
   return (
-    <div className="app-container">
-      <ToastContainer position="top-right" autoClose={3000} />
-      <div className="flew flex-col">
-        <TopBar />
-        <Header />
-        <HeaderMenu />
-        <HeaderMenuMobile />
-        <Breadcrumbs />
-        <main>{children}</main>
-        <Footer />
-        <BottomNavMenu />
-        <Contact />
+    <>
+      <Toaster position="top-right" />
+      <div className="app-container">
+        <div className="flew flex-col">
+          <TopBar />
+          <Header />
+          <HeaderMenu />
+          <HeaderMenuMobile />
+          <Breadcrumbs />
+          <main>{children}</main>
+          <Footer />
+          <BottomNavMenu />
+          <Contact />
+        </div>
+        <CustomModal
+          children={<FormRegister />}
+          title="Đăng ký"
+          isOpen={isRegisterModalOpen}
+          onRequestClose={closeRegisterModal}
+          footer={
+            <div className="mt-4 flex flex-wrap justify-between text-center">
+              <span className="w-full text-center text-black">
+                Nếu bạn đã có tài khoản vui lòng
+              </span>
+              <button
+                onClick={() => {
+                  closeRegisterModal();
+                  openLoginModal();
+                }}
+                className="text-blue-500 cursor-pointer float-right !bg-white shadow-md w-full"
+              >
+                Đăng nhập
+              </button>
+            </div>
+          }
+        />
+        <CustomModal
+          children={<FormLogin />}
+          title="Đăng nhập"
+          isOpen={isLoginModalOpen}
+          onRequestClose={closeLoginModal}
+          footer={
+            <div className="mt-4 flex flex-wrap justify-between text-center">
+              <span className="w-full text-center text-black">
+                Nếu bạn chưa có tài khoản vui lòng
+              </span>
+              <button
+                onClick={() => {
+                  closeLoginModal();
+                  openRegisterModal();
+                }}
+                className="text-blue-500 cursor-pointer float-right !bg-white shadow-md w-full"
+              >
+                Đăng ký
+              </button>
+            </div>
+          }
+        />
       </div>
-      <CustomModal
-        children={<FormRegister />}
-        title="Đăng ký"
-        isOpen={isRegisterModalOpen}
-        onRequestClose={closeRegisterModal}
-        footer={
-          <div className="mt-4 flex flex-wrap justify-between text-center">
-            <span className="w-full text-center text-black">
-              Nếu bạn đã có tài khoản vui lòng
-            </span>
-            <button
-              onClick={() => {
-                closeRegisterModal();
-                openLoginModal();
-              }}
-              className="text-blue-500 cursor-pointer float-right !bg-white shadow-md w-full"
-            >
-              Đăng nhập
-            </button>
-          </div>
-        }
-      />
-      <CustomModal
-        children={<FormLogin />}
-        title="Đăng nhập"
-        isOpen={isLoginModalOpen}
-        onRequestClose={closeLoginModal}
-        footer={
-          <div className="mt-4 flex flex-wrap justify-between text-center">
-            <span className="w-full text-center text-black">
-              Nếu bạn chưa có tài khoản vui lòng
-            </span>
-            <button
-              onClick={() => {
-                closeLoginModal();
-                openRegisterModal();
-              }}
-              className="text-blue-500 cursor-pointer float-right !bg-white shadow-md w-full"
-            >
-              Đăng ký
-            </button>
-          </div>
-        }
-      />
-    </div>
+    </>
   );
 }
 

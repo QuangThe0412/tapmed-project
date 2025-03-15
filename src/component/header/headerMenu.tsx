@@ -1,11 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./header.css";
 import { paths } from "../../../src/utils/contanst";
+import { checkActivePath } from "@src/utils/common";
 
 const HeaderMenu: React.FC = () => {
-  const location = useLocation();
-
   return (
     <nav className="flex justify-center header-menu shadow-md hidden lg:flex">
       <div className="container">
@@ -18,7 +17,7 @@ const HeaderMenu: React.FC = () => {
                     <Link
                       to={path.path}
                       className={`header-menu-item whitespace-nowrap ${
-                        location.pathname === path.path ? "active" : ""
+                        checkActivePath(path.path) ? "active" : ""
                       }`}
                     >
                       {path.breadcrums}

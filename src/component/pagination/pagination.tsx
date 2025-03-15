@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import "./pagination.css";
 
 interface PaginationProps {
@@ -44,16 +44,16 @@ const Pagination: React.FC<PaginationProps> = ({
           {currentPage === i ? (
             <span className="page-link">{i}</span>
           ) : (
-            <a
+            <Link
               className="page-link"
-              href={`${baseUrl}?page=${i}`}
+              to={`${baseUrl}?page=${i}`}
               onClick={(e) => {
                 e.preventDefault();
                 handlePageClick(i);
               }}
             >
               {i}
-            </a>
+            </Link>
           )}
         </li>
       );
@@ -73,9 +73,9 @@ const Pagination: React.FC<PaginationProps> = ({
                 ‹
               </span>
             ) : (
-              <a
+              <Link
                 className="page-link"
-                href={`${baseUrl}?page=${currentPage - 1}`}
+                to={`${baseUrl}?page=${currentPage - 1}`}
                 rel="prev"
                 aria-label="« Previous"
                 onClick={(e) => {
@@ -84,7 +84,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 }}
               >
                 ‹
-              </a>
+              </Link>
             )}
           </li>
 
@@ -102,9 +102,9 @@ const Pagination: React.FC<PaginationProps> = ({
                 ›
               </span>
             ) : (
-              <a
+              <Link
                 className="page-link"
-                href={`${baseUrl}?page=${currentPage + 1}`}
+                to={`${baseUrl}?page=${currentPage + 1}`}
                 rel="next"
                 aria-label="Next »"
                 onClick={(e) => {
@@ -113,7 +113,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 }}
               >
                 ›
-              </a>
+              </Link>
             )}
           </li>
         </ul>

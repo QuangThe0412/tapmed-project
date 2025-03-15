@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import "./formBooking.css";
 
 const FormBooking: React.FC = () => {
@@ -50,7 +49,6 @@ const FormBooking: React.FC = () => {
 
   return (
     <div id="form-booking">
-      <ToastContainer />
       <h3>Liên Hệ Đặt Hàng (HOTLINE: 0963.74.4567)</h3>
       <div id="alert-danger-trieu" className="mb-4">
         <div className="alert alert-danger p-2 text-sm text-red-600 bg-red-100 rounded">

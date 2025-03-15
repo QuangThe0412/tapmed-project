@@ -1,5 +1,6 @@
 import React from "react";
 import "./footer.css";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
   return (
@@ -19,11 +20,12 @@ const Footer: React.FC = () => {
                   số 85 Vũ Trọng Phụng, Thanh Xuân, Hà Nội
                 </p>
                 <p>
-                  <b>Hotline</b>: <a href="tel:0963.744.567">0963.744.567</a>
+                  <b>Hotline</b>:{" "}
+                  <Link to="tel:0963.744.567">0963.744.567</Link>
                 </p>
                 <p>
                   <b>Email</b>:{" "}
-                  <a href="mailto:info@tapmed.vn">info@tapmed.vn</a>
+                  <Link to="mailto:info@tapmed.vn">info@tapmed.vn</Link>
                 </p>
                 <p>
                   <b>Tên người đại diện</b>: Bà Nguyễn Thị Hà

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductItem from "./productItem";
 import "./product.css";
-import { toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import { ProductItemType } from "@src/types/typeProduct";
 import { useProductStore } from "@src/stores/productStore";
 import Pagination2 from "@src/component/pagination/pagination2";

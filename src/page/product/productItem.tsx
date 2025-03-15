@@ -3,6 +3,7 @@ import useOrderStore from "@src/stores/orderStore";
 import { ProductItemType } from "@src/types/typeProduct";
 import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
   const { id, name, unit, price, images } = item;
@@ -29,15 +30,15 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
     <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-8 px-4">
       <div className="item_product_main">
         <div className="product-thumbnail">
-          <a className="image_thumb" href={productUrl} title={name}>
+          <Link className="image_thumb" to={productUrl} title={name}>
             <img className="hover:scale-105" src={image} alt={name} />
-          </a>
+          </Link>
         </div>
         <div className="product-info">
           <h3 className="product-name line-clamp-2">
-            <a href={productUrl} title={name}>
+            <Link to={productUrl} title={name}>
               {name}
-            </a>
+            </Link>
           </h3>
           <div className="product-sum">
             <p>Đơn vị tính : {unit}</p>

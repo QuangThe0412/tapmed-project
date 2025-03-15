@@ -3,8 +3,11 @@ import "./blogDetail.css";
 import { getIdFromSlug } from "@src/utils/common";
 import { Autoplay, Pagination } from "swiper/modules";
 import { SliderMoreInfo } from "@src/component/slider/sliderMoreInfo";
+import { useLocation } from "react-router-dom";
 
 const BlogDetails: React.FC = () => {
+  const location = useLocation();
+
   const fetchNewsData = async () => {
     try {
       const data = await import("@dataMockup/blogData.json");
@@ -15,12 +18,23 @@ const BlogDetails: React.FC = () => {
   };
 
   const [newsData, setNewsData] = React.useState<any>(null);
+
   useEffect(() => {
     fetchNewsData().then((data) => setNewsData(data));
   }, []);
 
-  const id = getIdFromSlug();
-  const news = newsData?.find((item: any) => item.id === id);
+  const [news, setNews] = React.useState<any>(null);
+
+  useEffect(() => {
+    const currentId = getIdFromSlug();
+    if (newsData) {
+      const currentNews = newsData.find((item: any) => item.id === currentId);
+      setNews(currentNews);
+      // Cuộn lên đầu trang khi chuyển bài viết
+      window.scrollTo(0, 0);
+    }
+  }, [newsData, location.pathname]);
+
   const { title, image, content } = news || {};
 
   const sliderSettings = {
@@ -28,10 +42,6 @@ const BlogDetails: React.FC = () => {
     slidesPerView: 1,
     spaceBetween: 10,
     navigation: false,
-    // autoplay: {
-    //   delay: 2000,
-    //   disableOnInteraction: false,
-    // },
     modules: [Autoplay, Pagination],
     breakpoints: {
       640: {
@@ -72,7 +82,12 @@ const BlogDetails: React.FC = () => {
             <h2 className="text-3xl text-center font-bold">Tin tức khác</h2>
           </div>
           <div className="w-screen lg:w-full">
-            <SliderMoreInfo data={newsData} settings={sliderSettings} />
+            <SliderMoreInfo
+              data={newsData?.filter(
+                (item: any) => item.id !== (news?.id || "")
+              )}
+              settings={sliderSettings}
+            />
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { SliderWithoutContent } from "../../component/slider/sliderWithoutConten
 import { BlogType } from "@src/types/typeBlog";
 import { DataSlider } from "@src/component/slider/slider";
 import { generateSlug } from "@src/utils/common";
+import { Link } from "react-router-dom";
 
 const BlogItem: React.FC<{ post: BlogType }> = ({ post }) => {
   const { id, title, image, content } = post;
@@ -14,23 +15,23 @@ const BlogItem: React.FC<{ post: BlogType }> = ({ post }) => {
     <div className="item-blog mb-6">
       <div className="flex flex-col md:flex-row">
         <div className="w-full lg:w-5/12 md:w-6/12 mb-4 md:mb-0">
-          <a className="block overflow-hidden" href={blogtUrl} title={title}>
+          <Link className="block overflow-hidden" to={blogtUrl} title={title}>
             <img
               src={image}
               alt={title}
               className="w-full h-auto object-cover"
             />
-          </a>
+          </Link>
         </div>
         <div className="w-full lg:w-7/12 md:w-6/12 pl-0 md:pl-4 text-left">
           <h3 className="text-lg font-semibold mb-2">
-            <a
-              href={blogtUrl}
+            <Link
+              to={blogtUrl}
               title={title}
               className="text-gray-800 hover:text-blue-600 line-clamp-2"
             >
               {title}
-            </a>
+            </Link>
           </h3>
           <div className="text-gray-600 line-clamp-3">{content}</div>
         </div>

@@ -78,3 +78,16 @@ export const getIdFromSlug = (slug?: string): number => {
   const id = parts.pop();
   return id && !isNaN(Number(id)) ? parseInt(id) : 0;
 };
+
+// hàm check xem path nào đang active
+export const checkActivePath = (path: string) => {
+  const pathname = window.location.pathname;
+
+  // Trường hợp đặc biệt cho trang chủ
+  if (path === "/") {
+    return pathname === "/" || pathname === "/index.html";
+  }
+
+  // Các trường hợp khác: kiểm tra xem pathname có bắt đầu bằng path không
+  return pathname.startsWith(path);
+};

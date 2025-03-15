@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { CircleUser, User } from "lucide-react";
 import useAuthStore from "@src/stores/authStore";
 import useAuthModalStore from "@src/stores/authModalStore";
+import { checkActivePath } from "@src/utils/common";
 
 const BottomNavMenu: React.FC = () => {
   const { openLoginModal } = useAuthModalStore();
@@ -12,25 +13,16 @@ const BottomNavMenu: React.FC = () => {
   const location = useLocation();
 
   const LoginElement = () => {
-    if (isAuthenticated && user) {
+    if (!isAuthenticated) {
       return (
-        <li className="flex-1 text-center">
-          <Link to="/profile" className="text-style">
-            <User size={24} />
-            <span className="line-clamp-1">Tài khoản</span>
-          </Link>
+        <li className="flex-1 text-center" onClick={openLoginModal}>
+          <div className="text-style">
+            <CircleUser size={24} />
+            <span className="line-clamp-1">Đăng nhập</span>
+          </div>
         </li>
       );
     }
-
-    return (
-      <li className="flex-1 text-center" onClick={openLoginModal}>
-        <div className="text-style">
-          <CircleUser size={24} />
-          <span className="line-clamp-1">Đăng nhập</span>
-        </div>
-      </li>
-    );
   };
 
   return (
@@ -47,7 +39,7 @@ const BottomNavMenu: React.FC = () => {
                   <Link
                     to={path.path}
                     className={`text-style ${
-                      location.pathname === path.path ? "active" : ""
+                      checkActivePath(path.path) ? "active" : ""
                     }`}
                   >
                     <Icon size={24} />

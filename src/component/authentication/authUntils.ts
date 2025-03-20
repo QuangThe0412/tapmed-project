@@ -53,6 +53,7 @@ export function removeRefreshToken() {
 // AUTH STATE
 export function clearStorage() {
   localStorage.removeItem("auth");
+  localStorage.removeItem("order");
   removeAccessToken();
   removeRefreshToken();
 }

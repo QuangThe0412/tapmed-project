@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useAuthModalStore from "@src/component/authentication/authModalStore";
-import { authenticateUser } from "./authEndpoint";
+import { LoginType, loginUser } from "./authEndpoint";
 import toast from "react-hot-toast";
 import useAuthStore, { User } from "./useAuthStore";
 
-type FormLoginType = {
-  username: string;
-  password: string;
-};
-
-const initFormLogin: FormLoginType = {
+const initFormLogin: LoginType = {
   username: "",
   password: "",
 };
 
 const FormLogin: React.FC = () => {
-  const [formLogin, setFormLogin] = useState<FormLoginType>(initFormLogin);
+  const [formLogin, setFormLogin] = useState<LoginType>(initFormLogin);
   const { closeLoginModal } = useAuthModalStore();
   const { setAuthenticated } = useAuthStore();
 
@@ -35,7 +30,7 @@ const FormLogin: React.FC = () => {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const res = await authenticateUser({
+      const res = await loginUser({
         ...formLogin,
       });
 
@@ -45,7 +40,6 @@ const FormLogin: React.FC = () => {
           username: res.name,
           fullName: res.fullName,
           phone: res.phone,
-          drugStoreName: res.drugStoreName,
           address: res.address,
           avatar: res.avatar,
           email: res.email,
@@ -61,14 +55,14 @@ const FormLogin: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Lỗi đăng nhập:", error.message);
-      toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
       <div className="form-group">
-        <label htmlFor="username">Tên đăng nhập</label>
+        <label htmlFor="username">Số điện thoại</label>
         <input
           type="text"
           id="username"

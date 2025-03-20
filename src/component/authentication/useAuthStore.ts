@@ -15,7 +15,6 @@ export type User = {
   fullName?: string;
   phone: string;
   email: string;
-  drugStoreName: string;
   address: string;
   avatar?: string;
   roles: string[];

@@ -6,7 +6,6 @@ import {
 } from "@src/component/authentication/authUntils";
 import axios from "axios";
 import { API_BASE_URL } from "./contanst";
-import toast from "react-hot-toast";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -19,8 +18,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    config.headers["IP-Address"] = localStorage.getItem("ipAddress") || "";
-
     if (isAuthenticated()) {
       config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
     }

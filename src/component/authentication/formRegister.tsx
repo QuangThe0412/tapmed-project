@@ -2,38 +2,43 @@ import { useProvinceStore } from "@src/stores/useProvinceStore";
 import Select from "react-select";
 import React, { useEffect, useState } from "react";
 import { DistrictType, ProvinceType, WardType } from "@src/types/typeProvice";
+import { RegisterType, registerUser } from "./authEndpoint";
+import toast from "react-hot-toast";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import useAuthStore, { User } from "./useAuthStore";
+import useAuthModalStore from "./authModalStore";
 
-type FormRegisterType = {
-  nameRegister: string;
-  drugStoreName: string;
-  phoneRegister: string;
-  provinceCode: number;
-  districtCode: number;
-  wardCode: number;
-  addressRegister: string;
-  password: string;
-};
-
-const initFormRegister: FormRegisterType = {
-  nameRegister: "",
-  drugStoreName: "",
-  phoneRegister: "",
-  provinceCode: 0,
-  districtCode: 0,
-  wardCode: 0,
-  addressRegister: "",
+const initFormRegister: RegisterType = {
+  fullname: "",
   password: "",
+  phone: "",
+  address: "",
+  email: "",
 };
 
 const FormRegister: React.FC = () => {
+  const { setAuthenticated } = useAuthStore();
+  const { closeRegisterModal } = useAuthModalStore();
   const [formRegister, setFormRegister] =
-    useState<FormRegisterType>(initFormRegister);
+    useState<RegisterType>(initFormRegister);
 
   const [province, setProvince] = useState<ProvinceType | null>();
   const [district, setDistrict] = useState<DistrictType | null>();
   const [ward, setWard] = useState<WardType | null>();
 
   const { Provinces } = useProvinceStore();
+
+  //test auto fill
+  useEffect(() => {
+    setFormRegister({
+      fullname: "string", // Giá trị mặc định cho fullname
+      password: "string", // Giá trị mặc định cho password
+      phone: "0901465840", // Giá trị mặc định cho phone
+      address: "string", // Giá trị mặc định cho address
+      email: "string@asd.com", // Giá trị mặc định cho mail
+    });
+  }, []);
 
   // Reset district and ward when province changes
   useEffect(() => {
@@ -88,53 +93,94 @@ const FormRegister: React.FC = () => {
     setFormRegister({ ...formRegister, [name]: value });
   };
 
-  const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     let _form = { ...formRegister };
-    _form.provinceCode = province?.code || 0;
-    _form.districtCode = district?.code || 0;
-    _form.wardCode = ward?.code || 0;
+    const { address, fullname, password, phone, email } = _form;
 
-    console.log(_form);
-    //call API register here
+    if (
+      !address ||
+      !fullname ||
+      !password ||
+      !phone ||
+      !email ||
+      !province ||
+      !district ||
+      !ward
+    ) {
+      toast.error("Vui lòng nhập đầy đủ thông tin.");
+      return;
+    }
+
+    const _address = `${address}, ${ward?.name}, ${district?.name}, ${province?.name}`;
+    _form = {
+      ..._form,
+      address: _address,
+    };
+
+    try {
+      const res = await registerUser({
+        ..._form,
+      });
+
+      if (res) {
+        const user: User = {
+          id: res.id,
+          username: res.name,
+          fullName: res.fullName,
+          phone: res.phone,
+          address: res.address,
+          avatar: res.avatar,
+          email: res.email,
+          roles: res.roles,
+        };
+
+        localStorage.setItem("accessToken", res.token);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        setAuthenticated(user);
+
+        toast.success("Đăng ký thành công");
+        closeRegisterModal();
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.error("Lỗi đăng ký:", error.message);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
     <form onSubmit={handleRegister}>
       <div className="form-group">
-        <label htmlFor="nameRegister">Họ và tên</label>
+        <label htmlFor="fullname">Họ và tên</label>
         <input
           type="text"
-          id="nameRegister"
-          name="nameRegister"
-          value={formRegister.nameRegister}
+          id="fullname"
+          name="fullname"
+          value={formRegister.fullname}
           onChange={handleChange}
           required
         />
       </div>
       <div className="form-group">
-        <label htmlFor="drugStoreName">Tên cơ sở</label>
+        <label htmlFor="email">Email</label>
         <input
-          type="text"
-          id="drugStoreName"
-          name="drugStoreName"
-          value={formRegister.drugStoreName}
+          type="email"
+          id="email"
+          name="email"
+          value={formRegister.email}
           onChange={handleChange}
           required
         />
       </div>
       <div className="form-group">
-        <label htmlFor="phoneRegister">
-          Số điện thoại (sẽ được dùng làm tên đăng nhập)
-        </label>
-        <input
-          type="tel"
-          id="phoneRegister"
-          name="phoneRegister"
-          value={formRegister.phoneRegister}
-          onChange={handleChange}
-          required
+        <label htmlFor="phone">Số điện thoại</label>
+        <PhoneInput
+          inputClass="!w-full"
+          country={"vn"}
+          value={formRegister.phone}
+          onChange={(phone) => setFormRegister({ ...formRegister, phone })}
         />
       </div>
       <div className="form-group">
@@ -153,7 +199,7 @@ const FormRegister: React.FC = () => {
         <Select
           options={provincesOptions}
           placeholder="Chọn thành phố"
-          isClearable
+          isClearable={false}
           onChange={handleProvinceChange}
           //   className="basic-single"
           classNamePrefix="select"
@@ -164,7 +210,7 @@ const FormRegister: React.FC = () => {
         <Select
           options={districtsOptions}
           placeholder="Chọn quận/huyện"
-          isClearable
+          isClearable={false}
           onChange={(selectedOption: any) => {
             handleDistrictChange(selectedOption);
           }}
@@ -177,7 +223,7 @@ const FormRegister: React.FC = () => {
         <Select
           options={wardsOptions}
           placeholder="Chọn phường/xã"
-          isClearable
+          isClearable={false}
           onChange={(selectedOption: any) => {
             handleWardChange(selectedOption);
           }}
@@ -186,12 +232,12 @@ const FormRegister: React.FC = () => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="address_register">Địa chỉ</label>
+        <label htmlFor="address">Địa chỉ</label>
         <input
           type="text"
-          id="address_register"
-          name="address_register"
-          value={formRegister.addressRegister}
+          id="address"
+          name="address"
+          value={formRegister.address}
           onChange={handleChange}
           required
         />

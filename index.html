@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="application/javascript">
+      var global = window;
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://ipinfo.io/json")
+          .then((response) => response.json())
+          .then((data) => {
+            if (!!data.ip) {
+              localStorage.setItem("ipAddress", data.ip);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching IP address:", error);
+          });
+      });
+    </script>
     <title>Tapmed Chuyên Phân Phối Thuốc Sỉ, Dược Sỉ</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"

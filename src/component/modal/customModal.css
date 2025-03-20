@@ -12,14 +12,14 @@
   border-radius: 8px;
   border: none;
   background-color: #fff;
-  z-index: 11001 !important;
+  z-index: 1101 !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.5) !important;
-  z-index: 11000 !important;
+  z-index: 1101 !important;
 }
 
 /* Styling cho CustomModal */

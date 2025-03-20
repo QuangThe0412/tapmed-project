@@ -2,19 +2,19 @@ import { ReviewType } from "@src/types/typeReview";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const NAME_STORAGE_CUSTOMER_COMMENT = "customer-comment-store";
+export const NAME_STORAGE_CUSTOMER_COMMENT = "review-store";
 
-interface CustomerCommentStore {
-  commentCustomers: ReviewType[];
+interface ReviewsStore {
+  reviews: ReviewType[];
   isLoading: boolean;
   error: string | null;
   fetchData: () => Promise<void>;
 }
 
-const useReviewStore = create<CustomerCommentStore>()(
+const useReviewStore = create<ReviewsStore>()(
   persist(
     (set, get) => ({
-      commentCustomers: [],
+      reviews: [],
       isLoading: false,
       error: null,
 
@@ -25,7 +25,7 @@ const useReviewStore = create<CustomerCommentStore>()(
           const data = response.default;
 
           set({
-            commentCustomers: data as ReviewType[],
+            reviews: data as ReviewType[],
             isLoading: false,
           });
         } catch (error) {
@@ -36,7 +36,7 @@ const useReviewStore = create<CustomerCommentStore>()(
     }),
     {
       name: NAME_STORAGE_CUSTOMER_COMMENT,
-      partialize: (state) => ({ commentCustomers: state.commentCustomers }),
+      partialize: (state) => ({ reviews: state.reviews }),
     }
   )
 );

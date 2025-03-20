@@ -1,55 +1,82 @@
-import React, { useState } from "react";
-import useAuthStore from "@src/component/authentication/useAuthStore";
+import React, { useEffect, useState } from "react";
 import useAuthModalStore from "@src/component/authentication/authModalStore";
-import toast, { Toaster } from "react-hot-toast";
+import { authenticateUser } from "./authEndpoint";
+import toast from "react-hot-toast";
+import useAuthStore, { User } from "./useAuthStore";
 
 type FormLoginType = {
-  name: string;
+  username: string;
   password: string;
 };
 
 const initFormLogin: FormLoginType = {
-  name: "",
+  username: "",
   password: "",
 };
 
 const FormLogin: React.FC = () => {
   const [formLogin, setFormLogin] = useState<FormLoginType>(initFormLogin);
-  const { login, isLoading, error } = useAuthStore();
   const { closeLoginModal } = useAuthModalStore();
+  const { setAuthenticated } = useAuthStore();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormLogin({ ...formLogin, [name]: value });
   };
 
+  //test
+  useEffect(() => {
+    setFormLogin({
+      username: "string", // Giá trị mặc định cho username
+      password: "string", // Giá trị mặc định cho password
+    });
+  }, []);
+
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formLogin);
-    //call API login here
     try {
-      login(formLogin.name, formLogin.password).then((user) => {
-        console.log(user);
-        toast.success("Đăng nhập thành công!");
-        closeLoginModal();
+      const res = await authenticateUser({
+        ...formLogin,
       });
-    } catch (err) {
-      // Error is handled by the store
+
+      if (res) {
+        const user: User = {
+          id: res.id,
+          username: res.name,
+          fullName: res.fullName,
+          phone: res.phone,
+          drugStoreName: res.drugStoreName,
+          address: res.address,
+          avatar: res.avatar,
+          email: res.email,
+          roles: res.roles,
+        };
+
+        localStorage.setItem("accessToken", res.token);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        setAuthenticated(user);
+
+        toast.success("Đăng nhập thành công");
+        closeLoginModal();
+      }
+    } catch (error: any) {
+      console.error("Lỗi đăng nhập:", error.message);
+      toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
       <div className="form-group">
-        <label htmlFor="name">Tên đăng nhập</label>
+        <label htmlFor="username">Tên đăng nhập</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={formLogin.name}
+          id="username"
+          name="username"
+          value={formLogin.username}
           onChange={handleChange}
+          tabIndex={1}
           required
-          disabled={isLoading}
         />
       </div>
       <div className="form-group">
@@ -60,18 +87,11 @@ const FormLogin: React.FC = () => {
           name="password"
           value={formLogin.password}
           onChange={handleChange}
+          tabIndex={2}
           required
-          disabled={isLoading}
         />
       </div>
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-      <button
-        type="submit"
-        disabled={isLoading}
-        className={isLoading ? "opacity-70 cursor-not-allowed" : ""}
-      >
-        {isLoading ? "Đang xử lý..." : "Đăng nhập"}
-      </button>
+      <button type="submit">Đăng nhập</button>
     </form>
   );
 };

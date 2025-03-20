@@ -76,6 +76,10 @@ body.modal-open {
   overflow: hidden;
 }
 
+.toaster {
+  z-index: 9999 !important; /* Đảm bảo toast luôn ở trên cùng */
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

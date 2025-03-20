@@ -6,7 +6,7 @@ import useReviewtStore from "@src/stores/useReviewStore";
 import { ReviewType } from "@src/types/typeReview";
 
 const SectionTestimonials: React.FC = () => {
-  const { commentCustomers, fetchData: fetchComments } = useReviewtStore();
+  const { reviews, fetchData: fetchComments } = useReviewtStore();
   const [data, setData] = useState<ReviewType[]>([]);
 
   useEffect(() => {
@@ -18,10 +18,10 @@ const SectionTestimonials: React.FC = () => {
   }, [fetchComments]);
 
   useEffect(() => {
-    if (commentCustomers.length > 0) {
-      setData(commentCustomers);
+    if (reviews.length > 0) {
+      setData(reviews);
     }
-  }, [commentCustomers]);
+  }, [reviews]);
 
   const sliderSettings = {
     loop: true,

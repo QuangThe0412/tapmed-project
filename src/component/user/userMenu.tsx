@@ -43,7 +43,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
           <User size={20} className="text-blue-500" />
         </div>
-        <span className="hidden md:inline font-medium">{user.name}</span>
+        <span className="hidden md:inline font-medium">{user.username}</span>
       </div>
       {/* bottom: 130%;
       left: 20%; */}
@@ -54,7 +54,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
           } absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50`}
         >
           <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">{user.name}</p>
+            <p className="text-sm font-medium text-gray-900">{user.username}</p>
             <p className="text-xs text-gray-500">{user.drugStoreName}</p>
           </div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import useOrderStore from "../../stores/orderStore";
+import useOrderStore from "../../stores/useOrderStore";
 import "./quickOrder.css";
 import { ProductItemType } from "@src/types/typeProduct";
 import { generateSlug, parsePrice } from "@src/utils/common";

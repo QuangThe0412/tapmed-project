@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
-import useOrderStore from "@src/stores/orderStore";
-import { useProductStore } from "@src/stores/productStore";
+import useOrderStore from "@src/stores/useOrderStore";
+import { useProductStore } from "@src/stores/useProductStore";
 import "../cart/headerCart.css";
 
 // Thiết lập cho accessibility

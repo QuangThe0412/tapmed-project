@@ -7,13 +7,13 @@ import Footer from "../footer/footer";
 import BottomNavMenu from "../bottomNavMenu/bottomNavMenu";
 import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
-import { useProductStore } from "../../stores/productStore";
-import { useProvinceStore } from "@src/stores/provinceStore";
-import useAuthModalStore from "@src/stores/authModalStore";
+import { useProductStore } from "../../stores/useProductStore";
+import { useProvinceStore } from "@src/stores/useProvinceStore";
+import useAuthModalStore from "@src/component/authentication/authModalStore";
 import CustomModal from "../modal/customModal";
-import FormRegister from "../modal/formRegister";
-import FormLogin from "../modal/formLogin";
-import useBlogStore from "@src/stores/blogStore";
+import FormRegister from "../authentication/formRegister";
+import FormLogin from "../authentication/formLogin";
+import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
 
 interface MainLayoutProps {

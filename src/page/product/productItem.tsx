@@ -1,5 +1,5 @@
 import ButtonCustom from "@src/component/button/buttonCustom";
-import useOrderStore from "@src/stores/orderStore";
+import useOrderStore from "@src/stores/useOrderStore";
 import { ProductItemType } from "@src/types/typeProduct";
 import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";

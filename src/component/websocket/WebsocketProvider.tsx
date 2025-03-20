@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Client, IMessage } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { getUsername } from "@src/utils/authUntils";
+import { getUsername } from "@src/component/authentication/authUntils";
 
 export type WebsocketProviderType = {
   sendMessage: (destination: string, message: string) => void;

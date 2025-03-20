@@ -4,7 +4,7 @@ import ProductItem from "./productItem";
 import "./product.css";
 import toast, { Toaster } from "react-hot-toast";
 import { ProductItemType } from "@src/types/typeProduct";
-import { useProductStore } from "@src/stores/productStore";
+import { useProductStore } from "@src/stores/useProductStore";
 import Pagination2 from "@src/component/pagination/pagination2";
 
 function Product() {

@@ -2,7 +2,7 @@ import React from "react";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionProductNew.css";
 import { Autoplay, Pagination } from "swiper/modules";
-import { useProductStore } from "@src/stores/productStore";
+import { useProductStore } from "@src/stores/useProductStore";
 
 const SectionProductNew: React.FC = () => {
   const { products } = useProductStore();

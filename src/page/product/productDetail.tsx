@@ -1,13 +1,13 @@
 import "./productDetail.css";
-import useOrderStore from "@src/stores/orderStore";
-import { useProductStore } from "@src/stores/productStore";
+import useOrderStore from "@src/stores/useOrderStore";
+import { useProductStore } from "@src/stores/useProductStore";
 import { ProductItemType } from "@src/types/typeProduct";
 import { getIdFromSlug } from "@src/utils/common";
 import ProductDetailSlider from "./productDetailSlider";
 import { Minus, Plus } from "lucide-react";
 import ButtonCustom from "@src/component/button/buttonCustom";
 import TabsComponent from "@src/component/tabs/tabs";
-import useCartStore from "@src/stores/cartModalStore";
+import useCartStore from "@src/stores/useCartModalStore";
 
 const ProductDetail = () => {
   const productId = getIdFromSlug();

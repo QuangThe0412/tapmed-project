@@ -1,4 +1,4 @@
-import { useProvinceStore } from "@src/stores/provinceStore";
+import { useProvinceStore } from "@src/stores/useProvinceStore";
 import Select from "react-select";
 import React, { useEffect, useState } from "react";
 import { DistrictType, ProvinceType, WardType } from "@src/types/typeProvice";

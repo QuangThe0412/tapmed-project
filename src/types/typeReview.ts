@@ -1,4 +1,4 @@
-export interface CustomerCommentType {
+export interface ReviewType {
   id: number;
   productId: number;
   blogId: number;

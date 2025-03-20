@@ -1,12 +1,12 @@
 import React from "react";
-import useDrawerStore from "../../stores/menuMobileStore";
+import useDrawerStore from "../../stores/useMenuMobileStore";
 import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import { paths } from "../../../src/utils/contanst";
 import { Link, useLocation } from "react-router-dom";
-import useAuthStore from "@src/stores/authStore";
-import useAuthModalStore from "@src/stores/authModalStore";
+import useAuthStore from "@src/component/authentication/useAuthStore";
+import useAuthModalStore from "@src/component/authentication/authModalStore";
 import { useEffect } from "react";
 import UserMenu from "../user/userMenu";
 import { checkActivePath } from "@src/utils/common";

@@ -3,8 +3,8 @@ import "./bottomNavMenu.css";
 import { paths } from "@src/utils/contanst";
 import { Link, useLocation } from "react-router-dom";
 import { CircleUser, User } from "lucide-react";
-import useAuthStore from "@src/stores/authStore";
-import useAuthModalStore from "@src/stores/authModalStore";
+import useAuthStore from "@src/component/authentication/useAuthStore";
+import useAuthModalStore from "@src/component/authentication/authModalStore";
 import { checkActivePath } from "@src/utils/common";
 
 const BottomNavMenu: React.FC = () => {

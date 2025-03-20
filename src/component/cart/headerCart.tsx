@@ -1,6 +1,6 @@
 import { ShoppingCart } from "lucide-react";
 import CartModal from "../modal/modalCart";
-import useCartStore from "@src/stores/cartModalStore";
+import useCartStore from "@src/stores/useCartModalStore";
 
 const HeaderCart = () => {
   const { isCartOpen, openCart, productCount, closeCart } = useCartStore();

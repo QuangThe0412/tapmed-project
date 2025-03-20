@@ -54,7 +54,7 @@ const useAuthStore = create<AuthState>()(
               isLoading: false,
             });
 
-            return user;
+            // User data is set in the state, no need to return it
           }
 
           throw new Error("Tên đăng nhập hoặc mật khẩu không đúng");

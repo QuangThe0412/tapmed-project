@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { User, LogOut, ShoppingBag } from "lucide-react";
-import useAuthStore from "@src/stores/authStore";
+import useAuthStore from "@src/component/authentication/useAuthStore";
 import { Link } from "react-router-dom";
 import "./userMenu.css";
 

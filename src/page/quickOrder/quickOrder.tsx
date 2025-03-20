@@ -3,7 +3,7 @@ import "./quickOrder.css";
 import QuickOrderItem from "./quickOrderItem";
 import { useEffect, useState, useMemo } from "react";
 import fetchCategories from "./listCategory";
-import { useProductStore } from "@src/stores/productStore";
+import { useProductStore } from "@src/stores/useProductStore";
 import { CategoryType } from "@src/types/typeCategory";
 import { ProducerType } from "@src/types/typeProducer";
 import fetchProducer from "./listProducer";

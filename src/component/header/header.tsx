@@ -3,10 +3,10 @@ import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";
 import HeaderCart from "../cart/headerCart";
-import useDrawerStore from "../../stores/menuMobileStore";
+import useDrawerStore from "../../stores/useMenuMobileStore";
 import { Menu } from "lucide-react";
-import useAuthStore from "@src/stores/authStore";
-import useAuthModalStore from "@src/stores/authModalStore";
+import useAuthStore from "@src/component/authentication/useAuthStore";
+import useAuthModalStore from "@src/component/authentication/authModalStore";
 import UserMenu from "../user/userMenu";
 import { Link } from "react-router-dom";
 

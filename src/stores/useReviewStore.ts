@@ -1,17 +1,17 @@
-import { CustomerCommentType } from "@src/types/typeCustomerComment";
+import { ReviewType } from "@src/types/typeReview";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export const NAME_STORAGE_CUSTOMER_COMMENT = "customer-comment-store";
 
 interface CustomerCommentStore {
-  commentCustomers: CustomerCommentType[];
+  commentCustomers: ReviewType[];
   isLoading: boolean;
   error: string | null;
   fetchData: () => Promise<void>;
 }
 
-const useCustomerCommentStore = create<CustomerCommentStore>()(
+const useReviewStore = create<CustomerCommentStore>()(
   persist(
     (set, get) => ({
       commentCustomers: [],
@@ -25,7 +25,7 @@ const useCustomerCommentStore = create<CustomerCommentStore>()(
           const data = response.default;
 
           set({
-            commentCustomers: data as CustomerCommentType[],
+            commentCustomers: data as ReviewType[],
             isLoading: false,
           });
         } catch (error) {
@@ -41,4 +41,4 @@ const useCustomerCommentStore = create<CustomerCommentStore>()(
   )
 );
 
-export default useCustomerCommentStore;
+export default useReviewStore;

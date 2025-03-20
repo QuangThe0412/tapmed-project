@@ -1,7 +1,7 @@
 import { Autoplay, Pagination } from "swiper/modules";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionHotSale.css";
-import useBlogStore from "@src/stores/blogStore";
+import useBlogStore from "@src/stores/useBlogStore";
 
 const SectionHotSale: React.FC = () => {
   const { blogPosts } = useBlogStore();

@@ -4,7 +4,7 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import "./breadcrumbs.css";
 import { paths } from "../../utils/contanst";
 import { getIdFromSlug } from "../../utils/common";
-import { useProductStore } from "@src/stores/productStore";
+import { useProductStore } from "@src/stores/useProductStore";
 
 const Breadcrumbs: React.FC = () => {
   const breadcrumbs = useBreadcrumbs();

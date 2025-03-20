@@ -3,7 +3,7 @@ import "./sectionBanner.css";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import FormBooking from "./formBooking";
 import { SliderWithoutContent } from "../slider/sliderWithoutContent";
-import useBlogStore from "@src/stores/blogStore";
+import useBlogStore from "@src/stores/useBlogStore";
 
 const SectionBanner: React.FC = () => {
   const { blogPosts } = useBlogStore();

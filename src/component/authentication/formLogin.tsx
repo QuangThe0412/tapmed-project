@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import useAuthStore from "@src/stores/authStore";
-import useAuthModalStore from "@src/stores/authModalStore";
+import useAuthStore from "@src/component/authentication/useAuthStore";
+import useAuthModalStore from "@src/component/authentication/authModalStore";
 import toast, { Toaster } from "react-hot-toast";
 
 type FormLoginType = {

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import useOrderStore from "./orderStore";
+import useOrderStore from "./useOrderStore";
 
 interface CartState {
   isCartOpen: boolean;

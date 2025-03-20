@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./sectionTestimonials.css";
 import { Autoplay, Pagination } from "swiper/modules";
-import { SliderCustomer } from "../slider/sliderCustomer";
-import useCustomerCommentStore from "@src/stores/customerCommentStore";
-import { CustomerCommentType } from "@src/types/typeCustomerComment";
+import { SliderReview } from "../slider/sliderReview";
+import useReviewtStore from "@src/stores/useReviewStore";
+import { ReviewType } from "@src/types/typeReview";
 
 const SectionTestimonials: React.FC = () => {
-  const { commentCustomers, fetchData: fetchComments } =
-    useCustomerCommentStore();
-  const [data, setData] = useState<CustomerCommentType[]>([]);
+  const { commentCustomers, fetchData: fetchComments } = useReviewtStore();
+  const [data, setData] = useState<ReviewType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +60,7 @@ const SectionTestimonials: React.FC = () => {
         </div>
         <div className="block-content">
           {data.length > 0 && (
-            <SliderCustomer data={data} settings={sliderSettings} />
+            <SliderReview data={data} settings={sliderSettings} />
           )}
         </div>
       </div>

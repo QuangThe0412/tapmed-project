@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import "./formBooking.css";
+import { useWebsocket } from "../websocket/WebsocketProvider";
 
 const FormBooking: React.FC = () => {
+  const { sendMessage } = useWebsocket();
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -44,7 +47,9 @@ const FormBooking: React.FC = () => {
     }
 
     // Xử lý logic gửi form ở đây
-    console.log("Form data submitted:", formData);
+    // console.log("Form data submitted:", formData);
+
+    sendMessage("/ws/app/test", "test websocket send from booking form");
   };
 
   return (

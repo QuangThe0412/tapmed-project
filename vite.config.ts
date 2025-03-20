@@ -3,6 +3,9 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 export default defineConfig({
+  define: {
+    global: "window",
+  },
   plugins: [tailwindcss()],
   server: {
     host: "192.168.1.7",

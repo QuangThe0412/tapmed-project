@@ -3,12 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import AppRoutes from "./routes.tsx";
 import { BrowserRouter } from "react-router-dom";
-import Layout from "./component/layout/layout.tsx";
+import AppWrapper from "./AppWarpper.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AppWrapper>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AppWrapper>
   </StrictMode>
 );

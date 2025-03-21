@@ -10,6 +10,7 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
   const { user, logout } = useAuthStore();
+  console.log(user);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +44,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
           <User size={20} className="text-blue-500" />
         </div>
-        <span className="hidden md:inline font-medium">{user.username}</span>
       </div>
       {/* bottom: 130%;
       left: 20%; */}
@@ -54,25 +54,27 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
           } absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50`}
         >
           <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900">{user.username}</p>
-            <p className="text-xs text-gray-500">{user.drugStoreName}</p>
+            <p className="text-sm font-medium text-gray-900">
+              Xin chào, {user.fullName}!!!
+            </p>
+            <p className="text-xs text-gray-500">{user.phone}</p>
           </div>
 
           <Link
-            to="/profile"
+            to="/"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
             onClick={() => setIsOpen(false)}
           >
             <User size={16} className="mr-2" /> Tài khoản
           </Link>
-
+          {/* 
           <Link
             to="/orders"
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
             onClick={() => setIsOpen(false)}
           >
             <ShoppingBag size={16} className="mr-2" /> Đơn hàng
-          </Link>
+          </Link> */}
 
           <div
             onClick={handleLogout}

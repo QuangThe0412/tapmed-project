@@ -22,7 +22,7 @@ const FormLogin: React.FC = () => {
   //test
   useEffect(() => {
     setFormLogin({
-      username: "string", // Giá trị mặc định cho username
+      username: "09014658499", // Giá trị mặc định cho username
       password: "string", // Giá trị mặc định cho password
     });
   }, []);
@@ -35,15 +35,16 @@ const FormLogin: React.FC = () => {
       });
 
       if (res) {
+        const { user: data } = res;
         const user: User = {
-          id: res.id,
-          username: res.name,
-          fullName: res.fullName,
-          phone: res.phone,
-          address: res.address,
-          avatar: res.avatar,
-          email: res.email,
-          roles: res.roles,
+          id: data.id,
+          username: data.name,
+          fullName: data.fullName,
+          phone: data.phone,
+          address: data.address,
+          avatar: data.avatar,
+          email: data.email,
+          roles: data.roles,
         };
 
         localStorage.setItem("accessToken", res.token);

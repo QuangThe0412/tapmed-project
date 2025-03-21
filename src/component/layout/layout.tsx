@@ -38,7 +38,7 @@ function MainLayout({ children }: MainLayoutProps) {
         if (!res) {
           throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
         }
-        setBlogPosts(res.blog);
+        setBlogPosts(res);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
         toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import imageEx from "../../assets/image/image-ex.jpg";
 
 // Import Swiper styles
 import "swiper/css";
@@ -39,13 +40,16 @@ export function Slider({ data, settings, renderPagination }: SliderProps) {
       {data &&
         data.map((item: DataSlider, index) => {
           const { link = "#", title, image } = item;
+
+          const _image = image ? image : imageEx;
+
           return (
             <SwiperSlide key={index}>
               <div className="item">
                 <div className="item_product_main">
                   <div className="product-thumbnail">
                     <Link className="image_thumb" to={link} title={title}>
-                      <img src={image} alt={title} />
+                      <img src={_image} alt={title} />
                     </Link>
                   </div>
                   <div className="product-info">

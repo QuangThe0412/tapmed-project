@@ -7,10 +7,10 @@ import AppWrapper from "./AppWarpper.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AppWrapper>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AppWrapper>
         <AppRoutes />
-      </BrowserRouter>
-    </AppWrapper>
+      </AppWrapper>
+    </BrowserRouter>
   </StrictMode>
 );

@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import TopBar from "../topBar/topBar";
 import Header from "../header/header";
 import HeaderMenu from "../header/headerMenu";
@@ -16,19 +16,19 @@ import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
 import { getBlogs } from "@src/page/news/blogEndpoint";
+import { getProducts } from "../product/productEndPoint";
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
 function MainLayout({ children }: MainLayoutProps) {
-  const fetchProducts = useProductStore((state) => state.fetchProducts);
-  const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
+  // const { setProducts } = useProductStore();
   const { setBlogPosts } = useBlogStore();
+  const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
 
   useEffect(() => {
     //handle ====>>>>>>>>
-    fetchProducts();
     fetchProvinces();
 
     const fetchData = async () => {
@@ -39,6 +39,14 @@ function MainLayout({ children }: MainLayoutProps) {
           throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
         }
         setBlogPosts(res);
+
+        // const product = await getProducts();
+        // console.log("product", product);
+        // if (!product) {
+        //   throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+        // }
+
+        // setProducts(product);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
         toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");

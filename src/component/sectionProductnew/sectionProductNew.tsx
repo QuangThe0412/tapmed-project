@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionProductNew.css";
 import { Autoplay, Pagination } from "swiper/modules";
-import { useProductStore } from "@src/stores/useProductStore";
+import { generateSlug } from "@src/utils/common";
+import { getNewestProducts } from "../product/productEndPoint";
+import { ProductItemType } from "@src/types/typeProduct";
 
 const SectionProductNew: React.FC = () => {
-  const { products } = useProductStore();
-  const _products = [] as DataSlider[];
-  products.forEach((item) => {
-    _products.push({
-      id: item.id,
-      title: item.name,
-      link: item?.link || "#",
-      image: item.images ? item.images[0] : "",
-    });
-  });
+  const [products, setProducts] = useState<DataSlider[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = (await getNewestProducts()) as ProductItemType[];
+      if (!res) {
+        throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+
+      const _products = res.map((item) => {
+        const { name: title, id, imageUrls } = item;
+
+        const slug = generateSlug(title);
+        const url = `/products/${slug}-${id}.html`;
+        const image = imageUrls ? imageUrls[0] : "";
+
+        return {
+          title,
+          link: url,
+          image,
+        };
+      }) as DataSlider[];
+
+      setProducts(_products);
+    };
+
+    fetchData();
+  }, []);
 
   const sliderSettings = {
     loop: true,
@@ -49,7 +69,7 @@ const SectionProductNew: React.FC = () => {
           <h3>SẢN PHẨM NỔI BẬT</h3>
         </div>
         <div className="block-content">
-          <Slider data={_products} settings={sliderSettings} />
+          <Slider data={products} settings={sliderSettings} />
         </div>
       </div>
     </section>

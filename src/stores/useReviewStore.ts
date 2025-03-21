@@ -21,7 +21,7 @@ const useReviewStore = create<ReviewsStore>()(
       fetchData: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await import("@dataMockup/customerComment.json");
+          const response = await import("@dataMockup/reviewData.json");
           const data = response.default;
 
           set({

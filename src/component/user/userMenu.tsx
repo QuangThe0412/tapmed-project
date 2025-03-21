@@ -10,7 +10,6 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
   const { user, logout } = useAuthStore();
-  console.log(user);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 

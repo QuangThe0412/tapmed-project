@@ -6,7 +6,13 @@ import useBlogStore from "@src/stores/useBlogStore";
 
 const SectionBlog: React.FC = () => {
   const { blogPosts } = useBlogStore();
-  const _data = blogPosts as DataSlider[];
+  let _data: DataSlider[] = [];
+
+  if (blogPosts && blogPosts.length > 0) {
+    _data = blogPosts
+      .filter((item) => item.category === "news")
+      .slice(0, 4) as DataSlider[];
+  }
 
   const sliderSettings = {
     loop: true,

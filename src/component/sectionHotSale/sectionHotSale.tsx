@@ -5,7 +5,13 @@ import useBlogStore from "@src/stores/useBlogStore";
 
 const SectionHotSale: React.FC = () => {
   const { blogPosts } = useBlogStore();
-  const _data = blogPosts as DataSlider[];
+  let _data: DataSlider[] = [];
+
+  if (blogPosts && blogPosts.length > 0) {
+    _data = blogPosts
+      .filter((item) => item.category === "promotion")
+      .slice(0, 4) as DataSlider[];
+  }
 
   const sliderSettings = {
     loop: true,

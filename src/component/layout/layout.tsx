@@ -15,6 +15,7 @@ import FormRegister from "../authentication/formRegister";
 import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
+import { getBlogs } from "@src/page/news/blogEndpoint";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -23,12 +24,28 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   const fetchProducts = useProductStore((state) => state.fetchProducts);
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
-  const fetchBlogs = useBlogStore((state) => state.fetchBlogs);
+  const { setBlogPosts } = useBlogStore();
 
   useEffect(() => {
+    //handle ====>>>>>>>>
     fetchProducts();
     fetchProvinces();
-    fetchBlogs();
+
+    const fetchData = async () => {
+      try {
+        //blog data
+        const res = await getBlogs();
+        if (!res) {
+          throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+        }
+        setBlogPosts(res.blog);
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+    };
+
+    fetchData();
   }, []);
 
   const {

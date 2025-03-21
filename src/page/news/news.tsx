@@ -6,6 +6,8 @@ import ListComponent from "./list";
 import { BlogType } from "@src/types/typeBlog";
 import Pagination2 from "@src/component/pagination/pagination2";
 import "./news.css";
+import { getBlogByCategory } from "./blogEndpoint";
+import toast from "react-hot-toast";
 
 function News() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,44 +15,41 @@ function News() {
   // State cho phân trang
   const [currentPage, setCurrentPage] = useState(0); // Pagination2 sử dụng index từ 0
   const [newsItems, setNewsItems] = useState<BlogType[]>([]);
-  const [paginatedItems, setPaginatedItems] = useState<BlogType[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false); // Trạng thái tải dữ liệu
   const itemsPerPage = 6;
 
-  const fetchNewsData = async () => {
+  // Hàm lấy dữ liệu từ API
+  const fetchData = async (page: number) => {
+    setLoading(true); // Bắt đầu tải dữ liệu
     try {
-      const data = await import("@dataMockup/blogData.json");
-      return data.default;
-    } catch (err) {
-      console.error("Error fetching news:", err);
+      const res = await getBlogByCategory("news", page, itemsPerPage);
+      if (!res) {
+        throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+      setNewsItems(res.blog);
+      setTotalPages(res.totalPages);
+    } catch (error: any) {
+      console.error("Lỗi khi tải dữ liệu:", error);
+      toast.error(
+        error?.message || "Không thể tải dữ liệu. Vui lòng thử lại sau."
+      );
+    } finally {
+      setLoading(false); // Kết thúc tải dữ liệu
     }
   };
 
-  useEffect(() => {
-    fetchNewsData().then((data) => {
-      const _new = data?.filter((item: BlogType) => item.category === "news");
-      setNewsItems(_new as BlogType[]);
-    });
-  }, []);
-
+  // Lấy page từ URL và gọi API
   useEffect(() => {
     const pageParam = searchParams.get("page");
-    if (pageParam) {
-      setCurrentPage(parseInt(pageParam) - 1);
-    } else {
-      setCurrentPage(0);
-    }
+    const page = pageParam ? parseInt(pageParam) - 1 : 0;
+    setCurrentPage(page);
+    fetchData(page);
   }, [searchParams]);
 
-  useEffect(() => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setPaginatedItems(newsItems.slice(startIndex, endIndex));
-  }, [currentPage, newsItems]);
-
-  const pageCount = Math.ceil(newsItems.length / itemsPerPage);
-
+  // Xử lý khi người dùng thay đổi trang
   const handlePageChange = ({ selected }: { selected: number }) => {
-    setSearchParams({ page: (selected + 1).toString() });
+    setSearchParams({ page: (selected + 1).toString() }); // Cập nhật URL
     window.scrollTo({
       top:
         (document.querySelector(".layout-collections") as HTMLElement)
@@ -59,18 +58,20 @@ function News() {
     });
   };
 
-  const dataNewsBlog = paginatedItems.slice(0, 3);
-  const dataNewsFeatured = paginatedItems.slice(0, 4);
-  const dataNewsList = paginatedItems;
-
   return (
     <div className="blog_wrapper layout-blog">
       <div className="container">
-        <BlogComponent data={dataNewsBlog} />
-        <FeaturedComponent data={dataNewsFeatured} />
-        <ListComponent data={dataNewsList} />
+        {loading ? (
+          <p className="text-center">Đang tải dữ liệu...</p>
+        ) : (
+          <>
+            <BlogComponent data={newsItems.slice(0, 3)} />
+            <FeaturedComponent data={newsItems.slice(0, 4)} />
+            <ListComponent data={newsItems} />
+          </>
+        )}
         <Pagination2
-          pageCount={pageCount}
+          pageCount={totalPages}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />

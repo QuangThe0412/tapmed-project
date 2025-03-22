@@ -16,7 +16,6 @@ import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
 import { getBlogs } from "@src/page/news/blogEndpoint";
-import { getProducts } from "../../page/product/productEndPoint";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -25,10 +24,11 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   const { setBlogPosts } = useBlogStore();
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
+  const { fetchProducts } = useProductStore();
 
   useEffect(() => {
-    //handle ====>>>>>>>>
     fetchProvinces();
+    fetchProducts(0, 12);
 
     const fetchData = async () => {
       try {

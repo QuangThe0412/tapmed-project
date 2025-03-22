@@ -6,14 +6,15 @@ import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";
 import ButtonCustom from "@src/component/button/buttonCustom";
 import { Link } from "react-router-dom";
+import imageEx from "@src/assets/image/image-ex.jpg";
 
 type OrderItemProps = {
   product: ProductItemType;
 };
 
 const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
-  const { id, name, images, unit, price } = product;
-  const image = images.length > 0 ? images[0] : "";
+  const { id, name, imageUrls, unit, costPrice } = product;
+  const image = imageUrls?.[0] || imageEx;
 
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();
@@ -57,7 +58,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
           <div className="grid product-prices text-left">
             <div className="price-box" id={`orderProduct-${id}`}>
               <span className="price">
-                <b>Giá : {parsePrice(price)}</b>
+                <b>Giá : {parsePrice(costPrice)}</b>
                 <br /> Đơn vị : {unit || "hộp"}
               </span>
             </div>

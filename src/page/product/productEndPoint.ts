@@ -45,3 +45,31 @@ export const getProductById = (id: number) => {
       throw error; // Ném lỗi để nơi gọi hàm xử lý
     });
 };
+
+export const getProductQuickOrder = (
+  page?: number,
+  size?: number,
+  producerId?: number,
+  categoryId?: number,
+  sortBy?: string,
+  sortDirection?: string,
+  search?: string
+) => {
+  return axiosInstance
+    .get(`${BACKEND_ENDPOINT}/products`, {
+      params: {
+        page: page,
+        size: size,
+        categoryId: categoryId,
+        producerId: producerId,
+        sortBy: sortBy,
+        sortDirection: sortDirection,
+        search: search,
+      },
+    })
+    .then((res) => (res && res?.data ? res.data : null))
+    .catch((error) => {
+      console.error("Lỗi khi gọi API:", error);
+      throw error; // Ném lỗi để nơi gọi hàm xử lý
+    });
+};

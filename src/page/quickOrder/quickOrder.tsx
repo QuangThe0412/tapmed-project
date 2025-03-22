@@ -10,7 +10,7 @@ import Select from "react-select";
 import { ProductItemType } from "@src/types/typeProduct";
 import SearchMini from "@src/component/input/searchMini";
 import Pagination2 from "@src/component/pagination/pagination2";
-import { getProductQuickOrder } from "../product/productEndPoint";
+import { getProducts } from "../product/productEndPoint";
 
 function QuickOrder() {
   const [dataProducts, setDataProducts] = useState<ProductItemType[]>([]);
@@ -33,7 +33,7 @@ function QuickOrder() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProductQuickOrder(
+        const data = await getProducts(
           currentPage + 1,
           itemsPerPage,
           selectedProducer ?? undefined,

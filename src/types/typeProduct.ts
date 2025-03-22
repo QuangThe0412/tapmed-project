@@ -1,6 +1,7 @@
 export interface ProductItemType {
   id: number;
   name: string;
+  description: string | null;
   retailPrice: number | null;
   wholesalePrice: number | null;
   costPrice: number | null;

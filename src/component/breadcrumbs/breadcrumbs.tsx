@@ -16,7 +16,10 @@ const Breadcrumbs: React.FC = () => {
 
   const { products } = useProductStore();
   const productId = getIdFromSlug(location.pathname);
-  const product = products.find((p) => p.id === productId);
+  let product = null;
+  if (products && products.length > 0) {
+    product = products.find((p) => p.id === productId);
+  }
 
   const generateBreadcrumbName = (match: any) => {
     if (match.pathname.includes("/products/") && product) {

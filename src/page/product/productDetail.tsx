@@ -1,6 +1,5 @@
 import "./productDetail.css";
 import useOrderStore from "@src/stores/useOrderStore";
-import { useProductStore } from "@src/stores/useProductStore";
 import { ProductItemType } from "@src/types/typeProduct";
 import { getIdFromSlug } from "@src/utils/common";
 import ProductDetailSlider from "./productDetailSlider";
@@ -8,21 +7,42 @@ import { Minus, Plus } from "lucide-react";
 import ButtonCustom from "@src/component/button/buttonCustom";
 import TabsComponent from "@src/component/tabs/tabs";
 import useCartStore from "@src/stores/useCartModalStore";
+import { useEffect, useState } from "react";
+import { getProductById } from "./productEndPoint";
+import imageEx from "@src/assets/image/image-ex.jpg";
 
 const ProductDetail = () => {
   const productId = getIdFromSlug();
+  const [product, setProduct] = useState<ProductItemType | null>(null);
 
   const { orders, minusQuantity, removeItem, plusQuantity, updateQuantity } =
     useOrderStore();
 
   const { openCart } = useCartStore();
 
-  const { products, isLoading, error } = useProductStore();
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (productId) {
+        const res = await getProductById(productId);
+        if (res) {
+          setProduct(res);
+        }
+      }
+    };
 
-  const product = products.find((p) => p.id === productId);
-  const description = product ? product.name : "";
+    fetchProduct();
+  }, []);
 
-  const { name, price, unit, images } = product || ({} as ProductItemType);
+  const {
+    name,
+    retailPrice: price,
+    unit,
+    imageUrls,
+    description,
+  } = product || ({} as ProductItemType);
+
+  const processedImageUrls =
+    imageUrls && imageUrls.length > 0 ? imageUrls : [imageEx];
 
   const orderItem = orders.orderItems.find((item) => item.id === productId);
   const quantity = orderItem?.quantity || 0;
@@ -52,9 +72,9 @@ const ProductDetail = () => {
         <div className="details-product">
           <div className="flex flex-wrap">
             <div className="product-images w-full md:w-full lg:w-1/2 xl:w-1/2 flex justify-center">
-              {images.length >= 1 && (
+              {processedImageUrls.length > 0 && (
                 <div className="gallery-thumbs">
-                  <ProductDetailSlider images={images} />
+                  <ProductDetailSlider images={processedImageUrls} />
                 </div>
               )}
             </div>

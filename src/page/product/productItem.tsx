@@ -4,10 +4,11 @@ import { ProductItemType } from "@src/types/typeProduct";
 import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import imageEx from "@src/assets/image/image-ex.jpg";
 
 const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
-  const { id, name, unit, price, images } = item;
-  const image = images ? images[0] : "";
+  const { id, name, unit, retailPrice: price, imageUrls } = item;
+  const image = imageUrls?.[0] || imageEx;
 
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();

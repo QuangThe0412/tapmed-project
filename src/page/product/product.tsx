@@ -2,52 +2,47 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductItem from "./productItem";
 import "./product.css";
-import toast, { Toaster } from "react-hot-toast";
-import { ProductItemType } from "@src/types/typeProduct";
+import toast from "react-hot-toast";
 import { useProductStore } from "@src/stores/useProductStore";
 import Pagination2 from "@src/component/pagination/pagination2";
+import { getProducts } from "./productEndPoint";
 
 function Product() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { products, setProducts, setLoading, isLoading } = useProductStore();
+  const [totalPages, setTotalPages] = useState(0);
 
-  // Lấy dữ liệu sản phẩm từ store
-  const { products, isLoading, error } = useProductStore();
-
-  // State cho phân trang
-  const [currentPage, setCurrentPage] = useState(0); // Pagination2 sử dụng index từ 0
-  const [productItems, setProductItems] = useState<ProductItemType[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
 
-  // Lấy trang từ query params khi component mount hoặc URL thay đổi
+  const fetchData = async (page: number) => {
+    setLoading(true);
+    try {
+      const res = await getProducts(page, itemsPerPage);
+      if (!res) {
+        throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+      setProducts(res.products);
+      setTotalPages(res.totalPages);
+    } catch (error: any) {
+      console.error("Lỗi khi tải dữ liệu:", error);
+      toast.error(
+        error?.message || "Không thể tải dữ liệu. Vui lòng thử lại sau."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const pageParam = searchParams.get("page");
-    if (pageParam) {
-      // Chuyển đổi từ trang hiển thị (1-based) sang index (0-based)
-      setCurrentPage(parseInt(pageParam) - 1);
-    } else {
-      setCurrentPage(0);
-    }
+    const page = pageParam ? parseInt(pageParam) - 1 : 0;
+    setCurrentPage(page);
+    fetchData(page);
   }, [searchParams]);
 
-  // Phân trang sản phẩm
-  useEffect(() => {
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    // Slice từ data của store
-    const paginatedItems = products.slice(startIndex, endIndex);
-    setProductItems(paginatedItems);
-  }, [currentPage, products]);
-
-  // Tổng số trang
-  const pageCount = Math.ceil(products.length / itemsPerPage);
-
-  // Xử lý khi thay đổi trang
   const handlePageChange = ({ selected }: { selected: number }) => {
-    // Cập nhật URL với trang mới (chuyển về 1-based để URL thân thiện hơn)
     setSearchParams({ page: (selected + 1).toString() });
-
-    // Scroll về đầu trang
     window.scrollTo({
       top:
         (document.querySelector(".layout-collections") as HTMLElement)
@@ -60,18 +55,13 @@ function Product() {
     return <div className="text-center py-10">Đang tải dữ liệu...</div>;
   }
 
-  if (error && products.length === 0) {
-    toast.error("Không thể tải dữ liệu sản phẩm");
-    return <div className="text-center py-10 text-red-500">{error}</div>;
-  }
-
   return (
     <div className="layout-collections">
       <div className="container">
         <div className="category-products">
           <div className="products-view">
             <div className="flex flex-wrap">
-              {productItems.map((product) => (
+              {products.map((product) => (
                 <ProductItem key={product.id} item={product} />
               ))}
             </div>
@@ -79,7 +69,7 @@ function Product() {
             {/* Thêm phân trang */}
             <div className="pagination-wrapper mt-8">
               <Pagination2
-                pageCount={pageCount}
+                pageCount={totalPages}
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
               />

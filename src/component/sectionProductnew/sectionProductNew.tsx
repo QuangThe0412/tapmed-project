@@ -3,7 +3,7 @@ import { DataSlider, Slider } from "../slider/slider";
 import "./sectionProductNew.css";
 import { Autoplay, Pagination } from "swiper/modules";
 import { generateSlug } from "@src/utils/common";
-import { getNewestProducts } from "../product/productEndPoint";
+import { getNewestProducts } from "../../page/product/productEndPoint";
 import { ProductItemType } from "@src/types/typeProduct";
 
 const SectionProductNew: React.FC = () => {

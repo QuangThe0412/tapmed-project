@@ -16,14 +16,13 @@ import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
 import { getBlogs } from "@src/page/news/blogEndpoint";
-import { getProducts } from "../product/productEndPoint";
+import { getProducts } from "../../page/product/productEndPoint";
 
 interface MainLayoutProps {
   children: ReactNode;
 }
 
 function MainLayout({ children }: MainLayoutProps) {
-  // const { setProducts } = useProductStore();
   const { setBlogPosts } = useBlogStore();
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
 
@@ -34,19 +33,11 @@ function MainLayout({ children }: MainLayoutProps) {
     const fetchData = async () => {
       try {
         //blog data
-        const res = await getBlogs();
-        if (!res) {
+        const resBlogs = await getBlogs();
+        if (!resBlogs) {
           throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
         }
-        setBlogPosts(res);
-
-        // const product = await getProducts();
-        // console.log("product", product);
-        // if (!product) {
-        //   throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
-        // }
-
-        // setProducts(product);
+        setBlogPosts(resBlogs);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
         toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");

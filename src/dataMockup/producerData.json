@@ -1,6 +1,6 @@
 [
   {
-    "id": 29,
+    "id": 1,
     "name": "An Thiên",
     "description": "Công ty Dược phẩm An Thiên",
     "logo": "https://via.placeholder.com/150",
@@ -9,7 +9,7 @@
     "productCount": 29
   },
   {
-    "id": 286,
+    "id": 2,
     "name": "Vinaphar",
     "description": "Công ty Dược phẩm Việt Nam",
     "logo": "https://via.placeholder.com/150",
@@ -18,7 +18,7 @@
     "productCount": 1
   },
   {
-    "id": 333,
+    "id": 3,
     "name": "Vinaphar Group",
     "description": "Tập đoàn Dược phẩm Việt Nam",
     "logo": "https://via.placeholder.com/150",
@@ -27,7 +27,7 @@
     "productCount": 2
   },
   {
-    "id": 501,
+    "id": 4,
     "name": "Akofa",
     "description": "Công ty dược phẩm Akofa",
     "logo": "https://via.placeholder.com/150",
@@ -36,7 +36,7 @@
     "productCount": 2
   },
   {
-    "id": 808,
+    "id": 5,
     "name": "Linhzhi Pharma",
     "description": "Công ty Dược phẩm Linhzhi",
     "logo": "https://via.placeholder.com/150",
@@ -45,7 +45,7 @@
     "productCount": 1
   },
   {
-    "id": 1705,
+    "id": 6,
     "name": "TapMed",
     "description": "Công ty cung cấp dược phẩm và thực phẩm chức năng",
     "logo": "https://via.placeholder.com/150",
@@ -54,7 +54,7 @@
     "productCount": 120
   },
   {
-    "id": 302,
+    "id": 7,
     "name": "Quatrefolic",
     "description": "Công ty Dược phẩm Quatrefolic",
     "logo": "https://via.placeholder.com/150",

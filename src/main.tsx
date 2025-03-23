@@ -6,11 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import AppWrapper from "./AppWarpper.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <AppWrapper>
-        <AppRoutes />
-      </AppWrapper>
-    </BrowserRouter>
-  </StrictMode>
+  // <StrictMode>
+  <BrowserRouter>
+    <AppWrapper>
+      <AppRoutes />
+    </AppWrapper>
+  </BrowserRouter>
+  // </StrictMode>
 );

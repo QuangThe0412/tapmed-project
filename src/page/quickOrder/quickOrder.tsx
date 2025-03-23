@@ -34,7 +34,7 @@ function QuickOrder() {
     const fetchProducts = async () => {
       try {
         const data = await getProducts(
-          currentPage + 1,
+          currentPage,
           itemsPerPage,
           selectedProducer ?? undefined,
           selectedCategory ?? undefined,
@@ -52,7 +52,7 @@ function QuickOrder() {
     };
 
     fetchProducts();
-  }, [selectedCategory, selectedProducer, currentPage]);
+  }, [selectedCategory, selectedProducer, currentPage, searchTerm]);
 
   // Lấy danh mục
   useEffect(() => {
@@ -110,6 +110,13 @@ function QuickOrder() {
     setCurrentPage(0); // Reset về trang đầu tiên
   };
 
+  const handleSearch = (term: string) => {
+    console.log("Search term:", term);
+    if (term === searchTerm) return;
+    setSearchTerm(term);
+    setCurrentPage(0); // Reset về trang đầu tiên
+  };
+
   // Tùy chọn danh mục và nhà sản xuất cho Select
   const categoryOptions = categories.map((cat) => ({
     value: cat.id,
@@ -137,7 +144,7 @@ function QuickOrder() {
         <div className="flex w-full px-2">
           <div className="product-wrapper w-full">
             <div className="product-search">
-              <SearchMini handleSearch={setSearchTerm} />
+              <SearchMini handleSearch={handleSearch} />
               <div className="flex flex-wrap mt-4 w-full">
                 <div className="w-full lg:w-1/2 lg:pr-2">
                   <Select

@@ -24,12 +24,9 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   const { setBlogPosts } = useBlogStore();
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
-  const { fetchProducts } = useProductStore();
 
   useEffect(() => {
     fetchProvinces();
-    fetchProducts(0, 12);
-
     const fetchData = async () => {
       try {
         //blog data

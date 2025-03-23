@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 interface SearchInputProps {
   handleSearch: (searchTerm: string) => void;
@@ -15,6 +15,13 @@ const SearchMini: React.FC<SearchInputProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
 
+  // Sử dụng useRef để giữ tham chiếu ổn định cho handleSearch
+  const stableHandleSearch = useRef(handleSearch);
+
+  useEffect(() => {
+    stableHandleSearch.current = handleSearch;
+  }, [handleSearch]);
+
   // Cập nhật searchTerm khi người dùng nhập
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -22,25 +29,24 @@ const SearchMini: React.FC<SearchInputProps> = ({
 
   // Sử dụng useEffect để tạo debounce cho searchTerm
   useEffect(() => {
-    // Đặt một timer để cập nhật debouncedTerm sau khoảng thời gian nhất định
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
     }, debounceTime);
 
-    // Xóa timer nếu searchTerm thay đổi trước khi timer hoàn thành
     return () => clearTimeout(timer);
   }, [searchTerm, debounceTime]);
 
   // Khi debouncedTerm thay đổi, gọi handleSearch
   useEffect(() => {
-    handleSearch(debouncedTerm);
-  }, [debouncedTerm, handleSearch]);
+    stableHandleSearch.current(debouncedTerm);
+  }, [debouncedTerm]);
 
-  // Vẫn giữ hàm onSearch để hỗ trợ tìm kiếm khi click vào nút
+  // Hàm onSearch để hỗ trợ tìm kiếm khi click vào nút hoặc nhấn Enter
   const onSearch = useCallback(() => {
-    handleSearch(searchTerm);
+    if (searchTerm.trim() === "") return;
+    stableHandleSearch.current(searchTerm);
     setDebouncedTerm(searchTerm);
-  }, [searchTerm, handleSearch]);
+  }, [searchTerm]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

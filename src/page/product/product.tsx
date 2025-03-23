@@ -15,12 +15,24 @@ function Product() {
   useEffect(() => {
     const pageParam = searchParams.get("page");
     const page = pageParam ? parseInt(pageParam) - 1 : 0;
+    const search = searchParams.get("search") || "";
+    // Chỉ set `search` nếu có giá trị
+    if (search) {
+      setSearchParams({ search, page: (page + 1).toString() });
+    } else {
+      setSearchParams({ page: (page + 1).toString() });
+    }
+
     setCurrentPage(page);
-    fetchProducts(page, itemsPerPage);
+    fetchProducts(page, itemsPerPage, search);
   }, [searchParams]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
-    setSearchParams({ page: (selected + 1).toString() });
+    const params = Object.fromEntries(searchParams.entries());
+    params.page = (selected + 1).toString();
+    setSearchParams(params);
+
+    // Cuộn lên đầu trang
     window.scrollTo({
       top:
         (document.querySelector(".layout-collections") as HTMLElement)
@@ -31,6 +43,27 @@ function Product() {
 
   if (isLoading && products.length === 0) {
     return <div className="text-center py-10">Đang tải dữ liệu...</div>;
+  }
+
+  if (!isLoading && products.length === 0) {
+    const search = searchParams.get("search") || "";
+
+    return (
+      <div className="layout-collections">
+        <div
+          className="flex justify-center py-10 text-center w-full text-gray-500 my-auto
+        "
+        >
+          Không có sản phẩm nào được tìm thấy với tên
+          <span
+            className="text-gray-700 font-semibold ml-1
+          "
+          >
+            "{search}"
+          </span>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -11,6 +11,7 @@ import { ProductItemType } from "@src/types/typeProduct";
 import SearchMini from "@src/component/input/searchMini";
 import Pagination2 from "@src/component/pagination/pagination2";
 import { getProducts } from "../product/productEndPoint";
+import toast from "react-hot-toast";
 
 function QuickOrder() {
   const [dataProducts, setDataProducts] = useState<ProductItemType[]>([]);
@@ -36,11 +37,11 @@ function QuickOrder() {
         const data = await getProducts(
           currentPage,
           itemsPerPage,
+          searchTerm,
           selectedProducer ?? undefined,
           selectedCategory ?? undefined,
           undefined,
-          undefined,
-          searchTerm
+          undefined
         );
         const { products, totalElements, totalPages } = data;
         setDataProducts(products);
@@ -111,7 +112,6 @@ function QuickOrder() {
   };
 
   const handleSearch = (term: string) => {
-    console.log("Search term:", term);
     if (term === searchTerm) return;
     setSearchTerm(term);
     setCurrentPage(0); // Reset về trang đầu tiên
@@ -128,6 +128,20 @@ function QuickOrder() {
     label: prod.name,
   }));
 
+  const handleClickTapmedCategory = () => {
+    const tapmedProducer = producerOptions.find((producer) =>
+      producer.label?.toLowerCase().includes("tapmed")
+    );
+    if (!tapmedProducer) return;
+
+    setSelectedProducer(tapmedProducer.value);
+    setCurrentPage(0);
+  };
+
+  const handleClickPromotionProducts = () => {
+    toast.success("Chức năng đang được phát triển");
+  };
+
   return (
     <div className="section-order w-screen">
       <div className="container">
@@ -135,11 +149,18 @@ function QuickOrder() {
           className="quick-filters text-left"
           style={{ paddingBottom: "12px", paddingLeft: "6px" }}
         >
-          <div className="btn-quick-filters">Sản Phẩm TAPMED</div>
-          <div className="btn-quick-filters">
-            ƯU ĐÃI ĐẶC BIỆT ĐỐI VỚI HÀNG DATE 2025
+          <div
+            className="btn-quick-filters"
+            onClick={handleClickTapmedCategory}
+          >
+            Sản Phẩm TAPMED
           </div>
-          <div className="btn-quick-filters">GIÁ TỐT TRONG TUẦN</div>
+          <div
+            className="btn-quick-filters"
+            onClick={handleClickPromotionProducts}
+          >
+            KHUYẾN MÃI TRONG TUẦN
+          </div>
         </div>
         <div className="flex w-full px-2">
           <div className="product-wrapper w-full">
@@ -151,6 +172,9 @@ function QuickOrder() {
                     options={producerOptions}
                     placeholder="Chọn nhà sản xuất"
                     isClearable
+                    value={producerOptions.find(
+                      (prod) => prod.value === selectedProducer
+                    )}
                     onChange={handleProducerChange}
                     className="basic-single"
                     classNamePrefix="select"
@@ -161,6 +185,9 @@ function QuickOrder() {
                     options={categoryOptions}
                     placeholder="Chọn nhóm thuốc"
                     isClearable
+                    value={categoryOptions.find(
+                      (cat) => cat.value === selectedCategory
+                    )}
                     onChange={handleCategoryChange}
                     className="basic-single"
                     classNamePrefix="select"

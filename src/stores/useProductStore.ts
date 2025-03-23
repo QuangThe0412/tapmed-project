@@ -15,7 +15,7 @@ interface ProductStore {
   totalElements: number;
   setTotalElements: (totalElements: number) => void;
   error: string | null;
-  fetchProducts: (page: number, size: number) => Promise<void>;
+  fetchProducts: (page: number, size: number, search: string) => Promise<void>;
 }
 
 export const useProductStore = create<ProductStore>()(
@@ -30,10 +30,10 @@ export const useProductStore = create<ProductStore>()(
       setTotalElements: (totalElements) => set({ totalElements }),
       error: null,
       setProducts: (products) => set({ products }),
-      fetchProducts: async (page, size) => {
+      fetchProducts: async (page, size, search) => {
         set({ isLoading: true });
         try {
-          const res = await getProducts(page, size);
+          const res = await getProducts(page, size, search);
           if (!res) {
             throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
           }

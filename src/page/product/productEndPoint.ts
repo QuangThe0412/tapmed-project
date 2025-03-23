@@ -25,11 +25,11 @@ export const getProductById = (id: number) => {
 export const getProducts = (
   page?: number,
   size?: number,
+  search?: string,
   producerId?: number,
   categoryId?: number,
   sortBy?: string,
-  sortDirection?: string,
-  search?: string
+  sortDirection?: string
 ) => {
   return axiosInstance
     .get(`${BACKEND_ENDPOINT}/products`, {

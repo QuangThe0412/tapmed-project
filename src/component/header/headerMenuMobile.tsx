@@ -22,15 +22,6 @@ const HeaderMenuMobile: React.FC = () => {
     closeDrawer();
   }, [location.pathname]);
 
-  const handleSearch = (value: string) => {
-    console.log(value);
-  };
-
-  const handleLogout = () => {
-    logout();
-    closeDrawer();
-  };
-
   return (
     <>
       {/* Overlay */}
@@ -50,10 +41,7 @@ const HeaderMenuMobile: React.FC = () => {
         <nav className="header-menu-mobile  h-full">
           <ul className="flex flex-col space-y-4 p-4 h-full">
             <li className="w-full">
-              <SearchInput
-                placeholder="Tìm kiếm sản phẩm..."
-                handleSearch={handleSearch}
-              />
+              <SearchInput placeholder="Tìm kiếm sản phẩm..." />
             </li>
 
             {paths &&

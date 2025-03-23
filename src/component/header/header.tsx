@@ -15,10 +15,6 @@ const Header: React.FC = () => {
   const { openLoginModal, openRegisterModal } = useAuthModalStore();
   const { isAuthenticated } = useAuthStore();
 
-  const handleSearch = (value: string) => {
-    console.log(value);
-  };
-
   return (
     <div className="header bg-white">
       <div className="container mx-auto flex justify-between items-center px-4">
@@ -45,10 +41,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="flex justify-center items-center lg:w-4/12 w-full hidden lg:block px-4">
-          <SearchInput
-            placeholder="Tìm kiếm sản phẩm..."
-            handleSearch={handleSearch}
-          />
+          <SearchInput placeholder="Tìm kiếm sản phẩm..." />
         </div>
 
         <div className="lg:w-5/12 md:w-7/12 w-full md:block px-4">

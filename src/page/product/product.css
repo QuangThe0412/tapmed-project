@@ -6,6 +6,7 @@
   justify-content: center;
   text-align: center;
   background-color: #fff;
+  min-height: 44vh;
 }
 .category-products .item_product_main {
   box-shadow: initial;

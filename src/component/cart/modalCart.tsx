@@ -3,7 +3,10 @@ import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import useOrderStore from "@src/stores/useOrderStore";
 import { useProductStore } from "@src/stores/useProductStore";
+import imageEx from "@src/assets/image/image-ex.jpg";
 import "../cart/headerCart.css";
+import useAuthStore from "../authentication/useAuthStore";
+import useAuthModalStore from "../authentication/authModalStore";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -18,6 +21,8 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   const { orders, minusQuantity, plusQuantity, removeItem, updateQuantity } =
     useOrderStore();
   const { products: dataProducts } = useProductStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const { openLoginModal } = useAuthModalStore();
 
   useEffect(() => {
     if (isOpen) {
@@ -28,8 +33,8 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   }, [isOpen]);
 
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
-  const cartItems = orders.orderItems
-    .map((item) => {
+  const cartItems = orders?.orderItems
+    ?.map((item) => {
       const product = dataProducts.find((p) => p.id === item.id);
       return product
         ? {
@@ -41,8 +46,8 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
     .filter((item) => item !== null);
 
   // Tính tổng tiền giỏ hàng
-  const totalAmount = cartItems.reduce(
-    (sum, item) => sum + (item?.price || 0) * (item?.quantity || 0),
+  const totalAmount = cartItems?.reduce(
+    (sum, item) => sum + (item?.retailPrice || 0) * (item?.quantity || 0),
     0
   );
 
@@ -76,6 +81,10 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
 
   // Xử lý khi giá trị input thay đổi
   const handleQuantityInputChange = (id: number, value: string) => {
+    if (parseInt(value) > 999) {
+      value = "999";
+    }
+
     // Chỉ cho phép nhập số
     if (/^\d*$/.test(value)) {
       setItemQuantities({
@@ -91,7 +100,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
 
     if (isNaN(newQuantity) || newQuantity < 1) {
       // Nếu giá trị không hợp lệ, quay lại giá trị cũ
-      const currentItem = cartItems.find((item) => item.id === id);
+      const currentItem = cartItems?.find((item) => item.id === id);
       if (currentItem) {
         setItemQuantities({
           ...itemQuantities,
@@ -116,7 +125,12 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   };
 
   const handlePayment = () => {
-    alert("Thanh toán thành công");
+    if (!isAuthenticated || !user) {
+      openLoginModal();
+      return;
+    }
+
+    ///next step
   };
 
   return (
@@ -136,7 +150,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
         </div>
 
         {/* Trường hợp giỏ hàng trống */}
-        {cartItems.length === 0 ? (
+        {cartItems?.length === 0 ? (
           <div className="cart-empty">
             <p>Giỏ hàng của bạn đang trống</p>
             <button onClick={onRequestClose} className="cart-empty-button">
@@ -147,15 +161,22 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
           <>
             {/* Danh sách sản phẩm */}
             <div className="cart-items-container">
-              {cartItems.map(
+              {cartItems?.map(
                 (item) =>
                   item && (
                     <div key={item.id} className="cart-item">
                       {/* Hình ảnh sản phẩm */}
                       <img
-                        src={item.images && item.images[0]}
+                        src={
+                          item.imageUrls && item.imageUrls.length > 0
+                            ? item.imageUrls[0]
+                            : imageEx
+                        }
                         alt={item.name}
                         className="cart-item-image"
+                        onError={(e) => {
+                          e.currentTarget.src = imageEx;
+                        }}
                       />
 
                       {/* Thông tin sản phẩm */}
@@ -164,7 +185,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                           {item.name}
                         </h3>
                         <p className="cart-item-price">
-                          {item.price?.toLocaleString("vi-VN")} đ
+                          {item.retailPrice?.toLocaleString("vi-VN")} đ
                         </p>
                       </div>
 
@@ -219,7 +240,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
               <div className="cart-total">
                 <span className="cart-total-label">Tổng tiền:</span>
                 <span className="cart-total-value">
-                  {totalAmount.toLocaleString("vi-VN")} đ
+                  {totalAmount?.toLocaleString("vi-VN")} đ
                 </span>
               </div>
 

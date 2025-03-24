@@ -6,6 +6,7 @@ export const NAME_STORAGE_ORDER = "order";
 
 export interface OrderStore {
   orders: OrderType;
+  setOrders: (orders: OrderType) => void;
   minusQuantity: (itemId: number) => void;
   plusQuantity: (itemId: number) => void;
   updateQuantity: (itemId: number, quantity: number) => void;
@@ -22,7 +23,10 @@ const useOrderStore = create<OrderStore>()(
   persist(
     (set) => ({
       orders: getInitialState(),
-
+      setOrders: (orders: OrderType) =>
+        set((state) => ({
+          orders: orders,
+        })),
       minusQuantity: (itemId: number) =>
         set((state) => {
           const updatedItems = state.orders.orderItems.map((item) => {

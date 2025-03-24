@@ -10,14 +10,14 @@ interface CartState {
 
 const useCartStore = create<CartState>((set) => ({
   isCartOpen: false,
-  productCount: useOrderStore.getState().orders.orderItems.length,
+  productCount: useOrderStore.getState()?.orders?.orderItems?.length,
   openCart: () => set({ isCartOpen: true }),
   closeCart: () => set({ isCartOpen: false }),
 }));
 
 // Subscribe to order changes and update productCount accordingly
 useOrderStore.subscribe((state) => {
-  const productCount = state.orders.orderItems.length;
+  const productCount = state.orders?.orderItems.length;
   useCartStore.setState({ productCount });
 });
 

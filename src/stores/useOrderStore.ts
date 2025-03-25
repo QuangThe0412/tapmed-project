@@ -4,9 +4,14 @@ import { persist } from "zustand/middleware";
 
 export const NAME_STORAGE_ORDER = "order";
 
+export const initOrderType: OrderType = {
+  id: 0,
+  orderItems: [],
+};
+
 export interface OrderStore {
   orders: OrderType;
-  setOrders: (orders: OrderType) => void;
+  setOrders: (orders?: OrderType) => void;
   minusQuantity: (itemId: number) => void;
   plusQuantity: (itemId: number) => void;
   updateQuantity: (itemId: number, quantity: number) => void;
@@ -16,17 +21,16 @@ export interface OrderStore {
 // Lấy dữ liệu ban đầu từ localStorage (nếu có)
 const getInitialState = (): OrderType => {
   const savedOrders = localStorage.getItem(NAME_STORAGE_ORDER);
-  return savedOrders ? JSON.parse(savedOrders) : { id: 0, orderItems: [] };
+  return savedOrders ? JSON.parse(savedOrders) : initOrderType;
 };
 
 const useOrderStore = create<OrderStore>()(
   persist(
     (set) => ({
       orders: getInitialState(),
-      setOrders: (orders: OrderType) =>
-        set((state) => ({
-          orders: orders,
-        })),
+      setOrders: (orders) => {
+        set({ orders: orders || initOrderType });
+      },
       minusQuantity: (itemId: number) =>
         set((state) => {
           const updatedItems = state.orders.orderItems.map((item) => {

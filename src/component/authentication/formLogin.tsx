@@ -12,7 +12,7 @@ const initFormLogin: LoginType = {
 const FormLogin: React.FC = () => {
   const [formLogin, setFormLogin] = useState<LoginType>(initFormLogin);
   const { closeLoginModal } = useAuthModalStore();
-  const { setAuthenticated } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,7 +49,7 @@ const FormLogin: React.FC = () => {
 
         localStorage.setItem("accessToken", res.token);
         localStorage.setItem("refreshToken", res.refreshToken);
-        setAuthenticated(user);
+        setUser(user);
 
         toast.success("Đăng nhập thành công");
         closeLoginModal();

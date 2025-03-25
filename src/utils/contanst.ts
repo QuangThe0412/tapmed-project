@@ -93,3 +93,18 @@ export const paths: PathType[] = [
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_ENDPOINT;
+
+// Danh sách các đường dẫn không yêu cầu xác thực
+export const NON_AUTH_PATHS = [
+  "/",
+  "/products",
+  "/news",
+  "/promotion",
+  "/policy",
+  "/quickOrder",
+];
+
+// Hàm kiểm tra xem đường dẫn có nằm trong danh sách miễn xác thực không
+export const isPathExemptFromAuth = (path: string): boolean => {
+  return NON_AUTH_PATHS.includes(path);
+};

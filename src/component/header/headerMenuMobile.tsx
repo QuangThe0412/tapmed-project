@@ -13,7 +13,7 @@ import { checkActivePath } from "@src/utils/common";
 
 const HeaderMenuMobile: React.FC = () => {
   const { openRegisterModal, openLoginModal } = useAuthModalStore();
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const location = useLocation();
   const { isOpen, closeDrawer } = useDrawerStore();
 
@@ -63,7 +63,7 @@ const HeaderMenuMobile: React.FC = () => {
                   )
               )}
 
-            {!isAuthenticated && (
+            {!user && (
               <>
                 <li>
                   <ButtonCustom
@@ -88,7 +88,7 @@ const HeaderMenuMobile: React.FC = () => {
               </>
             )}
 
-            {isAuthenticated && user && (
+            {user && (
               <li className="border-t border-gray-200 pt-3 mt-auto">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">

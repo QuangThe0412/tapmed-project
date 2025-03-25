@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const Header: React.FC = () => {
   const { openDrawer } = useDrawerStore();
   const { openLoginModal, openRegisterModal } = useAuthModalStore();
-  const { isAuthenticated } = useAuthStore();
+  const { user } = useAuthStore();
 
   return (
     <div className="header bg-white">
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
         <div className="lg:w-5/12 md:w-7/12 w-full md:block px-4">
           <div className="flex justify-center items-center space-x-4">
             <div className="items-center hidden lg:flex space-x-2">
-              {isAuthenticated ? (
+              {user ? (
                 <div className="border-r-1 border-color-gray-200">
                   <UserMenu />
                 </div>

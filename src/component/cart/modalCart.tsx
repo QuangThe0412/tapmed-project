@@ -7,6 +7,7 @@ import imageEx from "@src/assets/image/image-ex.jpg";
 import "../cart/headerCart.css";
 import useAuthStore from "../authentication/useAuthStore";
 import useAuthModalStore from "../authentication/authModalStore";
+import { getOrders } from "./orderEndpoint";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -21,8 +22,9 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   const { orders, minusQuantity, plusQuantity, removeItem, updateQuantity } =
     useOrderStore();
   const { products: dataProducts } = useProductStore();
-  const { isAuthenticated, user } = useAuthStore();
   const { openLoginModal } = useAuthModalStore();
+  const { setOrders } = useOrderStore();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     if (isOpen) {
@@ -31,6 +33,27 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
       document.body.classList.remove("modal-open");
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const res = await getOrders();
+        console.log(res);
+        if (res) {
+          setOrders(res);
+        }
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
   const cartItems = orders?.orderItems
@@ -125,7 +148,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   };
 
   const handlePayment = () => {
-    if (!isAuthenticated || !user) {
+    if (!user) {
       openLoginModal();
       return;
     }

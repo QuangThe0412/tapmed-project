@@ -1,23 +1,26 @@
 export function getUserId(): number | null {
-  const user = localStorage.getItem("user");
-  if (user) {
-    return JSON.parse(user).id;
+  const auth = localStorage.getItem("auth");
+  if (auth) {
+    const parsedAuth = JSON.parse(auth);
+    return parsedAuth?.state?.user?.id || null;
   }
   return null;
 }
 
-export function getUsername() {
-  const user = localStorage.getItem("user");
-  if (user) {
-    return JSON.parse(user).username;
+export function getUsername(): string | null {
+  const auth = localStorage.getItem("auth");
+  if (auth) {
+    const parsedAuth = JSON.parse(auth);
+    return parsedAuth?.state?.user?.fullName || null;
   }
   return null;
 }
 
 export function getUserFromStorage() {
-  const user = localStorage.getItem("user");
-  if (user) {
-    return JSON.parse(user);
+  const auth = localStorage.getItem("auth");
+  if (auth) {
+    const parsedAuth = JSON.parse(auth);
+    return parsedAuth?.state?.user || null;
   }
   return null;
 }
@@ -35,8 +38,8 @@ export function removeAccessToken() {
   localStorage.removeItem(NAME_ACCESS_TOKEN);
 }
 
-//refresh token
-const NAME_REFRESH_TOKEN = "accessToken";
+// REFRESH TOKEN
+const NAME_REFRESH_TOKEN = "refreshToken";
 
 export function getRefreshToken() {
   return localStorage.getItem(NAME_REFRESH_TOKEN);
@@ -57,6 +60,12 @@ export function clearStorage() {
   removeAccessToken();
   removeRefreshToken();
 }
-export function isAuthenticated() {
-  return !!getUserId() && !!getAccessToken();
+
+export function isAuthenticated(): boolean {
+  const auth = localStorage.getItem("auth");
+  if (auth) {
+    const parsedAuth = JSON.parse(auth);
+    return !!parsedAuth?.state?.user && !!getAccessToken();
+  }
+  return false;
 }

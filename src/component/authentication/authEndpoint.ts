@@ -33,3 +33,17 @@ export const registerUser = (data: Partial<RegisterType>) => {
       throw error; // Ném lỗi để nơi gọi hàm xử lý
     });
 };
+
+export const refreshTokenEndpoint = (refreshToken: String) => {
+  if (!refreshToken) {
+    return null;
+  }
+
+  return axiosInstance
+    .post(`${BACKEND_ENDPOINT}/auth/refresh-token`)
+    .then((res) => (res && res?.data ? res.data : null))
+    .catch((error) => {
+      console.error("Lỗi khi gọi API:", error);
+      throw error; // Ném lỗi để nơi gọi hàm xử lý
+    });
+};

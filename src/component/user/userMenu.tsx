@@ -3,20 +3,21 @@ import { User, LogOut, ShoppingBag } from "lucide-react";
 import useAuthStore from "@src/component/authentication/useAuthStore";
 import { Link } from "react-router-dom";
 import "./userMenu.css";
+import { emitLogoutEvent } from "../authentication/authEvent";
 
 type UserMenuProps = {
   isMobile?: boolean;
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    logout();
+    emitLogoutEvent();
     setIsOpen(false);
   };
 

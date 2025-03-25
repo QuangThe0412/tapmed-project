@@ -9,11 +9,11 @@ import { checkActivePath } from "@src/utils/common";
 
 const BottomNavMenu: React.FC = () => {
   const { openLoginModal } = useAuthModalStore();
-  const { isAuthenticated, user } = useAuthStore();
+  const { user } = useAuthStore();
   const location = useLocation();
 
   const LoginElement = () => {
-    if (!isAuthenticated) {
+    if (!user) {
       return (
         <li className="flex-1 text-center" onClick={openLoginModal}>
           <div className="text-style">

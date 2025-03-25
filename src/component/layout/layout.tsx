@@ -7,7 +7,6 @@ import Footer from "../footer/footer";
 import BottomNavMenu from "../bottomNavMenu/bottomNavMenu";
 import Contact from "../contact/contact";
 import Breadcrumbs from "../breadcrumbs/breadcrumbs";
-import { useProductStore } from "../../stores/useProductStore";
 import { useProvinceStore } from "@src/stores/useProvinceStore";
 import useAuthModalStore from "@src/component/authentication/authModalStore";
 import CustomModal from "../modal/customModal";
@@ -16,6 +15,11 @@ import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster, toast } from "react-hot-toast";
 import { getBlogs } from "@src/page/news/blogEndpoint";
+import useOrderStore, { initOrderType } from "@src/stores/useOrderStore";
+import { getOrders } from "../cart/orderEndpoint";
+import useAuthStore from "../authentication/useAuthStore";
+import { authEvent, removeLogoutEvent } from "../authentication/authEvent";
+import { clearStorage } from "../authentication/authUntils";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -24,6 +28,8 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   const { setBlogPosts } = useBlogStore();
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
+  const { setOrders } = useOrderStore();
+  const { setUser } = useAuthStore();
 
   useEffect(() => {
     fetchProvinces();
@@ -37,7 +43,7 @@ function MainLayout({ children }: MainLayoutProps) {
         setBlogPosts(resBlogs);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
-        toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+        // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       }
     };
 
@@ -60,6 +66,18 @@ function MainLayout({ children }: MainLayoutProps) {
       document.body.classList.remove("modal-open");
     }
   }, [isRegisterModalOpen, isLoginModalOpen]);
+
+  useEffect(() => {
+    authEvent.on("LOGOUT", () => {
+      clearStorage();
+      setOrders(initOrderType);
+      setUser(null);
+    });
+
+    return () => {
+      removeLogoutEvent();
+    };
+  }, []);
 
   return (
     <>

@@ -1,12 +1,19 @@
+import { refreshTokenEndpoint } from "@src/component/authentication/authEndpoint";
+import { emitLogoutEvent } from "@src/component/authentication/authEvent";
 import {
   getAccessToken,
+  getRefreshToken,
   getUserId,
   getUsername,
   isAuthenticated,
+  setAccessToken,
 } from "@src/component/authentication/authUntils";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { isPathExemptFromAuth } from "./contanst";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+let _retry = false;
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -19,31 +26,31 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    if (isAuthenticated()) {
+    let url = config.url || "";
+    if (!isPathExemptFromAuth(url) && isAuthenticated()) {
       config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
-    }
 
-    const requestorId = getUserId();
+      const requestorId = getUserId();
 
-    if (!!requestorId) {
-      config.headers["RequestorId"] = requestorId;
+      if (!!requestorId) {
+        config.headers["RequestorId"] = requestorId;
 
-      const currentPrams = config.params || {};
+        const currentPrams = config.params || {};
 
-      config.params = {
-        ...currentPrams,
-        requestorId: requestorId,
-      };
-    }
+        config.params = {
+          ...currentPrams,
+          requestorId: requestorId,
+        };
+      }
 
-    if (!!getUsername()) {
-      config.headers["Username"] = getUsername();
+      if (!!getUsername()) {
+        config.headers["Username"] = getUsername();
+      }
     }
 
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );
@@ -68,7 +75,44 @@ axiosInstance.interceptors.response.use(
           //Yêu cầu không hợp lệ.
           break;
         case 401:
-          //Chưa xác thực hoặc token không hợp lệ.
+          const refreshToken = getRefreshToken();
+
+          if (!refreshToken) {
+            emitLogoutEvent();
+          }
+
+          if (!_retry) {
+            _retry = true;
+
+            delete axiosInstance.defaults.headers.common["Authorization"];
+
+            try {
+              const data = await refreshTokenEndpoint(refreshToken || "");
+              console.log("Refresh token response:", data);
+              if (data && data.token) {
+                const newIssuedToken = data.token;
+                setAccessToken(newIssuedToken);
+
+                axiosInstance.defaults.headers.common[
+                  "Authorization"
+                ] = `Bearer ${newIssuedToken}`;
+
+                originalRequest.headers.Authorization = `Bearer ${newIssuedToken}`;
+
+                error = await Promise.resolve(
+                  await axiosInstance.request(originalRequest)
+                );
+              } else {
+                emitLogoutEvent();
+                toast.error("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
+              }
+            } catch (error) {
+              emitLogoutEvent();
+              toast.error("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
+            }
+          }
+
+          _retry = false;
           break;
         case 403:
           //Không có quyền truy cập tài nguyên.

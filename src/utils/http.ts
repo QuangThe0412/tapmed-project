@@ -10,7 +10,6 @@ import {
 } from "@src/component/authentication/authUntils";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { isPathExemptFromAuth } from "./contanst";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 let _retry = false;
@@ -26,8 +25,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    let url = config.url || "";
-    if (!isPathExemptFromAuth(url) && isAuthenticated()) {
+    // let url = config.url || "";
+    if (isAuthenticated()) {
       config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
 
       const requestorId = getUserId();
@@ -65,8 +64,6 @@ axiosInstance.interceptors.response.use(
     let originalRequest = error.config;
 
     if (res) {
-      console.log("Error response:", res);
-      const { data } = res;
       switch (res.status) {
         case 302:
           //Chuyển hướng đến URL khác.
@@ -88,16 +85,15 @@ axiosInstance.interceptors.response.use(
 
             try {
               const data = await refreshTokenEndpoint(refreshToken || "");
-              console.log("Refresh token response:", data);
-              if (data && data.token) {
-                const newIssuedToken = data.token;
-                setAccessToken(newIssuedToken);
+              if (data && data.accessToken) {
+                const newAccessToken = data.accessToken;
+                setAccessToken(newAccessToken);
 
                 axiosInstance.defaults.headers.common[
                   "Authorization"
-                ] = `Bearer ${newIssuedToken}`;
+                ] = `Bearer ${newAccessToken}`;
 
-                originalRequest.headers.Authorization = `Bearer ${newIssuedToken}`;
+                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
                 error = await Promise.resolve(
                   await axiosInstance.request(originalRequest)

@@ -20,6 +20,7 @@ import { getOrders } from "../cart/orderEndpoint";
 import useAuthStore from "../authentication/useAuthStore";
 import { authEvent, removeLogoutEvent } from "../authentication/authEvent";
 import { clearStorage } from "../authentication/authUntils";
+import { logoutEndpoint } from "../authentication/authEndpoint";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -69,6 +70,7 @@ function MainLayout({ children }: MainLayoutProps) {
 
   useEffect(() => {
     authEvent.on("LOGOUT", () => {
+      logoutEndpoint();
       clearStorage();
       setOrders(initOrderType);
       setUser(null);

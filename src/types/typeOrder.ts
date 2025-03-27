@@ -1,10 +1,13 @@
-import { ProductItemType } from "./typeProduct";
-
 export type OrderItem = {
   id: number;
   quantity: number;
-  idProduct: number;
-  product: ProductItemType;
+  productId: number;
+  imageUrls: string[];
+  productName: string;
+  priceAfterDiscount: number;
+  priceBeforeDiscount: number;
+  discountAmount: number;
+  unit: string;
 };
 
 export type OrderType = {

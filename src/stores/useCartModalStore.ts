@@ -17,7 +17,7 @@ const useCartStore = create<CartState>((set) => ({
 
 // Subscribe to order changes and update productCount accordingly
 useOrderStore.subscribe((state) => {
-  const productCount = state.orders?.orderItems.length;
+  const productCount = state.orders?.orderItems?.length;
   useCartStore.setState({ productCount });
 });
 

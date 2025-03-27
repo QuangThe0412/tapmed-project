@@ -15,7 +15,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
 
   const orderItem =
     orders && orders.orderItems
-      ? orders.orderItems.find((item) => item.id === id)
+      ? orders.orderItems.find((item) => item.product.id === id)
       : undefined;
 
   const quantity = orderItem?.quantity || 0;

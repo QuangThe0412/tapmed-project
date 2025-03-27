@@ -6,8 +6,9 @@ import { RegisterType, registerUser } from "./authEndpoint";
 import toast from "react-hot-toast";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import useAuthStore, { User } from "./useAuthStore";
+import useAuthStore, { UserType } from "./useAuthStore";
 import useAuthModalStore from "./authModalStore";
+import { z } from "zod";
 
 const initFormRegister: RegisterType = {
   fullname: "",
@@ -17,8 +18,33 @@ const initFormRegister: RegisterType = {
   email: "",
 };
 
+// Schema validation cho form đăng ký
+const registerSchema = z.object({
+  fullname: z
+    .string()
+    .nonempty("Họ và tên không được để trống")
+    .min(2, "Họ và tên phải có ít nhất 2 ký tự"),
+  email: z
+    .string()
+    .nonempty("Email không được để trống")
+    .email("Email không hợp lệ"),
+  phone: z
+    .string()
+    .nonempty("Số điện thoại không được để trống")
+    .regex(/^\d{10,11}$/, "Số điện thoại không hợp lệ"),
+  password: z
+    .string()
+    .nonempty("Mật khẩu không được để trống")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
+  province: z.string().nonempty("Tỉnh/Thành phố không được để trống"),
+  district: z.string().nonempty("Quận/Huyện không được để trống"),
+  ward: z.string().nonempty("Phường/Xã không được để trống"),
+  address: z.string().nonempty("Địa chỉ không được để trống"),
+});
+
 const FormRegister: React.FC = () => {
-  const { setAuthenticated } = useAuthStore();
+  const { setUser } = useAuthStore();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { closeRegisterModal } = useAuthModalStore();
   const [formRegister, setFormRegister] =
     useState<RegisterType>(initFormRegister);
@@ -72,6 +98,7 @@ const FormRegister: React.FC = () => {
     const value = selectedOption.value;
     const selectedProvince = Provinces.find((item) => item.code === value);
     setProvince(selectedProvince);
+    setErrors({ ...errors, province: "" });
   };
 
   const handleDistrictChange = (selectedOption: any) => {
@@ -80,12 +107,14 @@ const FormRegister: React.FC = () => {
       (item) => item.code === value
     );
     setDistrict(selectedDistrict);
+    setErrors({ ...errors, district: "" });
   };
 
   const handleWardChange = (selectedOption: any) => {
     const value = selectedOption.value;
     const selectedWard = district?.wards.find((item) => item.code === value);
     setWard(selectedWard);
+    setErrors({ ...errors, ward: "" });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,36 +125,27 @@ const FormRegister: React.FC = () => {
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let _form = { ...formRegister };
-    const { address, fullname, password, phone, email } = _form;
-
-    if (
-      !address ||
-      !fullname ||
-      !password ||
-      !phone ||
-      !email ||
-      !province ||
-      !district ||
-      !ward
-    ) {
-      toast.error("Vui lòng nhập đầy đủ thông tin.");
-      return;
-    }
-
-    const _address = `${address}, ${ward?.name}, ${district?.name}, ${province?.name}`;
-    _form = {
-      ..._form,
-      address: _address,
-    };
-
     try {
+      let provinceSeleted = province ? province.name : "";
+      let districtSeleted = district ? district.name : "";
+      let wardSeleted = ward ? ward.name : "";
+
+      // Validate dữ liệu form bằng Zod
+      const validatedData = registerSchema.parse({
+        ...formRegister,
+        province: provinceSeleted,
+        district: districtSeleted,
+        ward: wardSeleted,
+      });
+
+      // Nếu dữ liệu hợp lệ, gọi API đăng ký
       const res = await registerUser({
-        ..._form,
+        ...validatedData,
+        address: `${validatedData.address}, ${provinceSeleted}, ${districtSeleted}, ${wardSeleted}`,
       });
 
       if (res) {
-        const user: User = {
+        const user: UserType = {
           id: res.id,
           username: res.name,
           fullName: res.fullName,
@@ -138,15 +158,24 @@ const FormRegister: React.FC = () => {
 
         localStorage.setItem("accessToken", res.token);
         localStorage.setItem("refreshToken", res.refreshToken);
-        setAuthenticated(user);
+        setUser(user);
 
         toast.success("Đăng ký thành công");
         closeRegisterModal();
       }
     } catch (error: any) {
-      console.log(error);
-      console.error("Lỗi đăng ký:", error.message);
-      toast.error(error.response.data.message);
+      // Xử lý lỗi từ Zod hoặc API
+      if (error instanceof z.ZodError) {
+        const fieldErrors: { [key: string]: string } = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as string] = err.message;
+          }
+        });
+        setErrors(fieldErrors); // Lưu lỗi vào state
+      } else {
+        toast.error(error.response?.data?.message || "Đăng ký thất bại");
+      }
     }
   };
 
@@ -162,6 +191,7 @@ const FormRegister: React.FC = () => {
           onChange={handleChange}
           required
         />
+        {errors.fullname && <p className="error-message">{errors.fullname}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>
@@ -173,6 +203,7 @@ const FormRegister: React.FC = () => {
           onChange={handleChange}
           required
         />
+        {errors.email && <p className="error-message">{errors.email}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="phone">Số điện thoại</label>
@@ -182,6 +213,7 @@ const FormRegister: React.FC = () => {
           value={formRegister.phone}
           onChange={(phone) => setFormRegister({ ...formRegister, phone })}
         />
+        {errors.phone && <p className="error-message">{errors.phone}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="password">Mật khẩu</label>
@@ -193,6 +225,7 @@ const FormRegister: React.FC = () => {
           onChange={handleChange}
           required
         />
+        {errors.password && <p className="error-message">{errors.password}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="province">Tỉnh/Thành phố</label>
@@ -204,6 +237,7 @@ const FormRegister: React.FC = () => {
           //   className="basic-single"
           classNamePrefix="select"
         />
+        {errors.province && <p className="error-message">{errors.province}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="district">Quận/Huyện</label>
@@ -217,6 +251,7 @@ const FormRegister: React.FC = () => {
           //   className="basic-single"
           classNamePrefix="select"
         />
+        {errors.district && <p className="error-message">{errors.district}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="commune">Phường/Xã</label>
@@ -230,6 +265,7 @@ const FormRegister: React.FC = () => {
           //   className="basic-single"
           classNamePrefix="select"
         />
+        {errors.ward && <p className="error-message">{errors.ward}</p>}
       </div>
       <div className="form-group">
         <label htmlFor="address">Địa chỉ</label>
@@ -241,6 +277,7 @@ const FormRegister: React.FC = () => {
           onChange={handleChange}
           required
         />
+        {errors.address && <p className="error-message">{errors.address}</p>}
       </div>
       <button type="submit">Đăng ký</button>
     </form>

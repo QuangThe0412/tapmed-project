@@ -126,7 +126,7 @@ axiosInstance.interceptors.response.use(
           //Phiên đăng nhập hết hạn (mã tùy chỉnh, không phải HTTP chuẩn).
           break;
         case 500:
-          // toast.error(data.message);
+          toast.error(res.message);
           //Server gặp lỗi không xác định.
           break;
         case 503:

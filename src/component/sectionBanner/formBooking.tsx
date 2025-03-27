@@ -24,32 +24,34 @@ const FormBooking: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Kiểm tra nếu có trường nào không được điền
-    if (!formData.name) {
-      toast.error("Vui lòng điền họ và tên!");
-      return;
-    }
-    if (!formData.phone) {
-      toast.error("Vui lòng điền số điện thoại!");
-      return;
-    } else {
-      if (formData.phone.length < 10) {
-        toast.error("Số điện thoại không hợp lệ!");
-        return;
-      }
-    }
-    if (!formData.business) {
-      toast.error("Vui lòng điền tên cơ sở kinh doanh!");
-      return;
-    }
-    if (!formData.address) {
-      toast.error("Vui lòng điền địa chỉ!");
-      return;
-    }
+    // if (!formData.name) {
+    //   toast.error("Vui lòng điền họ và tên!");
+    //   return;
+    // }
+    // if (!formData.phone) {
+    //   toast.error("Vui lòng điền số điện thoại!");
+    //   return;
+    // } else {
+    //   if (formData.phone.length < 10) {
+    //     toast.error("Số điện thoại không hợp lệ!");
+    //     return;
+    //   }
+    // }
+    // if (!formData.business) {
+    //   toast.error("Vui lòng điền tên cơ sở kinh doanh!");
+    //   return;
+    // }
+    // if (!formData.address) {
+    //   toast.error("Vui lòng điền địa chỉ!");
+    //   return;
+    // }
 
-    // Xử lý logic gửi form ở đây
-    // console.log("Form data submitted:", formData);
+    // // Xử lý logic gửi form ở đây
+    // // console.log("Form data submitted:", formData);
 
-    sendMessage("/ws/app/test", "test websocket send from booking form");
+    // sendMessage("/ws/app/test", "test websocket send from booking form");
+
+    alert("Tính năng đang phát triển, vui lòng thử lại sau!");
   };
 
   return (

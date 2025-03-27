@@ -1,7 +1,10 @@
 import { ProductItemType } from "./typeProduct";
 
-export type OrderItem = ProductItemType & {
+export type OrderItem = {
+  id: number;
   quantity: number;
+  idProduct: number;
+  product: ProductItemType;
 };
 
 export type OrderType = {

@@ -34,7 +34,7 @@ const useOrderStore = create<OrderStore>()(
       minusQuantity: (itemId: number) =>
         set((state) => {
           const updatedItems = state.orders.orderItems.map((item) => {
-            if (item.id === itemId) {
+            if (item?.product?.id === itemId) {
               // Don't go below zero
               const newQuantity = Math.max(0, item.quantity - 1);
               return { ...item, quantity: newQuantity };
@@ -58,8 +58,9 @@ const useOrderStore = create<OrderStore>()(
       plusQuantity: (itemId: number) =>
         set((state) => {
           const existingItem = state.orders.orderItems.find(
-            (item) => item.id === itemId
+            (item) => item?.product?.id === itemId
           );
+          console.log("existingItem", existingItem);
 
           if (existingItem) {
             // Item exists - increment quantity
@@ -67,7 +68,7 @@ const useOrderStore = create<OrderStore>()(
               orders: {
                 ...state.orders,
                 orderItems: state.orders.orderItems.map((item) =>
-                  item.id === itemId
+                  item?.product?.id === itemId
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
                 ),
@@ -80,7 +81,7 @@ const useOrderStore = create<OrderStore>()(
                 ...state.orders,
                 orderItems: [
                   ...state.orders.orderItems,
-                  { id: itemId, quantity: 1 },
+                  { idProduct: itemId, quantity: 1 },
                 ],
               },
             };
@@ -92,7 +93,9 @@ const useOrderStore = create<OrderStore>()(
             orders: {
               ...state.orders,
               orderItems: state.orders.orderItems.map((item) =>
-                item.id === itemId ? { ...item, quantity: quantity } : item
+                item?.product?.id === itemId
+                  ? { ...item, quantity: quantity }
+                  : item
               ),
             },
           };
@@ -103,7 +106,7 @@ const useOrderStore = create<OrderStore>()(
             orders: {
               ...state.orders,
               orderItems: state.orders.orderItems.filter(
-                (item) => item.id !== itemId
+                (item) => item?.product?.id !== itemId
               ),
             },
           };

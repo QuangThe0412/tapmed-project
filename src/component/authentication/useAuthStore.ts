@@ -4,7 +4,7 @@ import { getUserFromStorage, isAuthenticated } from "./authUntils";
 
 export const NAME_STORAGE_AUTH = "auth";
 
-export type User = {
+export type UserType = {
   id: number;
   username: string;
   fullName?: string;
@@ -16,8 +16,8 @@ export type User = {
 };
 
 interface AuthState {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserType | null;
+  setUser: (user: UserType | null) => void;
   isLoading: boolean;
   error: string | null;
 }

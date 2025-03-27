@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import useOrderStore from "@src/stores/useOrderStore";
-import { useProductStore } from "@src/stores/useProductStore";
 import imageEx from "@src/assets/image/image-ex.jpg";
 import "../cart/headerCart.css";
 import useAuthStore from "../authentication/useAuthStore";
 import useAuthModalStore from "../authentication/authModalStore";
-import { getOrders } from "./orderEndpoint";
+import {
+  getOrdersEndPoint,
+  createOrUpdateOrderEndPoint,
+} from "./orderEndpoint";
+import { OrderType } from "@src/types/typeOrder";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -19,11 +22,15 @@ interface CartModalProps {
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   // Lấy dữ liệu và actions từ store
-  const { orders, minusQuantity, plusQuantity, removeItem, updateQuantity } =
-    useOrderStore();
-  const { products: dataProducts } = useProductStore();
+  const {
+    orders,
+    setOrders,
+    minusQuantity,
+    plusQuantity,
+    removeItem,
+    updateQuantity,
+  } = useOrderStore();
   const { openLoginModal } = useAuthModalStore();
-  const { setOrders } = useOrderStore();
   const { user } = useAuthStore();
 
   useEffect(() => {
@@ -39,9 +46,21 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
       return;
     }
 
-    const fetchData = async () => {
+    const fetchGetOrder = async () => {
       try {
-        const res = await getOrders();
+        const res = await getOrdersEndPoint();
+        if (res) {
+          setOrders(res);
+        }
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu:", error);
+        // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      }
+    };
+
+    const createOrUpdateOrder = async () => {
+      try {
+        const res = await createOrUpdateOrderEndPoint(orders);
         console.log(res);
         if (res) {
           setOrders(res);
@@ -52,25 +71,22 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
       }
     };
 
-    fetchData();
+    if (orders && orders?.orderItems.length > 0) {
+      createOrUpdateOrder();
+      // localStorage.removeItem("order");
+    } else {
+      fetchGetOrder();
+    }
   }, [user]);
 
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
-  const cartItems = orders?.orderItems
-    ?.map((item) => {
-      const product = dataProducts.find((p) => p.id === item.id);
-      return product
-        ? {
-            ...product,
-            quantity: item.quantity,
-          }
-        : null;
-    })
-    .filter((item) => item !== null);
+  const cartItems = orders?.orderItems;
+  console.log(cartItems);
 
   // Tính tổng tiền giỏ hàng
   const totalAmount = cartItems?.reduce(
-    (sum, item) => sum + (item?.retailPrice || 0) * (item?.quantity || 0),
+    (sum, item) =>
+      sum + (item?.product?.retailPrice || 0) * (item?.quantity || 0),
     0
   );
 
@@ -123,7 +139,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
 
     if (isNaN(newQuantity) || newQuantity < 1) {
       // Nếu giá trị không hợp lệ, quay lại giá trị cũ
-      const currentItem = cartItems?.find((item) => item.id === id);
+      const currentItem = cartItems?.find((item) => item?.product?.id === id);
       if (currentItem) {
         setItemQuantities({
           ...itemQuantities,
@@ -186,16 +202,18 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
             <div className="cart-items-container">
               {cartItems?.map(
                 (item) =>
-                  item && (
+                  item &&
+                  item?.product && (
                     <div key={item.id} className="cart-item">
                       {/* Hình ảnh sản phẩm */}
                       <img
                         src={
-                          item.imageUrls && item.imageUrls.length > 0
-                            ? item.imageUrls[0]
+                          item?.product.imageUrls &&
+                          item?.product.imageUrls.length > 0
+                            ? item?.product.imageUrls[0]
                             : imageEx
                         }
-                        alt={item.name}
+                        alt={item?.product.name}
                         className="cart-item-image"
                         onError={(e) => {
                           e.currentTarget.src = imageEx;
@@ -205,17 +223,17 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                       {/* Thông tin sản phẩm */}
                       <div className="cart-item-info">
                         <h3 className="cart-item-name line-clamp-2">
-                          {item.name}
+                          {item?.product.name}
                         </h3>
                         <p className="cart-item-price">
-                          {item.retailPrice?.toLocaleString("vi-VN")} đ
+                          {item?.product.retailPrice?.toLocaleString("vi-VN")} đ
                         </p>
                       </div>
 
                       {/* Điều chỉnh số lượng */}
                       <div className="quantity-controls">
                         <button
-                          onClick={() => minusQuantity(item.id)}
+                          onClick={() => minusQuantity(item?.product?.id)}
                           //   disabled={item.quantity <= 1}
                           className="quantity-btn quantity-btn-minus"
                         >
@@ -226,20 +244,25 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                           type="text"
                           className="quantity-value-input"
                           value={
-                            itemQuantities[item.id] !== undefined
-                              ? itemQuantities[item.id]
+                            itemQuantities[item?.product?.id] !== undefined
+                              ? itemQuantities[item?.product?.id]
                               : item.quantity
                           }
                           onChange={(e) =>
-                            handleQuantityInputChange(item.id, e.target.value)
+                            handleQuantityInputChange(
+                              item?.product?.id,
+                              e.target.value
+                            )
                           }
-                          onBlur={() => handleQuantityBlur(item.id)}
-                          onKeyDown={(e) => handleQuantityKeyDown(e, item.id)}
+                          onBlur={() => handleQuantityBlur(item?.product?.id)}
+                          onKeyDown={(e) =>
+                            handleQuantityKeyDown(e, item?.product?.id)
+                          }
                           aria-label="Số lượng"
                         />
 
                         <button
-                          onClick={() => plusQuantity(item.id)}
+                          onClick={() => plusQuantity(item?.product?.id)}
                           className="quantity-btn quantity-btn-plus"
                         >
                           <Plus size={18} />
@@ -248,7 +271,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
 
                       {/* Nút xóa */}
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item?.product?.id)}
                         className="remove-btn"
                       >
                         <Trash2 size={18} />

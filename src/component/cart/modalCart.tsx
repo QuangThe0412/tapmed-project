@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import useOrderStore from "@src/stores/useOrderStore";
@@ -40,47 +40,9 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
+  // useRef to store debounce timeout
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    const fetchGetOrder = async () => {
-      try {
-        const res = await getOrdersEndPoint();
-        if (res) {
-          setOrders(res);
-        }
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
-      }
-    };
-
-    const createOrUpdateOrder = async () => {
-      try {
-        const res = await createOrUpdateOrderEndPoint(orders);
-        if (res && res?.orderItems?.length > 0) {
-          setOrders(res);
-        }
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
-      }
-    };
-
-    const _orderLocalStorage = localStorage.getItem("order");
-    const _ordersState = _orderLocalStorage
-      ? JSON.parse(_orderLocalStorage)
-      : null;
-    const _orders = _ordersState?.state?.orders;
-
-    if (_orders && _orders?.orderItems?.length > 0) {
-      createOrUpdateOrder();
-    } else {
-      fetchGetOrder();
-    }
-  }, [user, orders.orderItems.length]);
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
   const cartItems = orders?.orderItems;
 
@@ -115,37 +77,59 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
     },
   };
 
-  // Xử lý khi giá trị input thay đổi
-  const handleQuantityInputChange = (productId: number, value: string) => {
-    if (parseInt(value) > 999) {
-      value = "999"; // Giới hạn số lượng tối đa là 999
-    }
-
-    if (parseInt(value) < 1 || isNaN(parseInt(value))) {
-      value = "1"; // Giới hạn số lượng tối thiểu là 1
-    }
-
-    updateQuantity(productId, parseInt(value));
+  const onUpdateQuantity = (productId: number, value: number) => {
+    const validValue = Math.max(1, Math.min(999, isNaN(value) ? 1 : value));
+    updateQuantity(productId, validValue);
   };
 
-  // Xử lý khi blur khỏi input (xác nhận số lượng)
-  const handleQuantityBlur = (productId: number) => {
-    const item = cartItems?.find((item) => item.productId === productId);
-    if (item && (!item.quantity || item.quantity < 1)) {
-      updateQuantity(productId, 1);
-    }
-  };
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      try {
+        //   if (!user) {
+        //     // Nếu user chưa đăng nhập, lấy order từ localStorage
+        //     const _orderLocalStorage = localStorage.getItem("order");
+        //     const _ordersState = _orderLocalStorage
+        //       ? JSON.parse(_orderLocalStorage)
+        //       : null;
+        //     if (_ordersState?.state?.orders) {
+        //       setOrders(_ordersState.state.orders);
+        //     }
+        //   } else {
+        //     // Nếu user đã đăng nhập, lấy order từ server
+        //     const res = await getOrdersEndPoint();
+        //     if (res) {
+        //       setOrders(res);
+        //       // Đồng bộ dữ liệu từ localStorage lên server (nếu có)
+        //       const _orderLocalStorage = localStorage.getItem("order");
+        //       const _ordersState = _orderLocalStorage
+        //         ? JSON.parse(_orderLocalStorage)
+        //         : null;
+        //       if (_ordersState?.state?.orders?.orderItems?.length > 0) {
+        //         await createOrUpdateOrderEndPoint(_ordersState.state.orders);
+        //         localStorage.removeItem("order"); // Xóa dữ liệu localStorage sau khi đồng bộ
+        //       }
+        //     }
+        //   }
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu order:", error);
+      }
+    };
 
-  // Xử lý khi nhấn Enter trong input
-  const handleQuantityKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      e.currentTarget.blur(); // Trigger onBlur event
+    // Gọi fetchOrderData khi user hoặc orders thay đổi
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
     }
-  };
+
+    debounceTimeout.current = setTimeout(() => {
+      fetchOrderData();
+    }, 500);
+
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, [user, orders.orderItems.length]);
 
   const handlePayment = () => {
     if (!user) {
@@ -227,15 +211,17 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                           className="quantity-value-input"
                           value={item?.quantity}
                           onChange={(e) =>
-                            handleQuantityInputChange(
+                            onUpdateQuantity(
                               item?.productId,
-                              e.target.value
+                              parseInt(e.target.value) || 1
                             )
                           }
-                          onBlur={() => handleQuantityBlur(item?.productId)}
-                          onKeyDown={(e) =>
-                            handleQuantityKeyDown(e, item?.productId)
+                          onBlur={() =>
+                            onUpdateQuantity(item?.productId, item?.quantity)
                           }
+                          // onKeyDown={(e) =>
+                          //   handleQuantityKeyDown(e, item?.productId)
+                          // }
                           aria-label="Số lượng"
                         />
 

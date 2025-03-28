@@ -20,8 +20,9 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
 
   const quantity = orderItem?.quantity || 0;
 
-  const onUpdateQuantity = (newQuantity: number) => {
-    updateQuantity(id, newQuantity);
+  const onUpdateQuantity = (value: number) => {
+    const validValue = Math.max(1, Math.min(999, isNaN(value) ? 1 : value));
+    updateQuantity(id, validValue);
   };
 
   const slug = generateSlug(name);
@@ -81,6 +82,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
                   onChange={(e) =>
                     onUpdateQuantity(parseInt(e.target.value) || 0)
                   }
+                  onBlur={() => onUpdateQuantity(quantity)}
                 />
                 <button
                   type="button"

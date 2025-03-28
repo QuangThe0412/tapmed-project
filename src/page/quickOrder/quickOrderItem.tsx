@@ -21,7 +21,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
 
   const orderItem =
     orders && orders.orderItems
-      ? orders.orderItems.find((item) => item.id === id)
+      ? orders.orderItems.find((item) => item.productId === id)
       : undefined;
 
   const quantity = orderItem?.quantity || 0;
@@ -35,7 +35,11 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
   };
 
   const updateQuantityProduct = (id: number, newQuantity: number) => {
-    updateQuantity(id, newQuantity);
+    const validValue = Math.max(
+      1,
+      Math.min(999, isNaN(newQuantity) ? 1 : newQuantity)
+    );
+    updateQuantity(id, validValue);
   };
 
   const slug = generateSlug(name);

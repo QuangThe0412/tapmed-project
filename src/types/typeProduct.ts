@@ -2,9 +2,7 @@ export interface ProductItemType {
   id: number;
   name: string;
   description: string | null;
-  retailPrice: number | null;
-  wholesalePrice: number | null;
-  costPrice: number | null;
+  price: number | null;
   categoryId: number | null;
   imageUrls: string[] | null;
   producerId: number | null;

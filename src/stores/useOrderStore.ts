@@ -2,7 +2,7 @@ import { OrderType } from "@src/types/typeOrder";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const NAME_STORAGE_ORDER = "order";
+export const NAME_STORAGE_ORDER = "orders";
 
 export const initOrderType: OrderType = {
   id: 0,

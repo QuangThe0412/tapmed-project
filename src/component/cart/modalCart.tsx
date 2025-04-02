@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import useOrderStore from "@src/stores/useOrderStore";
@@ -10,6 +10,7 @@ import {
   getOrdersEndPoint,
   createOrUpdateOrderEndPoint,
 } from "./orderEndpoint";
+import { OrderItem, OrderType } from "@src/types/typeOrder";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -21,16 +22,15 @@ interface CartModalProps {
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   // Lấy dữ liệu và actions từ store
-  const {
-    orders,
-    setOrders,
-    minusQuantity,
-    plusQuantity,
-    removeItem,
-    updateQuantity,
-  } = useOrderStore();
+  const { orders, setOrders, removeItem, updateQuantity } = useOrderStore();
   const { openLoginModal } = useAuthModalStore();
   const { user } = useAuthStore();
+
+  const initTotalAmount = orders?.orderItems?.reduce(
+    (sum, item) =>
+      sum + (item?.priceAfterDiscount || 0) * (item?.quantity || 0),
+    0
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -46,7 +46,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   // Lấy thông tin chi tiết sản phẩm từ danh sách orderItems
   const cartItems = orders?.orderItems;
 
-  // Tính tổng tiền giỏ hàng
+  // // Tính tổng tiền giỏ hàng
   const totalAmount = cartItems?.reduce(
     (sum, item) =>
       sum + (item?.priceAfterDiscount || 0) * (item?.quantity || 0),
@@ -76,40 +76,64 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
       zIndex: 1001, // Thêm z-index cao hơn cho content
     },
   };
-
-  const onUpdateQuantity = (productId: number, value: number) => {
+  const handleUpdateQuantity = (productId: number, value: number) => {
     const validValue = Math.max(1, Math.min(999, isNaN(value) ? 1 : value));
     updateQuantity(productId, validValue);
+  };
+
+  const handlePlusQuantity = (e: any, item: OrderItem) => {
+    const newQuantity = Math.max(1, item?.quantity + 1);
+    updateQuantity(item?.productId, newQuantity);
+  };
+
+  const handleMinusQuantity = (e: any, item: OrderItem) => {
+    const newQuantity = Math.max(1, item?.quantity - 1);
+    updateQuantity(item?.productId, newQuantity);
   };
 
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        //   if (!user) {
-        //     // Nếu user chưa đăng nhập, lấy order từ localStorage
-        //     const _orderLocalStorage = localStorage.getItem("order");
-        //     const _ordersState = _orderLocalStorage
-        //       ? JSON.parse(_orderLocalStorage)
-        //       : null;
-        //     if (_ordersState?.state?.orders) {
-        //       setOrders(_ordersState.state.orders);
-        //     }
-        //   } else {
-        //     // Nếu user đã đăng nhập, lấy order từ server
-        //     const res = await getOrdersEndPoint();
-        //     if (res) {
-        //       setOrders(res);
-        //       // Đồng bộ dữ liệu từ localStorage lên server (nếu có)
-        //       const _orderLocalStorage = localStorage.getItem("order");
-        //       const _ordersState = _orderLocalStorage
-        //         ? JSON.parse(_orderLocalStorage)
-        //         : null;
-        //       if (_ordersState?.state?.orders?.orderItems?.length > 0) {
-        //         await createOrUpdateOrderEndPoint(_ordersState.state.orders);
-        //         localStorage.removeItem("order"); // Xóa dữ liệu localStorage sau khi đồng bộ
-        //       }
-        //     }
-        //   }
+        const localStorageOrders = localStorage.getItem("orders");
+        const parsedOrders = localStorageOrders
+          ? JSON.parse(localStorageOrders)
+          : null;
+        const orderItems = parsedOrders?.state?.orders?.orderItems;
+        const body: OrderType = {
+          id: 0,
+          orderItems: orderItems,
+        };
+        if (user) {
+          if (parsedOrders && orderItems?.length > 0) {
+            //create or update order
+
+            const response = await createOrUpdateOrderEndPoint(body);
+            if (response) {
+              const { orderItems } = response;
+              body.orderItems = orderItems;
+              setOrders(body);
+            }
+          } else {
+            if (totalAmount <= 0) {
+              await createOrUpdateOrderEndPoint(body);
+              return;
+            }
+            //get orders from api
+            const response = await getOrdersEndPoint();
+            if (response) {
+              const { orderItems } = response;
+              const body: OrderType = {
+                id: 0,
+                orderItems: orderItems,
+              };
+              setOrders(body);
+            }
+          }
+        } else {
+          if (parsedOrders && orderItems?.length > 0) {
+            setOrders(body);
+          }
+        }
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu order:", error);
       }
@@ -129,7 +153,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
         clearTimeout(debounceTimeout.current);
       }
     };
-  }, [user, orders.orderItems.length]);
+  }, [user, totalAmount]);
 
   const handlePayment = () => {
     if (!user) {
@@ -199,7 +223,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                       {/* Điều chỉnh số lượng */}
                       <div className="quantity-controls">
                         <button
-                          onClick={() => minusQuantity(item?.productId)}
+                          onClick={(e) => handleMinusQuantity(e, item)}
                           //   disabled={item.quantity <= 1}
                           className="quantity-btn quantity-btn-minus"
                         >
@@ -211,13 +235,16 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                           className="quantity-value-input"
                           value={item?.quantity}
                           onChange={(e) =>
-                            onUpdateQuantity(
+                            handleUpdateQuantity(
                               item?.productId,
-                              parseInt(e.target.value) || 1
+                              item?.quantity
                             )
                           }
                           onBlur={() =>
-                            onUpdateQuantity(item?.productId, item?.quantity)
+                            handleUpdateQuantity(
+                              item?.productId,
+                              item?.quantity
+                            )
                           }
                           // onKeyDown={(e) =>
                           //   handleQuantityKeyDown(e, item?.productId)
@@ -226,7 +253,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                         />
 
                         <button
-                          onClick={() => plusQuantity(item?.productId)}
+                          onClick={(e) => handlePlusQuantity(e, item)}
                           className="quantity-btn quantity-btn-plus"
                         >
                           <Plus size={18} />

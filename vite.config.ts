@@ -8,7 +8,7 @@ export default defineConfig({
   },
   plugins: [tailwindcss()],
   server: {
-    host: "192.168.1.7",
+    host: "192.168.1.3",
     port: 3000,
   },
   resolve: {

@@ -13,7 +13,7 @@ type OrderItemProps = {
 };
 
 const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
-  const { id, name, imageUrls, unit, costPrice } = product;
+  const { id, name, imageUrls, unit, price } = product;
   const image = imageUrls?.[0] || imageEx;
 
   const { orders, plusQuantity, minusQuantity, updateQuantity } =
@@ -62,7 +62,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
           <div className="grid product-prices text-left">
             <div className="price-box" id={`orderProduct-${id}`}>
               <span className="price">
-                <b>Giá : {parsePrice(costPrice)}</b>
+                <b>Giá : {parsePrice(price)}</b>
                 <br /> Đơn vị : {unit || "hộp"}
               </span>
             </div>

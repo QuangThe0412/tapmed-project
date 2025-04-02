@@ -5,12 +5,13 @@ import { generateSlug, parsePrice } from "@src/utils/common";
 import { Minus, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import imageEx from "@src/assets/image/image-ex.jpg";
+import { OrderItem } from "@src/types/typeOrder";
 
 const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
-  const { id, name, unit, retailPrice: price, imageUrls } = item;
+  const { id, name, unit, price, imageUrls } = item;
   const image = imageUrls?.[0] || imageEx;
 
-  const { orders, plusQuantity, minusQuantity, updateQuantity } =
+  const { orders, plusQuantity, minusQuantity, updateQuantity, setOrders } =
     useOrderStore();
 
   const orderItem =
@@ -27,6 +28,23 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
 
   const slug = generateSlug(name);
   const productUrl = `/products/${slug}-${id}.html`;
+
+  const handleAddToCart = () => {
+    plusQuantity(id);
+    const cartItem: OrderItem = {
+      id: 0,
+      quantity: 1,
+      productId: id,
+      imageUrls: imageUrls || [],
+      productName: name,
+      priceAfterDiscount: price || 0,
+      priceBeforeDiscount: price || 0,
+      discountAmount: 0,
+      unit: unit || "",
+    };
+
+    setOrders({ ...orders, orderItems: [...orders.orderItems, cartItem] });
+  };
 
   return (
     <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-8 px-4">
@@ -55,7 +73,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
               <div className="wrapper-btn-add">
                 <ButtonCustom
                   label="Thêm vào giỏ hàng"
-                  onClick={() => plusQuantity(id)}
+                  onClick={handleAddToCart}
                   className="btn-add-to-cart"
                 />
               </div>

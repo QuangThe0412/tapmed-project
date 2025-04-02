@@ -26,12 +26,6 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   const { openLoginModal } = useAuthModalStore();
   const { user } = useAuthStore();
 
-  const initTotalAmount = orders?.orderItems?.reduce(
-    (sum, item) =>
-      sum + (item?.priceAfterDiscount || 0) * (item?.quantity || 0),
-    0
-  );
-
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("modal-open");

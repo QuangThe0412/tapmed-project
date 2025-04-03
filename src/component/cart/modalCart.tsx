@@ -11,6 +11,7 @@ import {
   createOrUpdateOrderEndPoint,
 } from "./orderEndpoint";
 import { OrderItem, OrderType } from "@src/types/typeOrder";
+import ModalPaymentMethod from "./modalPaymentMethod";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -25,6 +26,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
   const { orders, setOrders, removeItem, updateQuantity } = useOrderStore();
   const { openLoginModal } = useAuthModalStore();
   const { user } = useAuthStore();
+  const [isShowModalPayment, setIsShowModalPayment] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -99,27 +101,19 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
         };
         if (user) {
           if (parsedOrders && orderItems?.length > 0) {
-            //create or update order
-
             const response = await createOrUpdateOrderEndPoint(body);
             if (response) {
-              const { orderItems } = response;
+              const { orderItems, id } = response;
+              body.id = id;
               body.orderItems = orderItems;
               setOrders(body);
             }
           } else {
-            if (totalAmount <= 0) {
-              await createOrUpdateOrderEndPoint(body);
-              return;
-            }
-            //get orders from api
             const response = await getOrdersEndPoint();
             if (response) {
-              const { orderItems } = response;
-              const body: OrderType = {
-                id: 0,
-                orderItems: orderItems,
-              };
+              const { orderItems, id } = response;
+              body.id = id;
+              body.orderItems = orderItems;
               setOrders(body);
             }
           }
@@ -147,7 +141,55 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
         clearTimeout(debounceTimeout.current);
       }
     };
-  }, [user, totalAmount]);
+  }, [user]);
+
+  useEffect(() => {
+    const fetchOrderData = async () => {
+      try {
+        const localStorageOrders = localStorage.getItem("orders");
+        const parsedOrders = localStorageOrders
+          ? JSON.parse(localStorageOrders)
+          : null;
+        const orderItems = parsedOrders?.state?.orders?.orderItems;
+        const body: OrderType = {
+          id: 0,
+          orderItems: orderItems,
+        };
+        if (user) {
+          if (parsedOrders && orderItems?.length >= 0) {
+            const response = await createOrUpdateOrderEndPoint(body);
+            if (response) {
+              const { orderItems, id } = response;
+              body.id = id;
+              body.orderItems = orderItems;
+              setOrders(body);
+            }
+          }
+        } else {
+          if (parsedOrders && orderItems?.length > 0) {
+            setOrders(body);
+          }
+        }
+      } catch (error) {
+        console.error("Lỗi khi tải dữ liệu order:", error);
+      }
+    };
+
+    // Gọi fetchOrderData khi user hoặc orders thay đổi
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      fetchOrderData();
+    }, 500);
+
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, [totalAmount]);
 
   const handlePayment = () => {
     if (!user) {
@@ -156,144 +198,152 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
     }
 
     ///next step
+    setIsShowModalPayment(true);
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      style={customStyles}
-      contentLabel="Giỏ hàng"
-    >
-      <div className="cart-modal">
-        {/* Header modal */}
-        <div className="cart-modal-header">
-          <h2>Giỏ hàng của bạn</h2>
-          <button onClick={onRequestClose} className="cart-modal-close">
-            <X size={24} />
-          </button>
-        </div>
-
-        {/* Trường hợp giỏ hàng trống */}
-        {cartItems?.length === 0 ? (
-          <div className="cart-empty">
-            <p>Giỏ hàng của bạn đang trống</p>
-            <button onClick={onRequestClose} className="cart-empty-button">
-              Tiếp tục mua sắm
+    <>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={onRequestClose}
+        style={customStyles}
+        contentLabel="Giỏ hàng"
+      >
+        <div className="cart-modal">
+          {/* Header modal */}
+          <div className="cart-modal-header">
+            <h2>Giỏ hàng của bạn</h2>
+            <button onClick={onRequestClose} className="cart-modal-close">
+              <X size={24} />
             </button>
           </div>
-        ) : (
-          <>
-            {/* Danh sách sản phẩm */}
-            <div className="cart-items-container">
-              {cartItems?.map(
-                (item, index) =>
-                  item && (
-                    <div key={index} className="cart-item">
-                      {/* Hình ảnh sản phẩm */}
-                      <img
-                        src={
-                          item?.imageUrls && item?.imageUrls.length > 0
-                            ? item?.imageUrls[0]
-                            : imageEx
-                        }
-                        alt={item?.productName}
-                        className="cart-item-image"
-                        onError={(e) => {
-                          e.currentTarget.src = imageEx;
-                        }}
-                      />
 
-                      {/* Thông tin sản phẩm */}
-                      <div className="cart-item-info">
-                        <h3 className="cart-item-name line-clamp-2">
-                          {item?.productName}
-                        </h3>
-                        <p className="cart-item-price">
-                          {item?.priceAfterDiscount?.toLocaleString("vi-VN")} đ
-                        </p>
-                      </div>
-
-                      {/* Điều chỉnh số lượng */}
-                      <div className="quantity-controls">
-                        <button
-                          onClick={(e) => handleMinusQuantity(e, item)}
-                          //   disabled={item.quantity <= 1}
-                          className="quantity-btn quantity-btn-minus"
-                        >
-                          <Minus size={16} className="text-gray-700" />
-                        </button>
-
-                        <input
-                          type="text"
-                          className="quantity-value-input"
-                          value={item?.quantity}
-                          onChange={(e) =>
-                            handleUpdateQuantity(
-                              item?.productId,
-                              item?.quantity
-                            )
+          {/* Trường hợp giỏ hàng trống */}
+          {cartItems?.length === 0 ? (
+            <div className="cart-empty">
+              <p>Giỏ hàng của bạn đang trống</p>
+              <button onClick={onRequestClose} className="cart-empty-button">
+                Tiếp tục mua sắm
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* Danh sách sản phẩm */}
+              <div className="cart-items-container">
+                {cartItems?.map(
+                  (item, index) =>
+                    item && (
+                      <div key={index} className="cart-item">
+                        {/* Hình ảnh sản phẩm */}
+                        <img
+                          src={
+                            item?.imageUrls && item?.imageUrls.length > 0
+                              ? item?.imageUrls[0]
+                              : imageEx
                           }
-                          onBlur={() =>
-                            handleUpdateQuantity(
-                              item?.productId,
-                              item?.quantity
-                            )
-                          }
-                          // onKeyDown={(e) =>
-                          //   handleQuantityKeyDown(e, item?.productId)
-                          // }
-                          aria-label="Số lượng"
+                          alt={item?.productName}
+                          className="cart-item-image"
+                          onError={(e) => {
+                            e.currentTarget.src = imageEx;
+                          }}
                         />
 
+                        {/* Thông tin sản phẩm */}
+                        <div className="cart-item-info">
+                          <h3 className="cart-item-name line-clamp-2">
+                            {item?.productName}
+                          </h3>
+                          <p className="cart-item-price">
+                            {item?.priceAfterDiscount?.toLocaleString("vi-VN")}{" "}
+                            đ
+                          </p>
+                        </div>
+
+                        {/* Điều chỉnh số lượng */}
+                        <div className="quantity-controls">
+                          <button
+                            onClick={(e) => handleMinusQuantity(e, item)}
+                            //   disabled={item.quantity <= 1}
+                            className="quantity-btn quantity-btn-minus"
+                          >
+                            <Minus size={16} className="text-gray-700" />
+                          </button>
+
+                          <input
+                            type="text"
+                            className="quantity-value-input"
+                            value={item?.quantity}
+                            onChange={(e) =>
+                              handleUpdateQuantity(
+                                item?.productId,
+                                item?.quantity
+                              )
+                            }
+                            onBlur={() =>
+                              handleUpdateQuantity(
+                                item?.productId,
+                                item?.quantity
+                              )
+                            }
+                            // onKeyDown={(e) =>
+                            //   handleQuantityKeyDown(e, item?.productId)
+                            // }
+                            aria-label="Số lượng"
+                          />
+
+                          <button
+                            onClick={(e) => handlePlusQuantity(e, item)}
+                            className="quantity-btn quantity-btn-plus"
+                          >
+                            <Plus size={18} />
+                          </button>
+                        </div>
+
+                        {/* Nút xóa */}
                         <button
-                          onClick={(e) => handlePlusQuantity(e, item)}
-                          className="quantity-btn quantity-btn-plus"
+                          onClick={() => removeItem(item?.productId)}
+                          className="remove-btn"
                         >
-                          <Plus size={18} />
+                          <Trash2 size={18} />
                         </button>
                       </div>
-
-                      {/* Nút xóa */}
-                      <button
-                        onClick={() => removeItem(item?.productId)}
-                        className="remove-btn"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  )
-              )}
-            </div>
-
-            {/* Tổng tiền và nút thanh toán */}
-            <div className="cart-summary">
-              <div className="cart-total">
-                <span className="cart-total-label">Tổng tiền:</span>
-                <span className="cart-total-value">
-                  {totalAmount?.toLocaleString("vi-VN")} đ
-                </span>
+                    )
+                )}
               </div>
 
-              <div className="cart-actions">
-                <button
-                  onClick={onRequestClose}
-                  className="cart-action-btn cart-continue-btn"
-                >
-                  Tiếp tục mua
-                </button>
-                <button
-                  className="cart-action-btn cart-checkout-btn"
-                  onClick={() => handlePayment()}
-                >
-                  Thanh toán
-                </button>
+              {/* Tổng tiền và nút thanh toán */}
+              <div className="cart-summary">
+                <div className="cart-total">
+                  <span className="cart-total-label">Tổng tiền:</span>
+                  <span className="cart-total-value">
+                    {totalAmount?.toLocaleString("vi-VN")} đ
+                  </span>
+                </div>
+
+                <div className="cart-actions">
+                  <button
+                    onClick={onRequestClose}
+                    className="cart-action-btn cart-continue-btn"
+                  >
+                    Tiếp tục mua
+                  </button>
+                  <button
+                    className="cart-action-btn cart-checkout-btn"
+                    onClick={() => handlePayment()}
+                  >
+                    Thanh toán
+                  </button>
+                </div>
               </div>
-            </div>
-          </>
-        )}
-      </div>
-    </Modal>
+            </>
+          )}
+        </div>
+      </Modal>
+      <ModalPaymentMethod
+        isOpen={isShowModalPayment}
+        onRequestClose={() => setIsShowModalPayment(false)}
+      />
+    </>
   );
 };
 

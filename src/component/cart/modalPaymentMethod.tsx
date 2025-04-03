@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Modal from "react-modal";
 import FormPayment from "./formPayment";
-import { paymentEndPoint, PaymentRequestType } from "./paymentEndpoint";
+import {
+  paymentEndPoint,
+  PaymentRequestType,
+  successPaymentEndPoint,
+} from "./paymentEndpoint";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -18,7 +22,6 @@ const ModalPaymentMethod: React.FC<ModalPaymentProps> = ({
   onRequestClose,
 }) => {
   const { orders } = useOrderStore();
-  console.log("orders", orders);
   const totalPrice = orders?.orderItems.reduce(
     (total, item) => total + item.priceAfterDiscount * item.quantity,
     0
@@ -36,11 +39,19 @@ const ModalPaymentMethod: React.FC<ModalPaymentProps> = ({
     const body: PaymentRequestType = {
       orderId: idOrder,
       address: address,
-      paymentMethod,
+      method: paymentMethod,
       description: `Thanh toán đơn hàng ${idOrder}`,
     };
 
     const response = await paymentEndPoint(body);
+    console.log("response", response);
+    if (response) {
+      const { redirect_url } = response;
+      if (redirect_url) {
+        const resCallSuccess = await successPaymentEndPoint(redirect_url);
+        console.log("resCallSuccess", resCallSuccess);
+      }
+    }
     console.log("response", response);
   };
 

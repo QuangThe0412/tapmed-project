@@ -7,6 +7,7 @@ import { Minus, Plus } from "lucide-react";
 import ButtonCustom from "@src/component/button/buttonCustom";
 import { Link } from "react-router-dom";
 import imageEx from "@src/assets/image/image-ex.jpg";
+import { OrderItem } from "@src/types/typeOrder";
 
 type OrderItemProps = {
   product: ProductItemType;
@@ -16,7 +17,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
   const { id, name, imageUrls, unit, price } = product;
   const image = imageUrls?.[0] || imageEx;
 
-  const { orders, plusQuantity, minusQuantity, updateQuantity } =
+  const { orders, setOrders, plusQuantity, minusQuantity, updateQuantity } =
     useOrderStore();
 
   const orderItem =
@@ -26,12 +27,20 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
 
   const quantity = orderItem?.quantity || 0;
 
-  const minusProduct = (id: number) => {
-    minusQuantity(id);
-  };
+  const handleAddToCart = () => {
+    const cartItem: OrderItem = {
+      id: 0,
+      quantity: 1,
+      productId: id,
+      imageUrls: imageUrls || [],
+      productName: name,
+      priceAfterDiscount: price || 0,
+      priceBeforeDiscount: price || 0,
+      discountAmount: 0,
+      unit: unit || "",
+    };
 
-  const plusProduct = (id: number) => {
-    plusQuantity(id);
+    setOrders({ ...orders, orderItems: [...orders.orderItems, cartItem] });
   };
 
   const updateQuantityProduct = (id: number, newQuantity: number) => {
@@ -71,7 +80,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
             {quantity <= 0 ? (
               <ButtonCustom
                 label="Thêm vào giỏ hàng"
-                onClick={() => plusProduct(id)}
+                onClick={() => handleAddToCart()}
               />
             ) : (
               <div className="input-group-btn">
@@ -79,7 +88,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
                   type="button"
                   className="qty-minus items-count"
                   aria-label="-"
-                  onClick={() => minusProduct(id)}
+                  onClick={() => minusQuantity(id)}
                 >
                   <Minus size={20} />
                 </button>
@@ -101,7 +110,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
                   type="button"
                   className="qty-plus items-count"
                   aria-label="+"
-                  onClick={() => plusProduct(id)}
+                  onClick={() => plusQuantity(id)}
                 >
                   <Plus size={20} />
                 </button>

@@ -55,7 +55,6 @@ const PaymentSuccess: React.FC = () => {
 
           const param = `?sessionId=${sessionId}&method=${method}&paymentId=${paymentId}&payerId=${payerId}`;
           const resSuccess = await successPaymentEndPoint(param);
-          console.log("resSuccess", resSuccess);
 
           if (resSuccess && resSuccess.status === 200) {
             const body: OrderType = {

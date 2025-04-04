@@ -7,11 +7,11 @@ export function getUserId(): number | null {
   return null;
 }
 
-export function getUsername(): string | null {
+export function getPhone(): string | null {
   const auth = localStorage.getItem("auth");
   if (auth) {
     const parsedAuth = JSON.parse(auth);
-    return parsedAuth?.state?.user?.fullName || null;
+    return parsedAuth?.state?.user?.phone || null;
   }
   return null;
 }

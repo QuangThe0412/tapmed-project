@@ -20,6 +20,7 @@ import useAuthStore from "../authentication/useAuthStore";
 import { authEvent, removeLogoutEvent } from "../authentication/authEvent";
 import { clearStorage } from "../authentication/authUntils";
 import { logoutEndpoint } from "../authentication/authEndpoint";
+import { pingEvent, removePingEvent } from "../websocket/pingEvent";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -77,6 +78,17 @@ function MainLayout({ children }: MainLayoutProps) {
 
     return () => {
       removeLogoutEvent();
+    };
+  }, []);
+
+  useEffect(() => {
+    pingEvent.on("PING", () => {
+      console.log("PING event received");
+      // Handle the PING event here, e.g., by sending a ping response or updating the UI
+    });
+
+    return () => {
+      removePingEvent();
     };
   }, []);
 

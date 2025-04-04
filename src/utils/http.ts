@@ -4,7 +4,7 @@ import {
   getAccessToken,
   getRefreshToken,
   getUserId,
-  getUsername,
+  getPhone,
   isAuthenticated,
   setAccessToken,
 } from "@src/component/authentication/authUntils";
@@ -42,8 +42,8 @@ axiosInstance.interceptors.request.use(
         };
       }
 
-      if (!!getUsername()) {
-        config.headers["Username"] = getUsername();
+      if (!!getPhone()) {
+        config.headers["Username"] = getPhone();
       }
     }
 

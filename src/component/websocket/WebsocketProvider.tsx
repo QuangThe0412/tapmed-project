@@ -7,7 +7,14 @@ import {
 } from "react";
 import { Client, IMessage } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { getUsername } from "@src/component/authentication/authUntils";
+import { getPhone } from "@src/component/authentication/authUntils";
+import toast from "react-hot-toast";
+import { emitPingEvent } from "./pingEvent";
+
+export type WebsocketResponseType = {
+  eventName: string;
+  data: any;
+};
 
 export type WebsocketProviderType = {
   sendMessage: (destination: string, message: string) => void;
@@ -27,18 +34,26 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
 
   const onMessageCallBack = (msg: string) => {
     if (msg) {
-      console.log("onMessageCallBack", msg);
+      const { eventName, data } = JSON.parse(msg) as WebsocketResponseType;
+      switch (eventName) {
+        case "PING":
+          console.log("PING event received:", data);
+          emitPingEvent();
+          break;
+        default:
+          toast.error("Unknown event received: " + eventName);
+      }
     }
   };
 
-  const topics = ["/topic/reload", "/topic/testTopic"];
+  const topics = ["/user/queue", "/topic/reload", "/topic/testTopic"];
 
   useEffect(() => {
     // Initialize Stomp Client
     const client = new Client({
       webSocketFactory: () => new SockJS(WEBSOCKET_ENDPOINT),
       connectHeaders: {
-        username: `${getUsername()}`,
+        username: `${getPhone()}`,
       },
       heartbeatIncoming: 3000,
       heartbeatOutgoing: 3000,
@@ -47,10 +62,9 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
         console.log("---- WebSocket Connected ----");
         setIsConnected(true);
 
-        // Subscribe to topics
+        // Subscribe
         topics.forEach((topic) => {
           client.subscribe(topic, (message: IMessage) => {
-            console.log(`Message received from ${topic}:`, message.body);
             onMessageCallBack(message.body);
           });
         });

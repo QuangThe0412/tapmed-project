@@ -1,15 +1,8 @@
 import useOrderStore from "@src/stores/useOrderStore";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import React from "react";
 import Modal from "react-modal";
 import FormPayment from "./formPayment";
-import {
-  createPaymentEndPoint,
-  PaymentRequestType,
-  successPaymentEndPoint,
-} from "./paymentEndpoint";
-import { OrderType } from "@src/types/typeOrder";
-import useCartStore from "@src/stores/useCartModalStore";
+import { createPaymentEndPoint, PaymentRequestType } from "./paymentEndpoint";
 
 // Thiết lập cho accessibility
 Modal.setAppElement("#root");
@@ -23,9 +16,8 @@ const ModalPaymentMethod: React.FC<ModalPaymentProps> = ({
   isOpen,
   onRequestClose,
 }) => {
-  const { orders, setOrders } = useOrderStore();
-  const { closeCart } = useCartStore();
-  const totalPrice = orders?.orderItems.reduce(
+  const { orders } = useOrderStore();
+  const totalPrice = orders?.orderItems?.reduce(
     (total, item) => total + item.priceAfterDiscount * item.quantity,
     0
   );

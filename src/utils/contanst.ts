@@ -14,6 +14,8 @@ import {
   Search,
   Zap,
 } from "lucide-react";
+import PaymentSuccess from "@src/page/payment/paymentSuccess";
+import PaymentCancle from "@src/page/payment/paymentCancel";
 
 type PathType = {
   name: string;
@@ -87,6 +89,20 @@ export const paths: PathType[] = [
     path: "/news/:slug.html",
     breadcrums: "Chi tiết bài viết",
     component: BlogDetails,
+    isShowMenu: false,
+  },
+  {
+    name: "paymentSuccess",
+    path: "/success",
+    breadcrums: "Thông báo thanh toán thành công",
+    component: PaymentSuccess,
+    isShowMenu: false,
+  },
+  {
+    name: "paymentCancle",
+    path: "/cancel",
+    breadcrums: "Thông báo thanh toán thất bại",
+    component: PaymentCancle,
     isShowMenu: false,
   },
 ];

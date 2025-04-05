@@ -46,6 +46,7 @@
   word-wrap: break-word;
   float: left;
   text-align: left;
+  width: 100%;
 }
 
 .chat-message-item:nth-child(odd) {
@@ -92,4 +93,11 @@
 .send-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: #666;
 }

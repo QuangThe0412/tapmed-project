@@ -9,9 +9,11 @@ export type ChatMessageType = {
   createdAt: string; // Thời gian gửi tin nhắn
 };
 
-export const getChatMessageEndPoint = () => {
+export const getChatMessageEndPoint = (page: number, size: number) => {
   return axiosInstance
-    .get(`${BACKEND_ENDPOINT}/chat-messages/getAllMessages`)
+    .get(
+      `${BACKEND_ENDPOINT}/chat-messages/getAllMessages?page=${page}&size=${size}`
+    )
     .then((res) => (res && res?.data ? res.data : null))
     .catch((error) => {
       console.error("Lỗi khi gọi API:", error);

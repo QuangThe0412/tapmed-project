@@ -36,22 +36,32 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
   const [isWBConnected, setisWBConnected] = useState(false);
 
   const onMessageCallBack = (msg: any) => {
-    if (!msg) return;
+    let messagePayload = null;
+    try {
+      messagePayload = !!msg && typeof msg === "string" ? JSON.parse(msg) : msg;
+    } catch (e) {
+      console.error("Error parsing message", e);
+    }
 
-    const { body, statusCodeValue } = JSON.parse(msg) as any;
-    if ((body && statusCodeValue === 200) || statusCodeValue === 201) {
-      const { eventName, data } = body as WebsocketResponseType;
-      switch (eventName) {
-        case "PING":
-          console.log("PING event received:", data);
-          emitPingEvent();
-          break;
-        case "RELOAD_MESSAGES":
-          emitReloadChatEvent(data);
-          break;
-        default:
-          toast.error("Unknown event received: " + eventName);
-      }
+    if (!messagePayload || !messagePayload?.payloadType) return;
+
+    const { payloadType, message } = messagePayload || {};
+    let data = null;
+    try {
+      data =
+        !!message && typeof message === "string"
+          ? JSON.parse(message)
+          : message;
+    } catch (e) {
+      console.error("Error parsing message", e);
+    }
+
+    switch (payloadType) {
+      case "RELOAD_MESSAGES":
+        emitReloadChatEvent(data);
+        break;
+      default:
+        toast.error("Unknown event received: " + payloadType);
     }
   };
 

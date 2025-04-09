@@ -1,0 +1,47 @@
+.root {
+  --primary-admin-layout: #001529;
+  --secondary-admin-layout: #f0f2f5;
+}
+
+.admin-logo {
+  height: 64px; /* Tăng chiều cao để logo nổi bật hơn */
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-admin-layout); /* Màu nền của logo */
+  border-radius: 8px; /* Bo góc */
+  overflow: hidden; /* Ẩn phần thừa nếu logo quá lớn */
+}
+
+.admin-logo-text {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+  text-transform: uppercase; /* Chuyển text thành chữ in hoa */
+  letter-spacing: 1px; /* Tăng khoảng cách giữa các chữ */
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #001529; /* Màu nền của header */
+  color: #fff;
+}
+
+.admin-header-user-section {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Đẩy phần thông tin người dùng sang bên phải */
+}
+
+.admin-header-avatar {
+  margin-right: 10px;
+}
+
+.admin-header-user-name {
+  font-size: 16px;
+  color: #fff;
+}

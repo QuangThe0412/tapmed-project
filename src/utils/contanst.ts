@@ -7,15 +7,22 @@ import News from "../page/news/news";
 import ProductDetail from "@src/page/product/productDetail";
 import BlogDetails from "@src/page/news/blogDetail";
 import {
+  Boxes,
   Flame,
+  Layers2,
   LucideHouse,
+  MessageSquareText,
   Newspaper,
   Notebook,
+  ScrollText,
   Search,
+  ShoppingCart,
+  User,
   Zap,
 } from "lucide-react";
 import PaymentSuccess from "@src/page/payment/paymentSuccess";
 import PaymentCancle from "@src/page/payment/paymentCancel";
+import AdminIndex from "@src/cms/component/adminIndex";
 
 type PathType = {
   name: string;
@@ -110,17 +117,69 @@ export const paths: PathType[] = [
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_ENDPOINT;
 
-// // Danh sách các đường dẫn không yêu cầu xác thực
-// export const NON_AUTH_PATHS = [
-//   "/",
-//   "/products",
-//   "/news",
-//   "/promotion",
-//   "/policy",
-//   "/quickOrder",
-// ];
+type PathTypeAdmin = {
+  name: string;
+  path: string;
+  component: React.FC<any>;
+  isShowMenu?: boolean;
+  icon?: React.FC<any>;
+};
 
-// // Hàm kiểm tra xem đường dẫn có nằm trong danh sách miễn xác thực không
-// export const isPathExemptFromAuth = (path: string): boolean => {
-//   return NON_AUTH_PATHS.includes(path);
-// };
+export const pathsAdmin: PathTypeAdmin[] = [
+  {
+    name: "Admin",
+    path: "/admin",
+    component: AdminIndex,
+    isShowMenu: false,
+    icon: Flame,
+  },
+  {
+    name: "Users",
+    path: "/adminUsers",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: User,
+  },
+  {
+    name: "Blogs",
+    path: "/adminBlogs",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: Newspaper,
+  },
+  {
+    name: "Categories",
+    path: "/adminCategories",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: Layers2,
+  },
+  {
+    name: "Orders",
+    path: "/adminOrders",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: ShoppingCart,
+  },
+  {
+    name: "Payment Logs",
+    path: "/adminPaymentLogs",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: ScrollText,
+  },
+  {
+    name: "Products",
+    path: "/adminProducts",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: Boxes,
+  },
+  {
+    name: "Reviews",
+    path: "/adminReviews",
+    component: AdminIndex,
+    isShowMenu: true,
+    icon: MessageSquareText,
+  },
+];

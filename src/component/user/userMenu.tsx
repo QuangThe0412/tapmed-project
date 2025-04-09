@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { User, LogOut, ShoppingBag } from "lucide-react";
+import { User, LogOut, ShoppingBag, Webhook } from "lucide-react";
 import useAuthStore from "@src/component/authentication/useAuthStore";
-import { Link } from "react-router-dom";
 import "./userMenu.css";
 import { emitLogoutEvent } from "../authentication/authEvent";
+import { isAdmin } from "@src/component/authentication/authUntils";
 
 type UserMenuProps = {
   isMobile?: boolean;
@@ -19,6 +19,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
   const handleLogout = () => {
     emitLogoutEvent();
     setIsOpen(false);
+  };
+
+  const handleAdminRedirect = () => {
+    window.location.href = "/admin";
   };
 
   // Đóng menu khi click ra ngoài
@@ -59,14 +63,21 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMobile }) => {
             </p>
             <p className="text-xs text-gray-500">{user.phone}</p>
           </div>
+          {isAdmin() && (
+            <div
+              onClick={handleAdminRedirect}
+              className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-gray-600 flex items-center bg-white"
+            >
+              <Webhook size={16} className="mr-2" /> ADMIN
+            </div>
+          )}
 
-          <Link
-            to="/"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+          <div
+            className="cursor-pointer block w-full text-left px-4 py-2 text-sm text-blue-600 flex items-center bg-white"
             onClick={() => setIsOpen(false)}
           >
             <User size={16} className="mr-2" /> Tài khoản
-          </Link>
+          </div>
           {/* 
           <Link
             to="/orders"

@@ -25,6 +25,16 @@ export function getUserFromStorage() {
   return null;
 }
 
+//check role is admin
+export function isAdmin(): boolean {
+  const auth = localStorage.getItem("auth");
+  if (auth) {
+    const parsedAuth = JSON.parse(auth);
+    return parsedAuth?.state?.user?.roles.includes("ROLE_ADMIN") || false;
+  }
+  return false;
+}
+
 // ACCESS TOKEN
 const NAME_ACCESS_TOKEN = "accessToken";
 

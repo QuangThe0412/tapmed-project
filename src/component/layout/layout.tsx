@@ -15,13 +15,7 @@ import FormLogin from "../authentication/formLogin";
 import useBlogStore from "@src/stores/useBlogStore";
 import { Toaster } from "react-hot-toast";
 import { getBlogs } from "@src/page/news/blogEndpoint";
-import useOrderStore, { initOrderType } from "@src/stores/useOrderStore";
-import useAuthStore from "../authentication/useAuthStore";
-import { authEvent, removeLogoutEvent } from "../authentication/authEvent";
-import { clearStorage } from "../authentication/authUntils";
-import { logoutEndpoint } from "../authentication/authEndpoint";
 import { pingEvent, removePingEvent } from "../websocket/pingEvent";
-import { link } from "fs";
 import { BlogType } from "@src/types/typeBlog";
 import { generateSlug } from "@src/utils/common";
 
@@ -32,8 +26,6 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   const { setBlogPosts } = useBlogStore();
   const fetchProvinces = useProvinceStore((state) => state.fetchProvinces);
-  const { setOrders } = useOrderStore();
-  const { setUser } = useAuthStore();
 
   useEffect(() => {
     fetchProvinces();
@@ -82,19 +74,6 @@ function MainLayout({ children }: MainLayoutProps) {
       document.body.classList.remove("modal-open");
     }
   }, [isRegisterModalOpen, isLoginModalOpen]);
-
-  useEffect(() => {
-    authEvent.on("LOGOUT", () => {
-      logoutEndpoint();
-      clearStorage();
-      setOrders(initOrderType);
-      setUser(null);
-    });
-
-    return () => {
-      removeLogoutEvent();
-    };
-  }, []);
 
   useEffect(() => {
     pingEvent.on("PING", () => {

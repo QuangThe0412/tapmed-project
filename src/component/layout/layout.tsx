@@ -21,6 +21,9 @@ import { authEvent, removeLogoutEvent } from "../authentication/authEvent";
 import { clearStorage } from "../authentication/authUntils";
 import { logoutEndpoint } from "../authentication/authEndpoint";
 import { pingEvent, removePingEvent } from "../websocket/pingEvent";
+import { link } from "fs";
+import { BlogType } from "@src/types/typeBlog";
+import { generateSlug } from "@src/utils/common";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -41,7 +44,19 @@ function MainLayout({ children }: MainLayoutProps) {
         if (!resBlogs) {
           throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
         }
-        setBlogPosts(resBlogs);
+
+        const _data = resBlogs.map((item: BlogType) => {
+          const { id, title } = item;
+          const slug = generateSlug(title);
+          const url = `/news/${slug}-${id}.html`;
+
+          return {
+            ...item,
+            link: url,
+          };
+        });
+
+        setBlogPosts(_data);
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
         // toast.error("Không thể tải dữ liệu. Vui lòng thử lại sau.");

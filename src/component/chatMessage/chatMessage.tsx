@@ -116,6 +116,11 @@ const ChatMessage: React.FC = () => {
             className="chat-input"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSendMessage();
+              }
+            }}
           />
           <button className="send-button" onClick={handleSendMessage}>
             Gửi

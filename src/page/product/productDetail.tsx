@@ -33,18 +33,13 @@ const ProductDetail = () => {
     fetchProduct();
   }, []);
 
-  const {
-    name,
-    retailPrice: price,
-    unit,
-    imageUrls,
-    description,
-  } = product || ({} as ProductItemType);
+  const { name, price, unit, imageUrls, description } =
+    product || ({} as ProductItemType);
 
   const processedImageUrls =
     imageUrls && imageUrls.length > 0 ? imageUrls : [imageEx];
 
-  const orderItem = orders.orderItems.find((item) => item.id === productId);
+  const orderItem = orders?.orderItems?.find((item) => item.id === productId);
   const quantity = orderItem?.quantity || 0;
 
   const handleMinusQuantity = (id: number) => {

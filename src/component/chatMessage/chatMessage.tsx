@@ -7,6 +7,7 @@ import useAuthModalStore from "../authentication/authModalStore";
 import { ChatMessageType, getChatMessageEndPoint } from "./chatMessageEndpoint";
 import { chatEvent, removeReloadChatEvent } from "./chatEvent";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import ChatItemMessage from "./chatItemMessage";
 
 const ChatMessage: React.FC = () => {
   const { user } = useAuthStore();
@@ -133,19 +134,7 @@ const ChatMessage: React.FC = () => {
           onScroll={handleScroll}
           ref={chatListRef}
         >
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`chat-message-item ${
-                msg.senderId === user?.id
-                  ? "my-message"
-                  : "other-message highlighted"
-              }`}
-            >
-              {msg.senderId !== user?.id && <b>{msg.senderName} : </b>}
-              {msg.message}
-            </div>
-          ))}
+          <ChatItemMessage messages={messages} user={user} />
         </div>
         {isLoading && <div className="loading">Đang tải...</div>}
         <div className="chat-input-container">

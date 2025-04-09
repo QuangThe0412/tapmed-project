@@ -16,12 +16,14 @@ function Product() {
     const pageParam = searchParams.get("page");
     const page = pageParam ? parseInt(pageParam) - 1 : 0;
     const search = searchParams.get("search") || "";
-    // Chỉ set `search` nếu có giá trị
-    if (search) {
-      setSearchParams({ search, page: (page + 1).toString() });
-    } else {
-      setSearchParams({ page: (page + 1).toString() });
-    }
+
+    // // Chỉ cập nhật `searchParams` nếu cần
+    // if (
+    //   searchParams.get("page") !== (page + 1).toString() ||
+    //   searchParams.get("search") !== search
+    // ) {
+    //   setSearchParams({ search, page: (page + 1).toString() });
+    // }
 
     setCurrentPage(page);
     fetchProducts(page, itemsPerPage, search);

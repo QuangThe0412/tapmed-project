@@ -10,6 +10,27 @@
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  clear: both;
+}
+
+.other-message {
+  background-color: #f1f1f1; /* Màu nền cho tin nhắn của người khác */
+  float: left;
+  text-align: left;
+}
+
+.other-message:nth-child(odd) {
+  background-color: #d1ffd6;
+}
+
+.highlighted {
+  background-color: #e0f7fa; /* Màu nền đặc biệt cho tin nhắn không phải của mình */
+}
+
+.my-message {
+  background-color: transparent; /* Không tô màu cho tin nhắn của mình */
+  float: right !important;
+  text-align: right !important;
 }
 
 .chat-header {
@@ -40,7 +61,7 @@
   padding: 8px 12px;
   margin-bottom: 8px;
   border-radius: 4px;
-  background-color: #e0e0e0;
+  /* background-color: #e0e0e0; */
   color: #333;
   font-size: 14px;
   word-wrap: break-word;
@@ -50,7 +71,7 @@
 }
 
 .chat-message-item:nth-child(odd) {
-  background-color: #d1ffd6;
+  /* background-color: #d1ffd6; */
 }
 
 .chat-input-container {

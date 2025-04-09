@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import useAuthModalStore from "../authentication/authModalStore";
 import { ChatMessageType, getChatMessageEndPoint } from "./chatMessageEndpoint";
 import { chatEvent, removeReloadChatEvent } from "./chatEvent";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 const ChatMessage: React.FC = () => {
   const { user } = useAuthStore();
@@ -13,11 +14,13 @@ const ChatMessage: React.FC = () => {
   const { sendMessage, isWBConnected } = useWebsocket();
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
-  const [page, setPage] = useState<number>(0); // Trang hiện tại
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Trạng thái tải dữ liệu
-  const chatListRef = useRef<HTMLDivElement | null>(null); // Ref để cuộn tới cuối
+  const [page, setPage] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const chatListRef = useRef<HTMLDivElement | null>(null);
+  const emojiPickerRef = useRef<HTMLDivElement | null>(null); // Ref cho EmojiPicker
   const [last, setLast] = useState<boolean>(false);
-  const [isUserAtBottom, setIsUserAtBottom] = useState<boolean>(true); // Theo dõi vị trí cuộn
+  const [isUserAtBottom, setIsUserAtBottom] = useState<boolean>(true);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const fetchChatMessages = async () => {
     try {
@@ -37,7 +40,7 @@ const ChatMessage: React.FC = () => {
 
   useEffect(() => {
     if (isWBConnected) {
-      fetchChatMessages(); // Lấy 15 tin nhắn đầu tiên khi kết nối WebSocket
+      fetchChatMessages();
     }
   }, [isWBConnected, page]);
 
@@ -51,24 +54,21 @@ const ChatMessage: React.FC = () => {
     };
   }, []);
 
-  // Theo dõi vị trí cuộn của người dùng
   const handleScroll = () => {
     if (chatListRef.current) {
       const isAtBottom =
         chatListRef.current.scrollHeight - chatListRef.current.scrollTop <=
-        chatListRef.current.clientHeight + 50; // 50 là khoảng cách "gần cuối"
+        chatListRef.current.clientHeight + 50;
       setIsUserAtBottom(isAtBottom);
 
       if (chatListRef.current.scrollTop === 0 && !isLoading && !last) {
         const nextPage = page + 1;
-        chatListRef.current.scrollTop = 1; // Để tránh việc cuộn lên lại khi tải thêm tin nhắn
-
+        chatListRef.current.scrollTop = 1;
         setPage(nextPage);
       }
     }
   };
 
-  // Tự động cuộn xuống cuối khi có tin nhắn mới nếu người dùng đang ở cuối
   useEffect(() => {
     if (isUserAtBottom && chatListRef.current) {
       chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
@@ -87,11 +87,42 @@ const ChatMessage: React.FC = () => {
       return;
     }
 
+    if (message.length > 1000) {
+      toast.error("Tin nhắn không được quá 1000 ký tự!");
+      return;
+    }
+
+    if (message.length < 1) {
+      toast.error("Tin nhắn không được để trống!");
+      return;
+    }
+
     if (message.trim()) {
       sendMessage("/ws/app/sendChatMessage", message);
       setMessage("");
     }
   };
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    setMessage((prev) => prev + emojiData.emoji);
+  };
+
+  // Xử lý click bên ngoài EmojiPicker
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target as Node)
+      ) {
+        setShowEmojiPicker(false); // Ẩn EmojiPicker nếu click ra ngoài
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div id="chat-message">
@@ -103,13 +134,38 @@ const ChatMessage: React.FC = () => {
           ref={chatListRef}
         >
           {messages.map((msg, index) => (
-            <div key={index} className="chat-message-item">
-              <b>{msg.senderName}</b>: {msg.message}
+            <div
+              key={index}
+              className={`chat-message-item ${
+                msg.senderId === user?.id
+                  ? "my-message"
+                  : "other-message highlighted"
+              }`}
+            >
+              {msg.senderId !== user?.id && <b>{msg.senderName} : </b>}
+              {msg.message}
             </div>
           ))}
         </div>
         {isLoading && <div className="loading">Đang tải...</div>}
         <div className="chat-input-container">
+          <div
+            className="emoji-picker-container"
+            ref={emojiPickerRef} // Gắn ref cho EmojiPicker
+          >
+            {showEmojiPicker && (
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                style={{ position: "absolute", bottom: "30%" }}
+              />
+            )}
+          </div>
+          <button
+            className="emoji-button"
+            onClick={() => setShowEmojiPicker((prev) => !prev)}
+          >
+            😊
+          </button>
           <input
             type="text"
             placeholder="Hãy nhắn tin..."

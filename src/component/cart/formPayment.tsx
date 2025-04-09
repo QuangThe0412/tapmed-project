@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { PaymentMethod } from "./paymentEndpoint";
+import { getExChangeRateEndPoint } from "./exchangeRateEndpoint";
 
 // Định nghĩa schema validate với zod
 const paymentSchema = z.object({
@@ -30,15 +31,27 @@ const FormPayment: React.FC<FormPaymentProps> = ({
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [usdPrice, setUsdPrice] = useState<number | null>(null); // Giá tiền chuyển đổi sang USD
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
 
   // Tỷ giá hối đoái cố định (hoặc lấy từ API)
-  const exchangeRate = 23000; // 1 USD = 23,000 VND
+  useEffect(() => {
+    const fetchExchangeRate = async () => {
+      const res = await getExChangeRateEndPoint();
+      if (res) {
+        setExchangeRate(res);
+      } else {
+        toast.error("Không thể lấy tỷ giá hối đoái");
+      }
+    };
+
+    fetchExchangeRate();
+  }, []);
 
   useEffect(() => {
     // Chuyển đổi tổng tiền sang USD
     const convertedPrice = totalPrice / exchangeRate;
     setUsdPrice(convertedPrice);
-  }, [totalPrice]);
+  }, [totalPrice, exchangeRate]);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

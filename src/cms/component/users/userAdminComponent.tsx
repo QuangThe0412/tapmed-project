@@ -1,79 +1,95 @@
-import React, { useState } from "react";
-import { Table, Button, Modal, Form, Input, Space, Popconfirm } from "antd";
-
-interface User {
-  key: string;
-  name: string;
-  email: string;
-  phone: string;
-}
+import React, { useEffect, useState } from "react";
+import { Table, Button, Modal, Form, Space, Popconfirm } from "antd";
+import UserAdminForm from "./userAdminForm";
+import { UserType } from "@src/component/authentication/useAuthStore";
+import {
+  addOrCreateUserEndpoint,
+  deleteUserByIdEndpoint,
+  getUserByIdEndpoint,
+  getUsersEndpoint,
+} from "./userAdminEndpoint";
+import { Pen, Trash2 } from "lucide-react";
 
 const UserAdminComponent: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([
-    {
-      key: "1",
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "123456789",
-    },
-    {
-      key: "2",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      phone: "987654321",
-    },
-  ]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [editingUser, setEditingUser] = useState<UserType | null>(null);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await getUsersEndpoint();
+        if (response && response?.data) {
+          const usersWithKeys = response.data.map((user: UserType) => ({
+            ...user,
+            key: user.id, // Sử dụng id làm key
+          }));
+          setUsers(usersWithKeys);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleAdd = () => {
     setEditingUser(null);
-    form.resetFields();
+    form?.resetFields();
     setIsModalOpen(true);
   };
 
-  const handleEdit = (record: User) => {
-    setEditingUser(record);
-    form.setFieldsValue(record);
-    setIsModalOpen(true);
-  };
-
-  const handleDelete = (key: string) => {
-    setUsers(users.filter((user) => user.key !== key));
-  };
-
-  const handleSave = () => {
-    form.validateFields().then((values) => {
-      if (editingUser) {
-        // Update user
-        setUsers(
-          users.map((user) =>
-            user.key === editingUser.key ? { ...editingUser, ...values } : user
-          )
-        );
-      } else {
-        // Add new user
-        const newUser: User = {
-          key: `${Date.now()}`,
-          ...values,
-        };
-        setUsers([...users, newUser]);
+  const handleEdit = (id: number) => {
+    const fetchUser = async () => {
+      const response = await getUserByIdEndpoint(id);
+      if (response) {
+        setEditingUser(response);
+        form?.setFieldsValue(response);
+        setIsModalOpen(true);
       }
-      setIsModalOpen(false);
-    });
+    };
+
+    fetchUser();
+  };
+
+  const handleDelete = (id: number) => {
+    setUsers(users.filter((user) => user.id !== id));
+
+    const deleteUser = async () => {
+      const response = await deleteUserByIdEndpoint(id);
+      if (response) {
+        setEditingUser(response);
+        form?.setFieldsValue(response);
+        setIsModalOpen(true);
+      }
+    };
+
+    deleteUser();
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "STT",
+      dataIndex: "stt",
+      key: "stt",
+      render: (_: any, __: any, index: number) => index + 1,
+    },
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+      key: "fullName",
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "Roles",
+      dataIndex: "roles",
+      key: "roles",
     },
     {
       title: "Phone",
@@ -83,20 +99,21 @@ const UserAdminComponent: React.FC = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (_: any, record: User) => (
+      render: (_: any, record: UserType) => (
         <Space>
-          <Button type="link" onClick={() => handleEdit(record)}>
-            Edit
-          </Button>
+          <Pen
+            color="blue"
+            size={20}
+            onClick={() => handleEdit(record.id)}
+            className="cursor-pointer mr-2"
+          />
           <Popconfirm
             title="Are you sure to delete this user?"
-            onConfirm={() => handleDelete(record.key)}
+            onConfirm={() => handleDelete(record.id)}
             okText="Yes"
             cancelText="No"
           >
-            <Button type="link" danger>
-              Delete
-            </Button>
+            <Trash2 color="red" size={20} className="cursor-pointer" />
           </Popconfirm>
         </Space>
       ),
@@ -113,37 +130,16 @@ const UserAdminComponent: React.FC = () => {
       <Modal
         title={editingUser ? "Edit User" : "Add User"}
         open={isModalOpen}
-        onOk={handleSave}
         onCancel={() => setIsModalOpen(false)}
+        footer={null} // Loại bỏ footer mặc định của Modal
       >
-        <Form form={form} layout="vertical">
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[{ required: true, message: "Please enter the name" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              { required: true, message: "Please enter the email" },
-              { type: "email", message: "Please enter a valid email" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            label="Phone"
-            rules={[
-              { required: true, message: "Please enter the phone number" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
+        <UserAdminForm
+          form={form}
+          editingUser={editingUser}
+          setUsers={setUsers}
+          users={users}
+          onClose={() => setIsModalOpen(false)} // Đóng modal sau khi lưu
+        />
       </Modal>
     </div>
   );

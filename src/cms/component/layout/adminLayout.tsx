@@ -40,7 +40,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     };
 
     fetchCheckAdmin();
-  }, [isAdmin]);
+  }, []);
 
   if (!isAdmin) {
     return (

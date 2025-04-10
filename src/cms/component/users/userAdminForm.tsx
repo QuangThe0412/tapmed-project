@@ -3,17 +3,18 @@ import { Button, Form, FormInstance, Input, message } from "antd";
 import { z } from "zod";
 import { UserType } from "@src/component/authentication/useAuthStore";
 import { addOrCreateUserEndpoint } from "./userAdminEndpoint";
+import toast from "react-hot-toast";
 
 interface UserAdminFormProps {
   form: FormInstance;
   editingUser: UserType | null;
   setUsers: React.Dispatch<React.SetStateAction<UserType[]>>;
-  users: UserType[];
   onClose: () => void;
 }
 
 // Định nghĩa schema bằng zod
 const userSchema = z.object({
+  id: z.number().optional(),
   username: z.string().min(1, "Username is required"),
   fullName: z.string().min(1, "Full Name is required"),
   email: z.string().email("Invalid email address"),
@@ -26,7 +27,6 @@ const UserAdminForm: React.FC<UserAdminFormProps> = ({
   form,
   editingUser,
   setUsers,
-  users,
   onClose,
 }) => {
   const handleSave = async () => {
@@ -38,16 +38,21 @@ const UserAdminForm: React.FC<UserAdminFormProps> = ({
 
       const response = await addOrCreateUserEndpoint(values);
       if (response) {
-        // Cập nhật danh sách người dùng sau khi thêm hoặc sửa
+        const newUser = response;
+        newUser.key = newUser.id;
+        // Cập nhật danh sách người dùng trong state
         if (editingUser) {
-          setUsers(
-            users.map((user) =>
-              user.id === editingUser.id ? { ...editingUser, ...values } : user
-            )
+          // Cập nhật người dùng đã tồn tại
+          setUsers((prevUsers) =>
+            prevUsers.map((user) => (user.id === newUser.id ? newUser : user))
           );
+          toast.success("User updated successfully!");
         } else {
-          setUsers([...users, response]);
+          // Thêm người dùng mới
+          setUsers((prevUsers) => [...prevUsers, newUser]);
+          toast.success("User added successfully!");
         }
+        form.resetFields(); // Reset form fields after saving
       }
 
       onClose(); // Đóng modal sau khi lưu
@@ -66,17 +71,20 @@ const UserAdminForm: React.FC<UserAdminFormProps> = ({
 
   return (
     <Form form={form} layout="vertical">
+      <Form.Item name="id" label="ID" hidden>
+        <Input />
+      </Form.Item>
       <Form.Item
         name="username"
         label="Username"
         rules={[{ required: true, message: "Please enter the username" }]}
       >
-        <Input />
+        <Input disabled={!!editingUser} />
       </Form.Item>
       <Form.Item
         name="password"
         label="Password"
-        // rules={[{ required: true, message: "Please enter the password" }]}
+        rules={[{ required: true, message: "Please enter the password" }]}
       >
         <Input.Password />
       </Form.Item>
@@ -85,14 +93,7 @@ const UserAdminForm: React.FC<UserAdminFormProps> = ({
         label="Phone"
         rules={[{ required: true, message: "Please enter the phone number" }]}
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="fullName"
-        label="Full Name"
-        rules={[{ required: true, message: "Please enter the full name" }]}
-      >
-        <Input />
+        <Input disabled={!!editingUser} />
       </Form.Item>
       <Form.Item
         name="email"
@@ -101,6 +102,13 @@ const UserAdminForm: React.FC<UserAdminFormProps> = ({
           { required: true, message: "Please enter the email" },
           { type: "email", message: "Please enter a valid email" },
         ]}
+      >
+        <Input disabled={!!editingUser} />
+      </Form.Item>
+      <Form.Item
+        name="fullName"
+        label="Full Name"
+        rules={[{ required: true, message: "Please enter the full name" }]}
       >
         <Input />
       </Form.Item>

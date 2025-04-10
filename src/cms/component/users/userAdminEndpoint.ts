@@ -2,9 +2,13 @@ import { UserType } from "@src/component/authentication/useAuthStore";
 import { BACKEND_ENDPOINT } from "@src/utils/contanst";
 import axiosInstance from "@src/utils/http";
 
-export const getUsersEndpoint = () => {
+export const getUsersEndpoint = (params: {
+  page: number;
+  pageSize: number;
+}) => {
+  let pageNew = params.page - 1;
   return axiosInstance
-    .get(`${BACKEND_ENDPOINT}/users`)
+    .get(`${BACKEND_ENDPOINT}/users?page=${pageNew}&size=${params.pageSize}`)
     .then((res) => (res && res?.data ? res.data : null))
     .catch((error) => {
       console.error("Lỗi khi gọi API:", error);

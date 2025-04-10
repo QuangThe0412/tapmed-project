@@ -23,6 +23,13 @@ import {
 import PaymentSuccess from "@src/page/payment/paymentSuccess";
 import PaymentCancle from "@src/page/payment/paymentCancel";
 import AdminIndex from "@src/cms/component/adminIndex";
+import BlogAdminComponent from "@src/cms/component/blogs/blogAdminComponent";
+import UserAdminComponent from "@src/cms/component/users/userAdminComponent";
+import CategoryAdminComponent from "@src/cms/component/categories/categoryAdminComponent";
+import OrderAdminComponent from "@src/cms/component/orders/orderAdminComponent";
+import PaymentLogAdminComponent from "@src/cms/component/paymentLogs/paymentLogAdminComponent";
+import ProductAdminComponent from "@src/cms/component/products/productAdminComponent";
+import ReviewAdminComponent from "@src/cms/component/reviews/reviewAdminComponent";
 
 type PathType = {
   name: string;
@@ -136,49 +143,49 @@ export const pathsAdmin: PathTypeAdmin[] = [
   {
     name: "Users",
     path: "/adminUsers",
-    component: AdminIndex,
+    component: UserAdminComponent,
     isShowMenu: true,
     icon: User,
   },
   {
     name: "Blogs",
     path: "/adminBlogs",
-    component: AdminIndex,
+    component: BlogAdminComponent,
     isShowMenu: true,
     icon: Newspaper,
   },
   {
     name: "Categories",
     path: "/adminCategories",
-    component: AdminIndex,
+    component: CategoryAdminComponent,
     isShowMenu: true,
     icon: Layers2,
   },
   {
     name: "Orders",
     path: "/adminOrders",
-    component: AdminIndex,
+    component: OrderAdminComponent,
     isShowMenu: true,
     icon: ShoppingCart,
   },
   {
     name: "Payment Logs",
     path: "/adminPaymentLogs",
-    component: AdminIndex,
+    component: PaymentLogAdminComponent,
     isShowMenu: true,
     icon: ScrollText,
   },
   {
     name: "Products",
     path: "/adminProducts",
-    component: AdminIndex,
+    component: ProductAdminComponent,
     isShowMenu: true,
     icon: Boxes,
   },
   {
     name: "Reviews",
     path: "/adminReviews",
-    component: AdminIndex,
+    component: ReviewAdminComponent,
     isShowMenu: true,
     icon: MessageSquareText,
   },

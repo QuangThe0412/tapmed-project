@@ -43,7 +43,7 @@ const ProductItem: React.FC<{ item: ProductItemType }> = ({ item }) => {
       unit: unit || "",
     };
 
-    setOrders({ ...orders, orderItems: [...orders.orderItems, cartItem] });
+    setOrders({ ...orders, orderItems: [...orders?.orderItems, cartItem] });
   };
 
   return (

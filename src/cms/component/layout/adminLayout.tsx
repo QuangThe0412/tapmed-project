@@ -1,10 +1,11 @@
 import React, { ReactNode, useEffect } from "react";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import { getChatMessageEndPoint } from "./adminEndpoint";
 import { pathsAdmin } from "@src/utils/contanst";
 import "./adminLayout.css";
 import HeaderAdminLayout from "./header";
+import toast from "react-hot-toast";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -23,13 +24,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         return;
       }
 
-      const res = await getChatMessageEndPoint(accessToken);
-      if (
-        res &&
-        typeof res === "string" &&
-        res?.toLowerCase()?.includes("admin")
-      ) {
-        setIsAdmin(true);
+      try {
+        const res = await getChatMessageEndPoint(accessToken);
+        if (
+          res &&
+          typeof res === "string" &&
+          res?.toLowerCase()?.includes("admin")
+        ) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        toast.error("Error fetching admin data. Please try again later.");
+        console.error("Error fetching admin data:", error);
       }
     };
 
@@ -37,7 +43,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   }, [isAdmin]);
 
   if (!isAdmin) {
-    return <div>You do not have permission to access this page.</div>;
+    return (
+      <div>
+        You do not have permission to access this page. <br />
+        <Button type="primary" style={{ marginTop: "10px" }}>
+          <Link to="/">Go back to home page</Link>
+        </Button>
+      </div>
+    );
   }
 
   const menuItems = pathsAdmin

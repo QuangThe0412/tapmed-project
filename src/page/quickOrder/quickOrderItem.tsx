@@ -40,7 +40,7 @@ const QuickOrderItem: React.FC<OrderItemProps> = ({ product }) => {
       unit: unit || "",
     };
 
-    setOrders({ ...orders, orderItems: [...orders.orderItems, cartItem] });
+    setOrders({ ...orders, orderItems: [...orders?.orderItems, cartItem] });
   };
 
   const updateQuantityProduct = (id: number, newQuantity: number) => {

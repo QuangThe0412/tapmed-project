@@ -20,8 +20,20 @@ export interface OrderStore {
 
 // Lấy dữ liệu ban đầu từ localStorage (nếu có)
 const getInitialState = (): OrderType => {
-  const savedOrders = localStorage.getItem(NAME_STORAGE_ORDER);
-  return savedOrders ? JSON.parse(savedOrders) : initOrderType;
+  try {
+    const savedOrders = localStorage.getItem(NAME_STORAGE_ORDER);
+    const parsedOrders = savedOrders ? JSON.parse(savedOrders) : null;
+
+    // Đảm bảo orderItems luôn là một mảng
+    if (parsedOrders && Array.isArray(parsedOrders.orderItems)) {
+      return parsedOrders;
+    }
+  } catch (error) {
+    console.error("Error parsing orders from localStorage:", error);
+  }
+
+  // Trả về giá trị mặc định nếu không có dữ liệu hợp lệ
+  return initOrderType;
 };
 
 const useOrderStore = create<OrderStore>()(
@@ -33,7 +45,11 @@ const useOrderStore = create<OrderStore>()(
       },
       minusQuantity: (itemId: number) =>
         set((state) => {
-          const updatedItems = state?.orders?.orderItems?.map((item) => {
+          const orderItems = Array.isArray(state.orders.orderItems)
+            ? state.orders.orderItems
+            : []; // Đảm bảo orderItems luôn là một mảng
+
+          const updatedItems = orderItems.map((item) => {
             if (item?.productId === itemId) {
               // Don't go below zero
               const newQuantity = Math.max(0, item.quantity - 1);
@@ -54,10 +70,13 @@ const useOrderStore = create<OrderStore>()(
             },
           };
         }),
-
       plusQuantity: (itemId: number) =>
         set((state) => {
-          const existingItem = state?.orders?.orderItems?.find(
+          const orderItems = Array.isArray(state.orders.orderItems)
+            ? state.orders.orderItems
+            : []; // Đảm bảo orderItems luôn là một mảng
+
+          const existingItem = orderItems.find(
             (item) => item?.productId === itemId
           );
 
@@ -66,7 +85,7 @@ const useOrderStore = create<OrderStore>()(
             return {
               orders: {
                 ...state.orders,
-                orderItems: state?.orders?.orderItems.map((item) =>
+                orderItems: orderItems.map((item) =>
                   item?.productId === itemId
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
@@ -78,20 +97,20 @@ const useOrderStore = create<OrderStore>()(
             return {
               orders: {
                 ...state.orders,
-                orderItems: [
-                  ...state.orders.orderItems,
-                  { productId: itemId, quantity: 1 },
-                ],
+                orderItems: [...orderItems, { productId: itemId, quantity: 1 }],
               },
             };
           }
         }),
       updateQuantity: (itemId: number, quantity: number) =>
         set((state) => {
+          const orderItems = Array.isArray(state.orders.orderItems)
+            ? state.orders.orderItems
+            : []; // Đảm bảo orderItems luôn là một mảng
           return {
             orders: {
               ...state.orders,
-              orderItems: state.orders.orderItems.map((item) =>
+              orderItems: orderItems.map((item) =>
                 item?.productId === itemId ? { ...item, quantity } : item
               ),
             },
@@ -99,10 +118,13 @@ const useOrderStore = create<OrderStore>()(
         }),
       removeItem: (itemId: number) =>
         set((state) => {
+          const orderItems = Array.isArray(state.orders.orderItems)
+            ? state.orders.orderItems
+            : []; // Đảm bảo orderItems luôn là một mảng
           return {
             orders: {
               ...state.orders,
-              orderItems: state.orders.orderItems.filter(
+              orderItems: orderItems.filter(
                 (item) => item?.productId !== itemId
               ),
             },

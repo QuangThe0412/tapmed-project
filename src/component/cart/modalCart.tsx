@@ -219,14 +219,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
           </div>
 
           {/* Trường hợp giỏ hàng trống */}
-          {cartItems?.length === 0 ? (
-            <div className="cart-empty">
-              <p>Giỏ hàng của bạn đang trống</p>
-              <button onClick={onRequestClose} className="cart-empty-button">
-                Tiếp tục mua sắm
-              </button>
-            </div>
-          ) : (
+          {cartItems?.length > 0 ? (
             <>
               {/* Danh sách sản phẩm */}
               <div className="cart-items-container">
@@ -336,6 +329,13 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                 </div>
               </div>
             </>
+          ) : (
+            <div className="cart-empty">
+              <p>Giỏ hàng của bạn đang trống</p>
+              <button onClick={onRequestClose} className="cart-empty-button">
+                Tiếp tục mua sắm
+              </button>
+            </div>
           )}
         </div>
       </Modal>

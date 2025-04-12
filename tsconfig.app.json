@@ -23,6 +23,7 @@
     "noUncheckedSideEffectImports": true,
 
     "baseUrl": "./",
+<<<<<<< HEAD
     "paths": {
       "@src/*": ["src/*"],
       "@stores/*": ["src/stores/*"],
@@ -32,6 +33,9 @@
       "@utils/*": ["src/utils/*"],
       "@types/*": ["src/types/*"]
     }
+=======
+    "paths": {}
+>>>>>>> main
   },
   "include": ["src"]
 }

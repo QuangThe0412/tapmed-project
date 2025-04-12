@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "An Thiên",
+    "description": "Công ty Dược phẩm An Thiên",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://anthien.com.vn",
+    "productCount": 29
+  },
+  {
+    "id": 2,
+    "name": "Vinaphar",
+    "description": "Công ty Dược phẩm Việt Nam",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://vinaphar.com",
+    "productCount": 1
+  },
+  {
+    "id": 3,
+    "name": "Vinaphar Group",
+    "description": "Tập đoàn Dược phẩm Việt Nam",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://vinaphargroup.vn",
+    "productCount": 2
+  },
+  {
+    "id": 4,
+    "name": "Akofa",
+    "description": "Công ty dược phẩm Akofa",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://akofa.vn",
+    "productCount": 2
+  },
+  {
+    "id": 5,
+    "name": "Linhzhi Pharma",
+    "description": "Công ty Dược phẩm Linhzhi",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://linhzhipharma.vn",
+    "productCount": 1
+  },
+  {
+    "id": 6,
+    "name": "TapMed",
+    "description": "Công ty cung cấp dược phẩm và thực phẩm chức năng",
+    "logo": "https://via.placeholder.com/150",
+    "country": "Vietnam",
+    "website": "https://tapmed.vn",
+    "productCount": 120
+  },
+  {
+    "id": 7,
+    "name": "Quatrefolic",
+    "description": "Công ty Dược phẩm Quatrefolic",
+    "logo": "https://via.placeholder.com/150",
+    "country": "USA",
+    "website": "https://quatrefolic.com",
+    "productCount": 1
+  }
+]

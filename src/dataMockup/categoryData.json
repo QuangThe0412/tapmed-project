@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "Giảm đau, hạ sốt, chống viêm",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 2,
+    "name": "Thực phẩm chức năng",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 3,
+    "name": "Bảo vệ, giải độc gan",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 4,
+    "name": "Vitamin và khoáng chất",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 5,
+    "name": "Tiêu hoá ( dạ dày, tiểu chảy, táo bón...)",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 6,
+    "name": "Kháng histamin, chống dị ứng",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 7,
+    "name": "Hô hấp ( ho, cảm cúm, cảm lạnh..)",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 8,
+    "name": "Mỹ phẩm & làm đẹp",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  },
+  {
+    "id": 9,
+    "name": "Da liễu",
+    "highlight": 0,
+    "web_show": 0,
+    "created_at": null,
+    "updated_at": null
+  }
+]

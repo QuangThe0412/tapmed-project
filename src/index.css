@@ -1,5 +1,6 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "Open Sans", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -51,7 +52,32 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
+}
+
+/* Remove dấu mũi tên lên xuống của input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+input:focus,
+input:focus-visible {
+  outline: none;
+  user-select: none;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.toaster {
+  z-index: 9999 !important; /* Đảm bảo toast luôn ở trên cùng */
 }
 
 @media (prefers-color-scheme: light) {

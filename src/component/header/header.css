@@ -1,0 +1,51 @@
+.header-menu {
+  background-color: #136d39;
+  color: #fff;
+}
+
+.header-menu a {
+  display: block;
+  text-align: center;
+  padding: 7px 26px;
+  font-size: 16px;
+  line-height: 36px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  color: #fff;
+
+  background-color: transparent;
+}
+
+.header-menu a:hover,
+.header-menu .active {
+  background-color: #f29f05;
+}
+
+.header-menu-mobile li {
+  display: inline-block;
+  margin-right: 10px;
+  text-align: left;
+}
+
+.header-menu-mobile li a {
+  color: #136d39;
+  display: flex;
+  text-align: left;
+  font-size: 16px;
+  line-height: 36px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  flex-wrap: nowrap;
+}
+
+.header-menu-mobile li a:hover {
+  background-color: #f29f05;
+  color: #fff;
+}
+
+.header-menu-mobile-active {
+  background-color: #f29f05;
+  color: #fff;
+}

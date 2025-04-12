@@ -1,22 +1,41 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import App from "./App";
-import Policy from "./page/policy";
 import { paths } from "./utils/contanst";
-import Product from "./page/product";
-import Promotion from "./page/promotion";
-import QuickOrder from "./page/quickOrder";
+import NotFound from "./page/notFound/notFound";
+import MainLayout from "./component/layout/layout";
+import { isAdmin } from "@src/component/authentication/authUntils";
+import { pathsAdmin } from "@src/utils/contanst";
+import AdminLayout from "./cms/component/layout/adminLayout";
 
 function AppRoutes() {
   return (
-    <Router>
-      <Routes>
-        <Route path={paths.home} element={<App />} />
-        <Route path={paths.policy} element={<Policy />} />
-        <Route path={paths.product} element={<Product />} />
-        <Route path={paths.promotion} element={<Promotion />} />
-        <Route path={paths.quickOrder} element={<QuickOrder />} />
-      </Routes>
-    </Router>
+    <Routes>
+      {paths &&
+        paths.map((path) => (
+          <Route
+            key={path.name}
+            path={path.path}
+            element={
+              <MainLayout>
+                <path.component />
+              </MainLayout>
+            }
+          />
+        ))}
+      {isAdmin() &&
+        pathsAdmin &&
+        pathsAdmin.map((path) => (
+          <Route
+            key={path.name}
+            path={path.path}
+            element={
+              <AdminLayout>
+                <path.component />
+              </AdminLayout>
+            }
+          />
+        ))}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 

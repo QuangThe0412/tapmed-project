@@ -1,0 +1,19 @@
+.section-blog {
+  padding: 20px 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-blog .item .item_product_main .product-info a {
+  color: #333;
+}
+
+.section-blog .item .item_product_main .product-info a:hover {
+  color: #15963d;
+}
+
+.section-blog .item .item_product_main img {
+  height: 200px;
+}

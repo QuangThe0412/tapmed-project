@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [tailwindcss()],
   server: {
     host: "192.168.1.3",
-    port: 3000,
+    port: 3001,
   },
   resolve: {
     alias: {

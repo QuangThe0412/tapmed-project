@@ -24,8 +24,11 @@
 
     "baseUrl": "./",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "paths": {}
 =======
+=======
+>>>>>>> 4c18ce9180df758e50ebb906bb1adf97ec0507ca
     "paths": {
       "@src/*": ["src/*"],
       "@stores/*": ["src/stores/*"],
@@ -35,7 +38,13 @@
       "@utils/*": ["src/utils/*"],
       "@types/*": ["src/types/*"]
     }
+<<<<<<< HEAD
 >>>>>>> dev4_cms
+=======
+=======
+    "paths": {}
+>>>>>>> main
+>>>>>>> 4c18ce9180df758e50ebb906bb1adf97ec0507ca
   },
   "include": ["src"]
 }

@@ -40,6 +40,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@preact/signals-react-transform": "^0.5.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@types/axios": "^0.14.4",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",

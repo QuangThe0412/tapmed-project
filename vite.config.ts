@@ -1,14 +1,15 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
+import json from "@rollup/plugin-json";
 import path from "path";
 
 export default defineConfig({
   define: {
     global: "window",
   },
-  plugins: [tailwindcss()],
+  plugins: [tailwindcss(), json()],
   server: {
-    host: "192.168.1.6",
+    host: "192.168.1.3",
     port: 3001,
     allowedHosts: ["tapmed.kingvn.site"],
   },

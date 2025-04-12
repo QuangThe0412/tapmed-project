@@ -9,7 +9,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./slider.css";
-import { link } from "fs";
 import { Link } from "react-router-dom";
 
 export type DataSlider = {

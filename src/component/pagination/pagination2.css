@@ -1,0 +1,36 @@
+.pagination {
+  --primary-pagination-color: #15963d;
+  --secondary-pagination-color: #dfdfdf;
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination .active {
+  color: white;
+  background-color: transparent;
+}
+
+.page-link {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  justify-content: center;
+  border-radius: 30px;
+  color: var(--primary-pagination-color);
+  border: 1px solid var(--secondary-pagination-color);
+}
+
+.page-link:hover {
+  background-color: var(--primary-pagination-color);
+  color: white;
+}
+
+.pagination .active .page-link {
+  background-color: var(--primary-pagination-color);
+  color: white;
+}
+
+.pagination .disabled .page-link {
+  cursor: not-allowed;
+  color: #9ca3af;
+}

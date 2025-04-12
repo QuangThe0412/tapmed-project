@@ -1,0 +1,29 @@
+.btn {
+  --bg-color-btn: #15963d;
+  --text-btn-color: #fff;
+  color: var(--bg-color-btn);
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 200px;
+  text-align: center;
+  padding: 10px 30px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  border: 1px solid var(--bg-color-btn);
+  background-color: var(--text-btn-color);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #15963d;
+  color: var(--text-btn-color);
+}
+
+.btn.active {
+  background-color: var(--bg-color-btn);
+  color: var(--text-btn-color);
+}
+
+.btn.active:hover {
+  opacity: 0.8;
+}

@@ -1,4 +1,3 @@
-import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { DataSlider, Slider } from "../slider/slider";
 import "./sectionBlog.css";

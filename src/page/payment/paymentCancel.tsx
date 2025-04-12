@@ -3,10 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import useOrderStore from "@src/stores/useOrderStore";
 import { OrderType } from "@src/types/typeOrder";
-import {
-  cancelPaymentEndPoint,
-  successPaymentEndPoint,
-} from "@src/component/cart/paymentEndpoint";
+import { cancelPaymentEndPoint } from "@src/component/cart/paymentEndpoint";
 
 type MessagePaymentType = {
   title: string;

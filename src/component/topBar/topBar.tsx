@@ -1,4 +1,3 @@
-import React from "react";
 import "./topBar.css";
 import { Link } from "react-router-dom";
 

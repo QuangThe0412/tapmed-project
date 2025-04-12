@@ -1,4 +1,3 @@
-import React from "react";
 import Modal from "react-modal";
 import "./customModal.css";
 import { X } from "lucide-react";

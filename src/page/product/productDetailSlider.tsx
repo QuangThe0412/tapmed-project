@@ -1,4 +1,3 @@
-import React from "react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import { SliderWithoutContent } from "@src/component/slider/sliderWithoutContent";
 

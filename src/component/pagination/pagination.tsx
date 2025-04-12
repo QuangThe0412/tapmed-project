@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./pagination.css";
 
 interface PaginationProps {
@@ -16,7 +15,6 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   // Handle page change
   const handlePageClick = (page: number) => {

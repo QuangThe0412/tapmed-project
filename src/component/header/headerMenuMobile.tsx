@@ -1,4 +1,3 @@
-import React from "react";
 import useDrawerStore from "../../stores/useMenuMobileStore";
 import "./header.css";
 import SearchInput from "../input/search";

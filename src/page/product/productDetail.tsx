@@ -15,7 +15,7 @@ const ProductDetail = () => {
   const productId = getIdFromSlug();
   const [product, setProduct] = useState<ProductItemType | null>(null);
 
-  const { orders, minusQuantity, removeItem, plusQuantity, updateQuantity } =
+  const { orders, minusQuantity, plusQuantity, updateQuantity } =
     useOrderStore();
 
   const { openCart } = useCartStore();

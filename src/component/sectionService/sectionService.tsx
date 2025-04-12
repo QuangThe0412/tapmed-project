@@ -1,4 +1,3 @@
-import React from "react";
 import "./sectionService.css";
 
 type itemsProps = {

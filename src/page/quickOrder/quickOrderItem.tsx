@@ -1,4 +1,3 @@
-import React from "react";
 import useOrderStore from "../../stores/useOrderStore";
 import "./quickOrder.css";
 import { ProductItemType } from "@src/types/typeProduct";

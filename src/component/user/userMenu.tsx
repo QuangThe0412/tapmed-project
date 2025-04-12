@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { User, LogOut, ShoppingBag, Webhook } from "lucide-react";
+import { User, LogOut, Webhook } from "lucide-react";
 import useAuthStore from "@src/component/authentication/useAuthStore";
 import "./userMenu.css";
 import { emitLogoutEvent } from "../authentication/authEvent";

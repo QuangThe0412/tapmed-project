@@ -1,7 +1,7 @@
 import "./select-styles.css";
 import "./quickOrder.css";
 import QuickOrderItem from "./quickOrderItem";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import fetchCategories from "./listCategory";
 import { CategoryType } from "@src/types/typeCategory";
 import { ProducerType } from "@src/types/typeProducer";

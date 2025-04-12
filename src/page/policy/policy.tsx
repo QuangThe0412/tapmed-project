@@ -1,4 +1,3 @@
-import React from "react";
 import "./policy.css";
 
 const Policy: React.FC = () => {

@@ -1,5 +1,5 @@
 import useOrderStore from "@src/stores/useOrderStore";
-import React from "react";
+
 import Modal from "react-modal";
 import FormPayment from "./formPayment";
 import { createPaymentEndPoint, PaymentRequestType } from "./paymentEndpoint";

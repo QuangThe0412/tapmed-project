@@ -1,4 +1,3 @@
-import React from "react";
 import "./sectionPartner.css";
 
 const SectionPartner: React.FC = () => {

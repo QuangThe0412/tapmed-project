@@ -1,5 +1,4 @@
-import React from "react";
-import { Layout, Avatar, Typography, Dropdown, Menu } from "antd";
+import { Layout, Avatar, Typography, Dropdown } from "antd";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { emitLogoutEvent } from "@src/component/authentication/authEvent";
 import useAuthStore from "@src/component/authentication/useAuthStore";

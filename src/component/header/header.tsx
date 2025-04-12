@@ -1,4 +1,3 @@
-import React from "react";
 import "./header.css";
 import SearchInput from "../input/search";
 import ButtonCustom from "../button/buttonCustom";

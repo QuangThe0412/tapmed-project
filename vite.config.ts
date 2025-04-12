@@ -8,8 +8,9 @@ export default defineConfig({
   },
   plugins: [tailwindcss()],
   server: {
-    // host: "192.168.1.6", local
-    host: "192.168.1.3",
+    //local
+    host: "192.168.1.6",
+    // host: "192.168.1.3",
     port: 3001,
     allowedHosts: ["tapmed.kingvn.site"],
   },

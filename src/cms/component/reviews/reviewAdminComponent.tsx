@@ -1,5 +1,3 @@
-import React from "react";
-
 function ReviewAdminComponent() {
   return <div>ReviewAdminComponent</div>;
 }

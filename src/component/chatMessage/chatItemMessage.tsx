@@ -1,4 +1,3 @@
-import React from "react";
 import { ChatMessageType } from "./chatMessageEndpoint";
 import { UserType } from "../authentication/useAuthStore";
 

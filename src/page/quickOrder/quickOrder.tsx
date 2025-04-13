@@ -44,6 +44,7 @@ function QuickOrder() {
           undefined
         );
         const { products, totalElements, totalPages } = data;
+        console.log("Sản phẩm:", data);
         setDataProducts(products);
         setTotalElements(totalElements);
         setTotalPages(totalPages);
@@ -53,13 +54,7 @@ function QuickOrder() {
     };
 
     fetchProducts();
-  }, [
-    selectedCategory,
-    selectedProducer,
-    currentPage,
-    searchTerm,
-    dataProducts,
-  ]);
+  }, [selectedCategory, selectedProducer, currentPage, searchTerm]);
 
   // Lấy danh mục
   useEffect(() => {

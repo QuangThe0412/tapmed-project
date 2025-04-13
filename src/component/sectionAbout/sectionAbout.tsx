@@ -35,7 +35,7 @@ const SectionAbout: React.FC = () => {
             <li>
               <Link
                 data-toggle="tab"
-                href="#menu1"
+                to="#menu1"
                 className={activeTab === "mission" ? "active" : ""}
                 onClick={() => setActiveTab("mission")}
               >

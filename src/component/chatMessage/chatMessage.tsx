@@ -29,7 +29,7 @@ const ChatMessage: React.FC = () => {
       const res = await getChatMessageEndPoint(page, 15);
       const { content, totalPages, last } = res;
       setLast(last);
-      if (content && content.length > 0) {
+      if (content && content?.length > 0) {
         setMessages((prev) => [...content, ...prev]);
       }
     } catch (error) {

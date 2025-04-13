@@ -18,7 +18,7 @@ const SectionTestimonials: React.FC = () => {
   }, [fetchComments]);
 
   useEffect(() => {
-    if (reviews.length > 0) {
+    if (reviews?.length > 0) {
       setData(reviews);
     }
   }, [reviews]);
@@ -59,7 +59,7 @@ const SectionTestimonials: React.FC = () => {
           </h3>
         </div>
         <div className="block-content">
-          {data.length > 0 && (
+          {data?.length > 0 && (
             <SliderReview data={data} settings={sliderSettings} />
           )}
         </div>

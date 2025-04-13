@@ -7,7 +7,7 @@ const SectionBlog: React.FC = () => {
   const { blogPosts } = useBlogStore();
   let _data: DataSlider[] = [];
 
-  if (blogPosts && blogPosts.length > 0) {
+  if (blogPosts && blogPosts?.length > 0) {
     _data = blogPosts
       .filter((item) => item.category === "news")
       .slice(0, 4) as DataSlider[];

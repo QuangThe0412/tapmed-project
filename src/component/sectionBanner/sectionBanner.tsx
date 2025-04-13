@@ -1,7 +1,6 @@
-import { DataSlider, Slider } from "../slider/slider";
+import { DataSlider } from "../slider/slider";
 import "./sectionBanner.css";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
-import FormBooking from "./formBooking";
 import { SliderWithoutContent } from "../slider/sliderWithoutContent";
 import useBlogStore from "@src/stores/useBlogStore";
 import ChatMessage from "../chatMessage/chatMessage";
@@ -10,7 +9,7 @@ const SectionBanner: React.FC = () => {
   const { blogPosts } = useBlogStore();
   let featuredData: DataSlider[] = [];
 
-  if (blogPosts && blogPosts.length > 0) {
+  if (blogPosts && blogPosts?.length > 0) {
     featuredData = blogPosts
       .filter((item) => !!item.featured === true)
       .slice(0, 5) as DataSlider[];

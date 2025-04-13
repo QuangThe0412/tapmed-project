@@ -230,7 +230,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onRequestClose }) => {
                         {/* Hình ảnh sản phẩm */}
                         <img
                           src={
-                            item?.imageUrls && item?.imageUrls.length > 0
+                            item?.imageUrls && item?.imageUrls?.length > 0
                               ? item?.imageUrls[0]
                               : imageEx
                           }

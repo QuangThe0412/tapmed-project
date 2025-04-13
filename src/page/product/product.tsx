@@ -43,11 +43,11 @@ function Product() {
     });
   };
 
-  if (isLoading && products.length === 0) {
+  if (isLoading && products?.length === 0) {
     return <div className="text-center py-10">Đang tải dữ liệu...</div>;
   }
 
-  if (!isLoading && products.length === 0) {
+  if (!isLoading && products?.length === 0) {
     const search = searchParams.get("search") || "";
 
     return (

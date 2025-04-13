@@ -37,7 +37,7 @@ const ProductDetail = () => {
     product || ({} as ProductItemType);
 
   const processedImageUrls =
-    imageUrls && imageUrls.length > 0 ? imageUrls : [imageEx];
+    imageUrls && imageUrls?.length > 0 ? imageUrls : [imageEx];
 
   const orderItem = orders?.orderItems?.find((item) => item.id === productId);
   const quantity = orderItem?.quantity || 0;
@@ -67,7 +67,7 @@ const ProductDetail = () => {
         <div className="details-product">
           <div className="flex flex-wrap">
             <div className="product-images w-full md:w-full lg:w-1/2 xl:w-1/2 flex justify-center">
-              {processedImageUrls.length > 0 && (
+              {processedImageUrls?.length > 0 && (
                 <div className="gallery-thumbs">
                   <ProductDetailSlider images={processedImageUrls} />
                 </div>

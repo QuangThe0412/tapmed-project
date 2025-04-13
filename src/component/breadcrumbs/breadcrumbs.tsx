@@ -16,7 +16,7 @@ const Breadcrumbs: React.FC = () => {
   const { products } = useProductStore();
   const productId = getIdFromSlug(location.pathname);
   let product = null;
-  if (products && products.length > 0) {
+  if (products && products?.length > 0) {
     product = products.find((p) => p.id === productId);
   }
 
@@ -40,7 +40,7 @@ const Breadcrumbs: React.FC = () => {
           <ol className="breadcrumb">
             {breadcrumbs.map(({ match, breadcrumb }, index) => (
               <li key={match.pathname} className="breadcrumb-item">
-                {index < breadcrumbs.length - 1 ? (
+                {index < breadcrumbs?.length - 1 ? (
                   <Link to={match.pathname} className="breadcrumb-link">
                     {generateBreadcrumbName(match)}
                   </Link>
@@ -49,7 +49,7 @@ const Breadcrumbs: React.FC = () => {
                     {generateBreadcrumbName(match)}
                   </span>
                 )}
-                {index < breadcrumbs.length - 1 && (
+                {index < breadcrumbs?.length - 1 && (
                   <span className="breadcrumb-separator"> / </span>
                 )}
               </li>

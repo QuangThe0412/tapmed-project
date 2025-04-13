@@ -16,7 +16,7 @@ const SectionProductNew: React.FC = () => {
         throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       }
 
-      const _products = res.map((item) => {
+      const _products = res?.map((item) => {
         const { name: title, id, imageUrls } = item;
 
         const slug = generateSlug(title);

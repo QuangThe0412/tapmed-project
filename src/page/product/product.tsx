@@ -74,7 +74,7 @@ function Product() {
         <div className="category-products">
           <div className="products-view">
             <div className="flex flex-wrap">
-              {products.map((product) => (
+              {products?.map((product) => (
                 <ProductItem key={product.id} item={product} />
               ))}
             </div>

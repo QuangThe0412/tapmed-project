@@ -49,7 +49,7 @@ const useOrderStore = create<OrderStore>()(
             ? state.orders.orderItems
             : []; // Đảm bảo orderItems luôn là một mảng
 
-          const updatedItems = orderItems.map((item) => {
+          const updatedItems = orderItems?.map((item) => {
             if (item?.productId === itemId) {
               // Don't go below zero
               const newQuantity = Math.max(0, item.quantity - 1);
@@ -85,7 +85,7 @@ const useOrderStore = create<OrderStore>()(
             return {
               orders: {
                 ...state.orders,
-                orderItems: orderItems.map((item) =>
+                orderItems: orderItems?.map((item) =>
                   item?.productId === itemId
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
@@ -110,7 +110,7 @@ const useOrderStore = create<OrderStore>()(
           return {
             orders: {
               ...state.orders,
-              orderItems: orderItems.map((item) =>
+              orderItems: orderItems?.map((item) =>
                 item?.productId === itemId ? { ...item, quantity } : item
               ),
             },

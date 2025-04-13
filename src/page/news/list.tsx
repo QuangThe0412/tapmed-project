@@ -46,7 +46,7 @@ const ListComponent: React.FC<{ data: BlogType[] }> = ({ data }) => {
     <div className="blogs-list">
       <div className="container">
         <div className="block-content">
-          {data && data.map((post) => <NewsItem key={post.id} post={post} />)}
+          {data && data?.map((post) => <NewsItem key={post.id} post={post} />)}
         </div>
       </div>
     </div>

@@ -118,12 +118,12 @@ function QuickOrder() {
   };
 
   // Tùy chọn danh mục và nhà sản xuất cho Select
-  const categoryOptions = categories.map((cat) => ({
+  const categoryOptions = categories?.map((cat) => ({
     value: cat.id,
     label: cat.name,
   }));
 
-  const producerOptions = producers.map((prod) => ({
+  const producerOptions = producers?.map((prod) => ({
     value: prod.id,
     label: prod.name,
   }));
@@ -202,7 +202,7 @@ function QuickOrder() {
               </div>
 
               <div className="product-list min-h-[50vh]">
-                {dataProducts.map((product) => (
+                {dataProducts?.map((product) => (
                   <QuickOrderItem key={product.id} product={product} />
                 ))}
 

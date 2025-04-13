@@ -24,7 +24,7 @@ const ChatItemMessage: React.FC<ChatItemMessageProps> = ({
 
   return (
     <>
-      {messages.map((msg, index) => (
+      {messages?.map((msg, index) => (
         <div
           key={index}
           className={`chat-message-item ${

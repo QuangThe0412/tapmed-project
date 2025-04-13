@@ -13,4 +13,4 @@
    sudo npm install -g serve
 
 4. Chạy dự án với PM2
-   sudo pm2 start serve --name "tapmed-project" -- -s dist -l 3001
+   sudo pm2 start npx --name "tapmed-project" -- serve -s dist -l 3001

@@ -53,7 +53,13 @@ function QuickOrder() {
     };
 
     fetchProducts();
-  }, [selectedCategory, selectedProducer, currentPage, searchTerm]);
+  }, [
+    selectedCategory,
+    selectedProducer,
+    currentPage,
+    searchTerm,
+    dataProducts,
+  ]);
 
   // Lấy danh mục
   useEffect(() => {

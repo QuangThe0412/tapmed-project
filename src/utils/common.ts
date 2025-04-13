@@ -23,9 +23,9 @@ export const parsePrice = (price: number | string | undefined | null) => {
 };
 
 export const getProvince = async () => {
-  const province = await import("@dataMockup/provinceVN.json");
-  const district = await import("@dataMockup/districtVN.json");
-  const ward = await import("@dataMockup/wardVN.json");
+  const province = await import("@dataMockup/provinceVn.json");
+  const district = await import("@dataMockup/districtVn.json");
+  const ward = await import("@dataMockup/wardVn.json");
 
   province.default.forEach((item: any) => {
     item.districts = district.default.filter(

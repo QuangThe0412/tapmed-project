@@ -49,6 +49,8 @@ function QuickOrder() {
           undefined
         );
         const { products, totalElements, totalPages } = data;
+        console.log("Dữ liệu từ API:", data);
+
         setDataProducts(products);
         setTotalElements(totalElements);
         setTotalPages(totalPages);

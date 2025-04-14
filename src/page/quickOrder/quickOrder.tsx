@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 
 function QuickOrder() {
   const [dataProducts, setDataProducts] = useState<ProductItemType[]>([]);
+  console.log("Sản phẩm:", dataProducts);
   // State cho phân trang
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
@@ -44,7 +45,6 @@ function QuickOrder() {
           undefined
         );
         const { products, totalElements, totalPages } = data;
-        console.log("Sản phẩm:", data);
         setDataProducts(products);
         setTotalElements(totalElements);
         setTotalPages(totalPages);

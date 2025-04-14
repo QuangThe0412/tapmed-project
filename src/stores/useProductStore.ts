@@ -38,7 +38,7 @@ export const useProductStore = create<ProductStore>()(
             throw new Error("Không thể tải dữ liệu. Vui lòng thử lại sau.");
           }
           set({
-            products: res.products,
+            products: res.data,
             totalPages: res.totalPages,
             totalElements: res.totalElements,
           });

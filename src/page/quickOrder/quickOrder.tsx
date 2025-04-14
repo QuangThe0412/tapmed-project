@@ -39,7 +39,7 @@ function QuickOrder() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getProducts(
+        const res = await getProducts(
           currentPage,
           itemsPerPage,
           searchTerm,
@@ -48,10 +48,10 @@ function QuickOrder() {
           undefined,
           undefined
         );
-        const { products, totalElements, totalPages } = data;
-        console.log("Dữ liệu từ API:", data);
+        const { data, totalElements, totalPages } = res;
+        console.log("Dữ liệu từ API:", res);
 
-        setDataProducts(products);
+        setDataProducts(data);
         setTotalElements(totalElements);
         setTotalPages(totalPages);
       } catch (error) {

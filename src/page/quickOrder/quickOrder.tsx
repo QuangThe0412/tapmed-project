@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 
 function QuickOrder() {
   const [dataProducts, setDataProducts] = useState<ProductItemType[]>([]);
-  console.log("Sản phẩm:", dataProducts);
   // State cho phân trang
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
@@ -31,10 +30,6 @@ function QuickOrder() {
   // State cho từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  useEffect(() => {
-    console.log("dataProducts đã thay đổi:", dataProducts);
-  }, [dataProducts]);
-
   // Lấy danh sách sản phẩm
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,8 +44,6 @@ function QuickOrder() {
           undefined
         );
         const { data, totalElements, totalPages } = res;
-        console.log("Dữ liệu từ API:", res);
-
         setDataProducts(data);
         setTotalElements(totalElements);
         setTotalPages(totalPages);

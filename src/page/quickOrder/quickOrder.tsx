@@ -31,6 +31,10 @@ function QuickOrder() {
   // State cho từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+  useEffect(() => {
+    console.log("dataProducts đã thay đổi:", dataProducts);
+  }, [dataProducts]);
+
   // Lấy danh sách sản phẩm
   useEffect(() => {
     const fetchProducts = async () => {

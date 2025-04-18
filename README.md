@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+ollama run gemma2:2b
+
 0. Cài đặt
    sudo npm install --legacy-peer-deps
 

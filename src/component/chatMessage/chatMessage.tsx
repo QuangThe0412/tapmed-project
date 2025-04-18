@@ -139,7 +139,7 @@ const ChatMessage: React.FC = () => {
         {isLoading && <div className="loading">Đang tải...</div>}
         <div className="chat-input-container">
           <div
-            className="emoji-picker-container"
+            className="emoji-picker-container z-10"
             ref={emojiPickerRef} // Gắn ref cho EmojiPicker
           >
             {showEmojiPicker && (

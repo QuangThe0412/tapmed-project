@@ -82,9 +82,9 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
       },
       heartbeatIncoming: 3000,
       heartbeatOutgoing: 3000,
-      debug: (str) => console.log(str),
+      // debug: (str) => console.log(str),
       onConnect: () => {
-        console.log("---- WebSocket Connected ----");
+        // console.log("---- WebSocket Connected ----");
         setisWBConnected(true);
 
         // Subscribe
@@ -95,12 +95,12 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
         });
       },
       onDisconnect: () => {
-        console.log("---- WebSocket DisWBConnected ----");
+        // console.log("---- WebSocket DisWBConnected ----");
         setisWBConnected(false);
       },
       onStompError: (frame) => {
-        console.error("Broker reported error: " + frame.headers["message"]);
-        console.error("Additional details: " + frame.body);
+        // console.error("Broker reported error: " + frame.headers["message"]);
+        // console.error("Additional details: " + frame.body);
       },
     });
 
@@ -120,7 +120,7 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
         username: getPhone(),
       };
 
-      console.log("Sending message:", _body);
+      // console.log("Sending message:", _body);
 
       stompClient.publish({
         destination,

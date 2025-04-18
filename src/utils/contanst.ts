@@ -30,6 +30,7 @@ import OrderAdminComponent from "@src/cms/component/orders/orderAdminComponent";
 import PaymentLogAdminComponent from "@src/cms/component/paymentLogs/paymentLogAdminComponent";
 import ProductAdminComponent from "@src/cms/component/products/productAdminComponent";
 import ReviewAdminComponent from "@src/cms/component/reviews/reviewAdminComponent";
+import ChatWithAI from "@src/page/chat/ChatWithAI";
 
 type PathType = {
   name: string;
@@ -118,6 +119,13 @@ export const paths: PathType[] = [
     breadcrums: "Thông báo thanh toán thất bại",
     component: PaymentCancle,
     isShowMenu: false,
+  },
+  {
+    name: "chat",
+    path: "/chat",
+    component: ChatWithAI,
+    isShowMenu: true,
+    breadcrums: "Chat với AI",
   },
 ];
 

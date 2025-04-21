@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
-    "@modelcontextprotocol/sdk": "^1.10.0",
     "@preact/signals-react": "^3.0.1",
     "@stomp/stompjs": "^7.0.1",
     "@tailwindcss/vite": "^4.0.12",
@@ -30,6 +29,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^7.3.0",
     "react-select": "^5.10.1",
+    "react-speech-recognition": "^4.0.0",
     "react-tabs": "^6.1.0",
     "sockjs-client": "^1.6.1",
     "swiper": "^11.2.6",
@@ -46,6 +46,7 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/react-modal": "^3.16.3",
+    "@types/react-speech-recognition": "^3.9.6",
     "@types/sockjs-client": "^1.5.4",
     "@types/swiper": "^6.0.0",
     "@vitejs/plugin-react": "^4.3.4",

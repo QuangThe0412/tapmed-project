@@ -1,25 +1,14 @@
-import { callTool } from "./tools";
-import { getClient } from "./useConnection";
-
 async function sendMessageToAI(message: string) {
   try {
-    const client = getClient();
-    console.log("Client:", client);
-    if (!client) {
-      throw new Error("Client is not initialized.");
-    }
+    const response = await fetch("http://127.0.0.1:8889/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: message }),
+    });
 
-    const response = (await callTool(client, "chat_with_ai", {
-      prompt: message,
-    })) as any;
-
-    // console.log("Response:", response);
-
-    let result = JSON.parse(response?.content[0]?.text);
-
-    console.log("AI Response:", result);
-
-    return result;
+    return response.json();
   } catch (error) {
     console.error("Failed to send message:", error);
     throw error;
